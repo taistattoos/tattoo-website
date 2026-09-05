@@ -60,4 +60,13 @@ collections:
         }
       - { label: "Featured on homepage", name: "featured", widget: "boolean", default: false }
       - { label: "Order", name: "order", widget: "number", required: false }
-  
+  - name: "testimonials"
+    label: "Testimonials"
+    folder: "content/testimonials"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Client Name", name: "client_name", widget: "string" }
+      - { label: "Quote", name: "quote", widget: "text" }
+      - { label: "Rating (1-5)", name: "rating", widget: "number", min: 1, max: 5, default: 5 }
+      - { label: "Source", name: "source", widget: "string", hint: "e.g. iNKPPL, Google, Instagram" }

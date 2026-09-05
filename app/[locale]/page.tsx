@@ -1,8 +1,9 @@
-import { getHomeContent, getGalleryItems } from '@/lib/content/content';
+import { getHomeContent, getGalleryItems, getTestimonials } from '@/lib/content/content';
 import Hero from '@/components/layout/hero/Hero';
 import GalleryGrid from '@/components/layout/gallery/GalleryGrid';
 import ContactForm from '@/components/layout/contact/contact-form/ContactForm';
 import { LocaleEnum } from '@/types/enums';
+import Testimonials from '@/components/layout/testimonials/Testimonials';
 
 export default async function Home({
   params,
@@ -33,6 +34,9 @@ export default async function Home({
         ctaLabel={data[`cta_label_${LOCALE}`] || 'Start an inquiry'}
         ctaLink={data.cta_link || '#contact'}
       />
+
+      
+      <Testimonials items={getTestimonials()} locale={LOCALE} />
 
       <section id="gallery" className="wrapper py-24">
         <GalleryGrid items={galleryItems} />

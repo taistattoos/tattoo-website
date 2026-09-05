@@ -21,3 +21,11 @@ export interface FormStateInterface {
   colors: ColorChoice[];
   message: string;
 };
+
+export interface TestimonialContentInterface {
+  slug: string;
+  client_name?: string;
+  quote?: string;
+  rating?: number;
+  source?: string;
+}
