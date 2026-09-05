@@ -42,7 +42,7 @@ export default function Navigation({ locale }: { locale: string }) {
       }`}
     >
       <div className="wrapper flex items-center justify-between py-5">
-        <Link href={`/${locale}`} className="block text-lg text-white">
+        <Link href={`/${locale}`} className="block text-xl text-white">
           TAIS LOGO
         </Link>
 
@@ -52,7 +52,7 @@ export default function Navigation({ locale }: { locale: string }) {
             <a
               key={link.href}
               href={`/${locale}${link.href}`}
-              className="link-underline"
+              className="link-underline text-lg"
             >
               {link.label}
             </a>
@@ -104,7 +104,7 @@ export default function Navigation({ locale }: { locale: string }) {
                   key={link.href}
                   href={`/${locale}${link.href}`}
                   onClick={() => setMenuOpen(false)}
-                  className="link-underline w-fit"
+                  className="link-underline w-fit text-sm"
                 >
                   {link.label}
                 </a>

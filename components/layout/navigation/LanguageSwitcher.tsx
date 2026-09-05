@@ -15,7 +15,7 @@ export default function LanguageSwitcher() {
   const currentLocale = segments[1];
 
   return (
-    <nav className="flex items-center gap-3 font-[var(--font-mono)] text-xs uppercase tracking-[0.15em]">
+    <nav className="flex items-center gap-3 font-[var(--font-mono)] text-sm, uppercase tracking-[0.15em]">
       {LOCALES.map(({ code, label }) => {
         const isActive = code === currentLocale;
         const newSegments = [...segments];

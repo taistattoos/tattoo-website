@@ -8,7 +8,7 @@ export default function Hero({
   ctaLink,
 }: HeroPropsInterface) {
   return (
-    <section className="relative flex min-h-screen items-center overflow-hidden bg-black px-6 sm:px-12 lg:px-20">
+    <section className="relative flex min-h-screen items-center overflow-hidden bg-black">
       <video
         className="absolute inset-0 h-full w-full object-cover grayscale"
         autoPlay
@@ -21,7 +21,7 @@ export default function Hero({
 
       <div className="absolute inset-0 bg-black/60" />
 
-      <div className="relative z-10 ml-auto md:mr-[20%] mr-auto text-center md:text-right">
+      <div className="relative z-10 wrapper md:ml-auto mx-auto text-center md:text-right">
         {eyebrow && (
           <p className="mb-5 text-xs uppercase tracking-[0.25em] text-white/50">
             {eyebrow}

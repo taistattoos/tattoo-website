@@ -60,3 +60,4 @@ collections:
         }
       - { label: "Featured on homepage", name: "featured", widget: "boolean", default: false }
       - { label: "Order", name: "order", widget: "number", required: false }
+  
