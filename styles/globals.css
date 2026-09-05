@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+:root {
+  --color-ink: #0b0b0b;
+  --color-ink-deep: #171717;
+  --color-paper: #f3f1ea;
+  --color-grey: #8a8a8a;
+
+  --font-display: "Fraunces", serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-body);
+}
+
+@utility wrapper {
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding-inline: 20px;
+
+  @media (min-width: 640px) {
+    padding-inline: 25px;
+  }
+
+  @media (min-width: 1024px) {
+    padding-inline: 80px;
+  }
+}
+
+@utility link-underline {
+  position: relative;
+  text-decoration: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 1px;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease-out;
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}

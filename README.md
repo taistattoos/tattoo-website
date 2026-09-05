@@ -8,7 +8,7 @@ Hi! This is your guide for changing things on your website yourself — photos, 
 
 Your website has a secret little back door just for you:
 
-**yourwebsite.com/admin**
+**taistattoos.com/admin**
 
 Bookmark that page — that's your control panel.
 
@@ -18,7 +18,7 @@ Bookmark that page — that's your control panel.
 
 1. Go to the `/admin` link above.
 2. Click **"Login with GitHub."**
-3. If this is your very first time, it'll ask you to log into GitHub — use the account [your dev] set up for you.
+3. If this is your very first time, it'll ask you to log into GitHub
 4. After that, your browser usually remembers you, so most days you'll just land straight in.
 
 ---

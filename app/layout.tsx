@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Unbounded, Inter, IBM_Plex_Mono } from "next/font/google";
-import "./globals.css";
+import "../styles/globals.css";
 
 const display = Unbounded({
   subsets: ["latin", "cyrillic"],

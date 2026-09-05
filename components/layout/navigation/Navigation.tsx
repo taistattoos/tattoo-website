@@ -2,17 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { AnimatePresence, motion } from 'framer-motion';
 import LanguageSwitcher from './LanguageSwitcher';
 import { NAV_LABELS } from '@/lib/constants/shared';
 
-const NAV_LINKS = [
-  { href: '#gallery', label: 'Gallery' },
-  { href: '#about', label: 'About' },
-  { href: '#contact', label: 'Contact' },
-];
-
 export default function Navigation({ locale }: { locale: string }) {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const labels = NAV_LABELS[locale] ?? NAV_LABELS.en;
 
@@ -30,37 +26,96 @@ export default function Navigation({ locale }: { locale: string }) {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Lock page scroll while the mobile menu is open, and always start
+  // closed again if someone resizes past the lg breakpoint with it open.
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [menuOpen]);
 
   return (
     <header
-      className={`sticky top-0 z-50 px-6 transition-colors duration-300 sm:px-12 lg:px-20 ${
-        scrolled
-          ? 'bg-[var(--color-ink)]/80 backdrop-blur-md'
-          : 'bg-transparent'
+      className={`fixed top-0 z-50 w-full transition-colors duration-300 ${
+        scrolled || menuOpen ? 'bg-black/80 backdrop-blur-md' : 'bg-transparent'
       }`}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between py-5">
-        <Link
-          href={`/${locale}`}
-          className="font-[var(--font-display)] text-lg italic text-[var(--color-paper)]"
-        >
-          Tais Tattoos
+      <div className="wrapper flex items-center justify-between py-5">
+        <Link href={`/${locale}`} className="block text-lg text-white">
+          TAIS LOGO
         </Link>
 
-        <nav className="hidden items-center gap-8 font-[var(--font-mono)] text-xs uppercase tracking-[0.15em] text-[var(--color-paper)]/60 sm:flex">
+        {/* Desktop nav — visible from lg up */}
+        <nav className="hidden items-center gap-8 text-xs uppercase tracking-[0.15em] text-white/60 lg:flex">
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
               href={`/${locale}${link.href}`}
-              className="transition-colors hover:text-[var(--color-paper)]"
+              className="link-underline"
             >
               {link.label}
             </a>
           ))}
         </nav>
 
-        <LanguageSwitcher />
+        <div className="hidden lg:block">
+          <LanguageSwitcher />
+        </div>
+
+        {/* Hamburger — visible md and below (hidden from lg up) */}
+        <button
+          onClick={() => setMenuOpen((open) => !open)}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
+          className="relative z-50 flex h-8 w-8 flex-col items-center justify-center gap-1.5 lg:hidden"
+        >
+          <span
+            className={`h-px w-6 bg-white transition-transform duration-300 ${
+              menuOpen ? 'translate-y-1.75 rotate-45' : ''
+            }`}
+          />
+          <span
+            className={`h-px w-6 bg-white transition-opacity duration-300 ${
+              menuOpen ? 'opacity-0' : 'opacity-100'
+            }`}
+          />
+          <span
+            className={`h-px w-6 bg-white transition-transform duration-300 ${
+              menuOpen ? '-translate-y-1.75 -rotate-45' : ''
+            }`}
+          />
+        </button>
       </div>
+
+      {/* Mobile menu panel */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="overflow-hidden bg-black/95 lg:hidden"
+          >
+            <nav className="wrapper flex flex-col gap-6 py-8 text-sm uppercase tracking-[0.15em] text-white/70">
+              {NAV_LINKS.map((link) => (
+                <a
+                  key={link.href}
+                  href={`/${locale}${link.href}`}
+                  onClick={() => setMenuOpen(false)}
+                  className="link-underline w-fit"
+                >
+                  {link.label}
+                </a>
+              ))}
+              <div className="pt-2">
+                <LanguageSwitcher />
+              </div>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

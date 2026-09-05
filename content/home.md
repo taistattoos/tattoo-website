@@ -1,10 +1,10 @@
 ---
-eyebrow_en: Tais — Tattoo Artist
-eyebrow_sr: EyebrowSR
-eyebrow_ru: EyebrowRU
-headline_en: HeadlineEN
-headline_sr: HeadlineSR
-headline_ru: HeadlineRU
+eyebrow_en: Tattoo Artist
+eyebrow_sr: Tattoo Artist
+eyebrow_ru: Tattoo Artist
+headline_en: Tais Tattoos
+headline_sr: Tais Tattoos
+headline_ru: Tais Tattoos
 subheadline_en: SubEN
 subheadline_sr: SubSR
 subheadline_ru: SubRU

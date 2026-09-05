@@ -3,10 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "concurrently -n decap,next -c yellow,blue \"decap-server\" \"next dev\"",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "start": "next start"
   },
   "dependencies": {
     "framer-motion": "^13.1.1",
@@ -20,6 +19,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "concurrently": "^10.0.5",
     "decap-server": "^3.10.0",
     "eslint": "^9",
     "eslint-config-next": "16.3.2",

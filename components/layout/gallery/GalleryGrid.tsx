@@ -34,8 +34,8 @@ export default function GalleryGrid({ items }: { items: GalleryGridItem[] }) {
 
   if (items.length === 0) {
     return (
-      <div className="rounded-lg border border-dashed border-[var(--color-paper)]/15 px-6 py-16 text-center">
-        <p className="font-[var(--font-mono)] text-xs uppercase tracking-[0.2em] text-[var(--color-paper)]/35">
+      <div className="rounded-lg border border-dashed border-white/15 px-6 py-16 text-center">
+        <p className="text-xs uppercase tracking-[0.2em] text-white/35">
           No gallery items yet — add some in /admin
         </p>
       </div>
@@ -48,10 +48,10 @@ export default function GalleryGrid({ items }: { items: GalleryGridItem[] }) {
       <div className="mb-10 flex flex-wrap justify-center gap-2">
         <button
           onClick={() => setActiveFilter(null)}
-          className={`rounded-full border px-4 py-1.5 font-[var(--font-mono)] text-xs uppercase tracking-[0.1em] transition-colors ${
+          className={`rounded-full border px-4 py-1.5 text-xs uppercase transition-colors ${
             activeFilter === null
-              ? 'border-[var(--color-paper)] text-[var(--color-paper)]'
-              : 'border-[var(--color-paper)]/20 text-[var(--color-paper)]/50 hover:border-[var(--color-paper)]/40'
+              ? 'border-white text-white'
+              : 'border-white/20 text-white/50 hover:border-white/40'
           }`}
         >
           All
@@ -60,10 +60,10 @@ export default function GalleryGrid({ items }: { items: GalleryGridItem[] }) {
           <button
             key={cat}
             onClick={() => setActiveFilter(cat)}
-            className={`rounded-full border px-4 py-1.5 font-[var(--font-mono)] text-xs uppercase tracking-[0.1em] transition-colors ${
+            className={`rounded-full border px-4 py-1.5 text-xs uppercase transition-colors ${
               activeFilter === cat
-                ? 'border-[var(--color-paper)] text-[var(--color-paper)]'
-                : 'border-[var(--color-paper)]/20 text-[var(--color-paper)]/50 hover:border-[var(--color-paper)]/40'
+                ? 'border-white text-white'
+                : 'border-white/20 text-white/50 hover:border-white/40'
             }`}
           >
             {CATEGORY_LABELS[cat] ?? cat}
@@ -87,7 +87,7 @@ export default function GalleryGrid({ items }: { items: GalleryGridItem[] }) {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               transition={{ duration: 0.35, ease: 'easeOut' }}
-              className="group relative aspect-square overflow-hidden bg-[var(--color-ink-deep)]"
+              className="group relative aspect-square overflow-hidden bg-neutral-900"
             >
               <Image
                 src={item.image}
