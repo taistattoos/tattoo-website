@@ -2,7 +2,7 @@
 eyebrow_en: Tattoo Artist
 eyebrow_sr: Tattoo Artist
 eyebrow_ru: Tattoo Artist
-headline_en: Tais Tattoos
+headline_en: Tais Tatt
 headline_sr: Tais Tattoos
 headline_ru: Tais Tattoos
 subheadline_en: SubEN
