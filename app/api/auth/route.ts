@@ -2,6 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
   const clientId = process.env.OAUTH_GITHUB_CLIENT_ID;
+
+  if (!clientId) {
+    return new NextResponse(
+      'OAUTH_GITHUB_CLIENT_ID is not set on this deployment',
+      { status: 500 }
+    );
+  }
+
   const redirectUri = `${request.nextUrl.origin}/api/callback`;
   const scope = 'repo,user';
   const state = Math.random().toString(36).slice(2);
