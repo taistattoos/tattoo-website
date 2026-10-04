@@ -6,8 +6,27 @@
     <meta name="robots" content="noindex" />
     <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
     <title>Content Manager</title>
+    <script>
+      window.CMS_MANUAL_INIT = true;
+    </script>
   </head>
   <body>
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script>
+      // Change this when handover!
+      const REPO = 'DanielCikora/tattoo-website';
+
+      window.initCMS({
+        config: {
+          backend: {
+            name: 'github',
+            repo: REPO,
+            branch: 'main',
+            base_url: window.location.origin,
+            auth_endpoint: 'api/auth',
+          },
+        },
+      });
+    </script>
   </body>
 </html>

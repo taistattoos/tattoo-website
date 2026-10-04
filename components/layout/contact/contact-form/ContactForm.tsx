@@ -49,9 +49,8 @@ export default function ContactForm({ locale }: { locale: string }) {
     }));
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: React.SubmitEvent) {
     e.preventDefault();
-    // Submission (Turnstile + Web3Forms) wired in separately.
     console.log('form state', form);
   }
 

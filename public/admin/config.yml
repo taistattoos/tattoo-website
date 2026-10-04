@@ -1,13 +1,3 @@
-backend:
-  name: github
-  repo: DanielCikora/tattoo-website # edit: your actual repo path
-  branch: main
-  base_url: https://taistattoos.vercel.app # edit: your deployed URL
-  auth_endpoint: api/auth
-
-# Lets Decap write straight to your local filesystem while `npm run dev`
-# is running, via `npx decap-server` in a second terminal. No GitHub
-# login needed until you're testing against the real deployed site.
 local_backend: true
 
 media_folder: "public/images/uploads"
