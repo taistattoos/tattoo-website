@@ -28,7 +28,7 @@ export default function Hero({
           </p>
         )}
 
-        <h1 className="text-4xl uppercase leading-tight text-white sm:text-5xl lg:text-7xl">
+        <h1 className="text-4xl uppercase leading-tight text-white sm:text-5xl lg:text-9xl font-bold">
           {headline}
         </h1>
 
