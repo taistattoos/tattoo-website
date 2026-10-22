@@ -2,24 +2,19 @@
 
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-
-const LOCALES = [
-  { code: 'en', label: 'EN' },
-  { code: 'sr', label: 'SR' },
-  { code: 'ru', label: 'RU' },
-];
+import { LOCALES } from '@/lib/constants/shared';
 
 export default function LanguageSwitcher() {
-  const pathname = usePathname(); // e.g. "/en/gallery"
-  const segments = pathname.split('/'); // ["", "en", "gallery"]
+  const pathname = usePathname();
+  const segments = pathname.split('/');
   const currentLocale = segments[1];
 
   return (
-    <nav className="flex items-center gap-3 font-[var(--font-mono)] text-sm, uppercase tracking-[0.15em]">
+    <nav className="flex items-center gap-3 text-sm, uppercase tracking-[0.15em]">
       {LOCALES.map(({ code, label }) => {
         const isActive = code === currentLocale;
         const newSegments = [...segments];
-        newSegments[1] = code; // swap just the locale segment, keep the rest of the path
+        newSegments[1] = code;
         const href = newSegments.join('/') || '/';
 
         return (
@@ -29,8 +24,8 @@ export default function LanguageSwitcher() {
             aria-current={isActive ? 'page' : undefined}
             className={
               isActive
-                ? 'text-[var(--color-paper)]'
-                : 'text-[var(--color-paper)]/40 transition-colors hover:text-[var(--color-paper)]/70'
+                ? ''
+                : 'text-[var(--color-paper)]/40 transition-colors'
             }
           >
             {label}

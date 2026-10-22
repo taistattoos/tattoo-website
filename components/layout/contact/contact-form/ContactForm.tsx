@@ -8,7 +8,6 @@ import { initialState, inputClasses } from '@/lib/constants/contact-form';
 
 type Locale = keyof typeof CONTACT_LABELS;
 
-
 export default function ContactForm({ locale }: { locale: string }) {
   const t = CONTACT_LABELS[locale as Locale] ?? CONTACT_LABELS.en;
   const [form, setForm] = useState<FormStateInterface>(initialState);

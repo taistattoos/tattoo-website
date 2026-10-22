@@ -1,62 +1,111 @@
 local_backend: true
 
-media_folder: "public/images/uploads"
-public_folder: "/images/uploads"
+media_folder: 'public/images/uploads'
+public_folder: '/images/uploads'
 
 collections:
-  - name: "home"
-    label: "Home Page"
+  - name: 'home'
+    label: 'Home Page'
     files:
-      - file: "content/home.md"
-        label: "Home Page"
-        name: "home"
+      - file: 'content/home.md'
+        label: 'Home Page'
+        name: 'home'
         fields:
-          - { label: "Eyebrow (English)", name: "eyebrow_en", widget: "string" }
-          - { label: "Eyebrow (Serbian)", name: "eyebrow_sr", widget: "string", required: false }
-          - { label: "Eyebrow (Russian)", name: "eyebrow_ru", widget: "string", required: false }
-          - { label: "Headline (English)", name: "headline_en", widget: "string" }
-          - { label: "Headline (Serbian)", name: "headline_sr", widget: "string", required: false }
-          - { label: "Headline (Russian)", name: "headline_ru", widget: "string", required: false }
-          - { label: "Subheadline (English)", name: "subheadline_en", widget: "text" }
-          - { label: "Subheadline (Serbian)", name: "subheadline_sr", widget: "text", required: false }
-          - { label: "Subheadline (Russian)", name: "subheadline_ru", widget: "text", required: false }
-          - { label: "Button Text (English)", name: "cta_label_en", widget: "string" }
-          - { label: "Button Text (Serbian)", name: "cta_label_sr", widget: "string", required: false }
-          - { label: "Button Text (Russian)", name: "cta_label_ru", widget: "string", required: false }
-          - { label: "Button Link", name: "cta_link", widget: "string", default: "#contact" }
-          - { label: "Gallery Heading (English)", name: "gallery_heading_en", widget: "string", default: "Recent Work" }
-          - { label: "Gallery Heading (Serbian)", name: "gallery_heading_sr", widget: "string", required: false }
-          - { label: "Gallery Heading (Russian)", name: "gallery_heading_ru", widget: "string", required: false }
-          - { label: "Gallery \"View All\" Label (English)", name: "gallery_cta_en", widget: "string", default: "View full gallery" }
-          - { label: "Gallery \"View All\" Label (Serbian)", name: "gallery_cta_sr", widget: "string", required: false }
-          - { label: "Gallery \"View All\" Label (Russian)", name: "gallery_cta_ru", widget: "string", required: false }
+          - { label: 'Eyebrow (English)', name: 'eyebrow_en', widget: 'string' }
+          - { label: 'Eyebrow (Serbian)', name: 'eyebrow_sr', widget: 'string', required: false }
+          - { label: 'Eyebrow (Russian)', name: 'eyebrow_ru', widget: 'string', required: false }
+          - { label: 'Headline (English)', name: 'headline_en', widget: 'string' }
+          - { label: 'Headline (Serbian)', name: 'headline_sr', widget: 'string', required: false }
+          - { label: 'Headline (Russian)', name: 'headline_ru', widget: 'string', required: false }
+          - { label: 'Subheadline (English)', name: 'subheadline_en', widget: 'text' }
+          - { label: 'Subheadline (Serbian)', name: 'subheadline_sr', widget: 'text', required: false }
+          - { label: 'Subheadline (Russian)', name: 'subheadline_ru', widget: 'text', required: false }
+          - { label: 'Button Text (English)', name: 'cta_label_en', widget: 'string' }
+          - { label: 'Button Text (Serbian)', name: 'cta_label_sr', widget: 'string', required: false }
+          - { label: 'Button Text (Russian)', name: 'cta_label_ru', widget: 'string', required: false }
+          - { label: 'Button Link', name: 'cta_link', widget: 'string', default: '#contact' }
+          - { label: 'Gallery Heading (English)', name: 'gallery_heading_en', widget: 'string', default: 'Recent Work' }
+          - { label: 'Gallery Heading (Serbian)', name: 'gallery_heading_sr', widget: 'string', required: false }
+          - { label: 'Gallery Heading (Russian)', name: 'gallery_heading_ru', widget: 'string', required: false }
+          - {
+              label: 'Gallery "View All" Label (English)',
+              name: 'gallery_cta_en',
+              widget: 'string',
+              default: 'View full gallery',
+            }
+          - { label: 'Gallery "View All" Label (Serbian)', name: 'gallery_cta_sr', widget: 'string', required: false }
+          - { label: 'Gallery "View All" Label (Russian)', name: 'gallery_cta_ru', widget: 'string', required: false }
 
-  - name: "gallery"
-    label: "Gallery"
-    folder: "content/gallery"
+  - name: 'gallery'
+    label: 'Gallery'
+    folder: 'content/gallery'
     create: true
-    slug: "{{slug}}"
+    slug: '{{slug}}'
     fields:
-      - { label: "Title (English)", name: "title_en", widget: "string" }
-      - { label: "Title (Serbian)", name: "title_sr", widget: "string", required: false }
-      - { label: "Title (Russian)", name: "title_ru", widget: "string", required: false }
-      - { label: "Image", name: "image", widget: "image" }
+      - { label: 'Title (English)', name: 'title_en', widget: 'string' }
+      - { label: 'Title (Serbian)', name: 'title_sr', widget: 'string', required: false }
+      - { label: 'Title (Russian)', name: 'title_ru', widget: 'string', required: false }
+      - { label: 'Image', name: 'image', widget: 'image' }
       - {
-          label: "Category",
-          name: "category",
-          widget: "select",
+          label: 'Category',
+          name: 'category',
+          widget: 'select',
           multiple: true,
-          options: ["black-grey", "color", "japanese", "illustrative", "whipshading"],
+          options: ['black-grey', 'color', 'japanese', 'illustrative', 'whipshading'],
         }
-      - { label: "Featured on homepage", name: "featured", widget: "boolean", default: false }
-      - { label: "Order", name: "order", widget: "number", required: false }
-  - name: "testimonials"
-    label: "Testimonials"
-    folder: "content/testimonials"
+      - { label: 'Featured on homepage', name: 'featured', widget: 'boolean', default: false }
+      - { label: 'Order', name: 'order', widget: 'number', required: false }
+  - name: about
+    label: About
+    files:
+      - name: about
+        label: About section
+        file: content/about.json
+        fields:
+          - { name: image, label: Photo, widget: image }
+          - { name: image_alt_en, label: Photo description (EN), widget: string }
+          - { name: image_alt_sr, label: Photo description (SR), widget: string }
+          - { name: image_alt_ru, label: Photo description (RU), widget: string }
+          - { name: title_en, label: Title (EN), widget: string }
+          - { name: title_sr, label: Title (SR), widget: string }
+          - { name: title_ru, label: Title (RU), widget: string }
+          - name: body_en
+            label: Text (EN)
+            widget: markdown
+            modes: [rich_text]
+            buttons: [bold, italic, link, heading-two, heading-three, quote, bulleted-list, numbered-list]
+            editor_components: [image]
+          - name: body_sr
+            label: Text (SR)
+            widget: markdown
+            required: false
+            modes: [rich_text]
+            buttons: [bold, italic, link, heading-two, heading-three, quote, bulleted-list, numbered-list]
+            editor_components: [image]
+          - name: body_ru
+            label: Text (RU)
+            widget: markdown
+            required: false
+            modes: [rich_text]
+            buttons: [bold, italic, link, heading-two, heading-three, quote, bulleted-list, numbered-list]
+            editor_components: [image]
+          - name: specialties
+            label: What I do
+            widget: list
+            fields:
+              - { name: title_en, label: Title (EN), widget: string }
+              - { name: title_sr, label: Title (SR), widget: string }
+              - { name: title_ru, label: Title (RU), widget: string }
+              - { name: text_en, label: Text (EN), widget: text }
+              - { name: text_sr, label: Text (SR), widget: text }
+              - { name: text_ru, label: Text (RU), widget: text }
+  - name: 'testimonials'
+    label: 'Testimonials'
+    folder: 'content/testimonials'
     create: true
-    slug: "{{slug}}"
+    slug: '{{slug}}'
     fields:
-      - { label: "Client Name", name: "client_name", widget: "string" }
-      - { label: "Quote", name: "quote", widget: "text" }
-      - { label: "Rating (1-5)", name: "rating", widget: "number", min: 1, max: 5, default: 5 }
-      - { label: "Source", name: "source", widget: "string", hint: "e.g. iNKPPL, Google, Instagram" }
+      - { label: 'Client Name', name: 'client_name', widget: 'string' }
+      - { label: 'Quote', name: 'quote', widget: 'text' }
+      - { label: 'Rating (1-5)', name: 'rating', widget: 'number', min: 1, max: 5, default: 5 }
+      - { label: 'Source', name: 'source', widget: 'string', hint: 'e.g. iNKPPL, Google, Instagram' }
