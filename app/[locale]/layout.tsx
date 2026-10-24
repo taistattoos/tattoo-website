@@ -1,5 +1,5 @@
-import Navigation from "@/components/layout/navigation/Navigation";
-
+import Navigation from '@/components/layout/navigation/Navigation';
+import SmoothScroll from '@/components/providers/SmoothScroll';
 
 const LOCALES = ['en', 'sr', 'ru'];
 
@@ -17,9 +17,9 @@ export default async function LocaleLayout({
   const { locale } = await params;
 
   return (
-    <>
+    <SmoothScroll>
       <Navigation locale={locale} />
       {children}
-    </>
+    </SmoothScroll>
   );
 }

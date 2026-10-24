@@ -5,12 +5,14 @@ import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import LanguageSwitcher from './LanguageSwitcher';
 import { NAV_LABELS } from '@/lib/constants/shared';
+import { useAnchorScroll } from '@/hooks/useAnchorScroll';
 
 export default function Navigation({ locale }: { locale: string }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const labels = NAV_LABELS[locale] ?? NAV_LABELS.en;
+  const handleAnchorClick = useAnchorScroll();
 
   const NAV_LINKS = [
     { href: '#gallery', label: labels.gallery },
@@ -41,25 +43,26 @@ export default function Navigation({ locale }: { locale: string }) {
         scrolled || menuOpen ? 'bg-black/80 backdrop-blur-md' : 'bg-transparent'
       }`}
     >
-      <div className="wrapper flex items-center justify-between py-5">
-        <Link href={`/${locale}`} className="block text-xl text-white">
+      <div className='wrapper flex items-center justify-between py-5'>
+        <Link href={`/${locale}`} className='block text-xl text-white'>
           TAIS LOGO
         </Link>
 
         {/* Desktop nav — visible from lg up */}
-        <nav className="hidden items-center gap-8 text-xs uppercase tracking-[0.15em] text-white/60 lg:flex">
+        <nav className='hidden items-center gap-8 text-xs uppercase tracking-[0.15em] text-white/60 lg:flex'>
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
               href={`/${locale}${link.href}`}
-              className="link-underline text-lg"
+              onClick={handleAnchorClick}
+              className='link-underline text-lg'
             >
               {link.label}
             </a>
           ))}
         </nav>
 
-        <div className="hidden lg:block">
+        <div className='hidden lg:block'>
           <LanguageSwitcher />
         </div>
 
@@ -68,7 +71,7 @@ export default function Navigation({ locale }: { locale: string }) {
           onClick={() => setMenuOpen((open) => !open)}
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={menuOpen}
-          className="relative z-50 flex h-8 w-8 flex-col items-center justify-center gap-1.5 lg:hidden"
+          className='relative z-50 flex h-8 w-8 flex-col items-center justify-center gap-1.5 lg:hidden'
         >
           <span
             className={`h-px w-6 bg-white transition-transform duration-300 ${
@@ -76,9 +79,7 @@ export default function Navigation({ locale }: { locale: string }) {
             }`}
           />
           <span
-            className={`h-px w-6 bg-white transition-opacity duration-300 ${
-              menuOpen ? 'opacity-0' : 'opacity-100'
-            }`}
+            className={`h-px w-6 bg-white transition-opacity duration-300 ${menuOpen ? 'opacity-0' : 'opacity-100'}`}
           />
           <span
             className={`h-px w-6 bg-white transition-transform duration-300 ${
@@ -96,20 +97,23 @@ export default function Navigation({ locale }: { locale: string }) {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="overflow-hidden bg-black/95 lg:hidden"
+            className='overflow-hidden bg-black/95 lg:hidden'
           >
-            <nav className="wrapper flex flex-col gap-6 py-8 text-sm uppercase tracking-[0.15em] text-white/70">
+            <nav className='wrapper flex flex-col gap-6 py-8 text-sm uppercase tracking-[0.15em] text-white/70'>
               {NAV_LINKS.map((link) => (
                 <a
                   key={link.href}
                   href={`/${locale}${link.href}`}
-                  onClick={() => setMenuOpen(false)}
-                  className="link-underline w-fit text-sm"
+                  onClick={(event) => {
+                    setMenuOpen(false);
+                    handleAnchorClick(event);
+                  }}
+                  className='link-underline w-fit text-sm'
                 >
                   {link.label}
                 </a>
               ))}
-              <div className="pt-2">
+              <div className='pt-2'>
                 <LanguageSwitcher />
               </div>
             </nav>
