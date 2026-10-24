@@ -28,8 +28,6 @@ export default function Navigation({ locale }: { locale: string }) {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Lock page scroll while the mobile menu is open, and always start
-  // closed again if someone resizes past the lg breakpoint with it open.
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
     return () => {
@@ -43,13 +41,13 @@ export default function Navigation({ locale }: { locale: string }) {
         scrolled || menuOpen ? 'bg-black/80 backdrop-blur-md' : 'bg-transparent'
       }`}
     >
-      <div className='wrapper flex items-center justify-between py-5'>
+      <div className='wrapper flex items-center justify-between pt-5 md:pb-5 pb-8'>
         <Link href={`/${locale}`} className='block text-xl text-white'>
           TAIS LOGO
         </Link>
 
         {/* Desktop nav — visible from lg up */}
-        <nav className='hidden items-center gap-8 text-xs uppercase tracking-[0.15em] text-white/60 lg:flex'>
+        <nav className='hidden items-center gap-8 text-xs uppercase tracking-[0.15em] text-white/60 md:flex'>
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
@@ -62,16 +60,14 @@ export default function Navigation({ locale }: { locale: string }) {
           ))}
         </nav>
 
-        <div className='hidden lg:block'>
-          <LanguageSwitcher />
-        </div>
+        <LanguageSwitcher className='hidden md:inline-block cursor-pointer' />
 
         {/* Hamburger — visible md and below (hidden from lg up) */}
         <button
           onClick={() => setMenuOpen((open) => !open)}
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={menuOpen}
-          className='relative z-50 flex h-8 w-8 flex-col items-center justify-center gap-1.5 lg:hidden'
+          className='relative cursor-pointer z-50 flex h-8 w-8 flex-col items-center justify-center gap-1.5 md:hidden'
         >
           <span
             className={`h-px w-6 bg-white transition-transform duration-300 ${
@@ -89,7 +85,6 @@ export default function Navigation({ locale }: { locale: string }) {
         </button>
       </div>
 
-      {/* Mobile menu panel */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -114,7 +109,7 @@ export default function Navigation({ locale }: { locale: string }) {
                 </a>
               ))}
               <div className='pt-2'>
-                <LanguageSwitcher />
+                <LanguageSwitcher inline />
               </div>
             </nav>
           </motion.div>

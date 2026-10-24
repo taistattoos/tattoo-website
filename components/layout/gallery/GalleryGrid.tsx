@@ -64,7 +64,7 @@ export default function GalleryGrid({ items }: { items: GalleryGridItem[] }) {
       {/* Grid — AnimatePresence handles items entering/exiting as the
           filter changes; `layout` on each item makes the remaining ones
           smoothly slide into their new spot instead of snapping. */}
-      <motion.div className='grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4'>
+      <motion.div className='grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4'>
         <AnimatePresence mode='popLayout' initial={false}>
           {filteredItems.map((item) => (
             <motion.div
