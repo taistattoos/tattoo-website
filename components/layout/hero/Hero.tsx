@@ -21,7 +21,7 @@ export default function Hero({ eyebrow, headline, subheadline, ctaLabel, ctaLink
             text={headline}
             trigger='mount'
             stagger={0.08}
-            className='xs:text-6xl text-4xl uppercase leading-tight text-white sm:text-7xl lg:text-9xl font-bold'
+            className='max-w-175 ml-auto xs:text-6xl text-4xl uppercase leading-tight text-white sm:text-7xl lg:text-9xl font-bold'
           />
         )}
         

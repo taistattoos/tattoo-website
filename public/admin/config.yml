@@ -129,3 +129,61 @@ collections:
               - { name: text_en, label: Text (EN), widget: text }
               - { name: text_sr, label: Text (SR), widget: text, required: false }
               - { name: text_ru, label: Text (RU), widget: text, required: false }
+  - name: faq
+    label: FAQ
+    files:
+      - name: faq
+        label: FAQ
+        file: content/faq/faq.md
+        fields:
+          - { name: title_en, label: Section title (EN), widget: string }
+          - { name: title_sr, label: Section title (SR), widget: string, required: false }
+          - { name: title_ru, label: Section title (RU), widget: string, required: false }
+          - name: items
+            label: Questions
+            widget: list
+            fields:
+              - { name: question_en, label: Question (EN), widget: string }
+              - { name: question_sr, label: Question (SR), widget: string, required: false }
+              - { name: question_ru, label: Question (RU), widget: string, required: false }
+              - name: answer_en
+                label: Answer (EN)
+                widget: markdown
+                modes: [rich_text]
+                buttons: [bold, italic, link, bulleted-list, numbered-list]
+                editor_components: []
+              - name: answer_sr
+                label: Answer (SR)
+                widget: markdown
+                required: false
+                modes: [rich_text]
+                buttons: [bold, italic, link, bulleted-list, numbered-list]
+                editor_components: []
+              - name: answer_ru
+                label: Answer (RU)
+                widget: markdown
+                required: false
+                modes: [rich_text]
+                buttons: [bold, italic, link, bulleted-list, numbered-list]
+                editor_components: []
+  - name: footer
+    label: Footer
+    files:
+      - name: footer
+        label: Footer
+        file: content/footer/footer.md
+        fields:
+          - { name: tagline_en, label: Tagline (EN), widget: string }
+          - { name: tagline_sr, label: Tagline (SR), widget: string, required: false }
+          - { name: tagline_ru, label: Tagline (RU), widget: string, required: false }
+          - { name: location_en, label: Locations (EN), widget: string }
+          - { name: location_sr, label: Locations (SR), widget: string, required: false }
+          - { name: location_ru, label: Locations (RU), widget: string, required: false }
+          - { name: copyright_name, label: Name in copyright line, widget: string, default: Tais Tattoos }
+          - name: socials
+            label: Social links
+            widget: list
+            fields:
+              - { name: platform, label: Platform, widget: select, options: [instagram, threads, telegram, whatsapp, email, inkppl] }
+              - { name: label, label: Text shown, widget: string }
+              - { name: url, label: Link, widget: string, hint: 'For email use mailto:name@example.com, for WhatsApp use https://wa.me/381...' }

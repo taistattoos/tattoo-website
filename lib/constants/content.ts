@@ -4,4 +4,6 @@ export const CONTENT_PATHS = {
   booking: 'content/booking/booking.md',
   gallery: 'content/gallery',
   testimonials: 'content/testimonials',
+  faq: 'content/faq/faq.md',
+  footer: 'content/footer/footer.md',
 } as const;

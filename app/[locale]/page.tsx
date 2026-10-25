@@ -6,6 +6,7 @@ import { LocaleEnum } from '@/types/enums';
 import Testimonials from '@/components/layout/testimonials/Testimonials';
 import About from '@/components/layout/about/About';
 import Booking from '@/components/layout/booking/Booking';
+import Faq from '@/components/layout/faq/Faq';
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -29,18 +30,20 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         ctaLabel={data[`cta_label_${LOCALE}`] || 'Start an inquiry'}
         ctaLink={data.cta_link || '#contact'}
       />
-      
-      <About locale={LOCALE} />
-
-      <Testimonials items={getTestimonials()} locale={LOCALE} />
 
       <section id='gallery' className='wrapper py-24'>
         <GalleryGrid items={galleryItems} />
       </section>
 
+      <About locale={LOCALE} />
+
+      <Testimonials items={getTestimonials()} locale={LOCALE} />
+
       <Booking locale={LOCALE} />
 
-      <section id='contact' className='wrapper max-w-2xl py-24'>
+      <Faq locale={LOCALE} />
+
+      <section id='contact' className='wrapper py-24'>
         <ContactForm locale={LOCALE} />
       </section>
     </main>

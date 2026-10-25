@@ -14,3 +14,5 @@ export const LOCALES: LocaleType[] = [
   { code: 'sr', label: 'SR' },
   { code: 'ru', label: 'RU' },
 ];
+
+export const NAV_ANCHORS = ['gallery', 'about', 'contact'] as const;

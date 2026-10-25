@@ -7,6 +7,8 @@ import { TestimonialContentInterface } from '@/types/home';
 import type { AboutContent, AboutRaw } from '@/types/about';
 import type { BookingContent, BookingRaw } from '@/types/booking';
 import { LocaleEnum } from '@/types/enums';
+import type { FaqContent, FaqRaw } from '@/types/faq';
+import { FooterContent, FooterRaw } from '@/types/footer';
 
 function readMarkdown<T>(relativePath: string): T {
   const file = fs.readFileSync(path.join(process.cwd(), relativePath), 'utf-8');
@@ -69,5 +71,28 @@ export function getBooking(locale: LocaleEnum): BookingContent {
       title: pick(step, 'title', locale),
       text: pick(step, 'text', locale),
     })),
+  };
+}
+
+export function getFaq(locale: LocaleEnum): FaqContent {
+  const raw = readMarkdown<FaqRaw>(CONTENT_PATHS.faq);
+
+  return {
+    title: pick(raw, 'title', locale),
+    items: (raw.items ?? []).map((item) => ({
+      question: pick(item, 'question', locale),
+      answer: pick(item, 'answer', locale),
+    })),
+  };
+}
+
+export function getFooter(locale: LocaleEnum): FooterContent {
+  const raw = readMarkdown<FooterRaw>(CONTENT_PATHS.footer);
+
+  return {
+    tagline: pick(raw, 'tagline', locale),
+    location: pick(raw, 'location', locale),
+    copyrightName: raw.copyright_name || 'Tais Tattoos',
+    socials: raw.socials ?? [],
   };
 }
