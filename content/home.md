@@ -1,17 +1,22 @@
 ---
-eyebrow_en: Tattoo Artist
-eyebrow_sr: Tattoo Artist
-eyebrow_ru: Tattoo Artist
-headline_en: Tais Tatt
+eyebrow_en: Tattoo artist · Zrenjanin, Novi Sad & Belgrade
+eyebrow_sr: Tetovažerka · Zrenjanin, Novi Sad i Beograd
+eyebrow_ru: Тату-мастер · Зренянин и Белград
+headline_en: Tais Tattoos
 headline_sr: Tais Tattoos
 headline_ru: Tais Tattoos
-subheadline_en: SubEN
-subheadline_sr: SubSR
-subheadline_ru: SubRU
-cta_label_en: ButtonEN
-cta_label_sr: ButtonSR
-cta_label_ru: ButtonRU
+subheadline_en: Highly detailed Japanese-style tattoos, dark work and mascots.
+  Every piece is drawn for you.
+subheadline_sr: Veoma detaljne tetovaže u japanskom stilu, dark work i maskote.
+  Svaki rad je nacrtan samo za vas.
+subheadline_ru: Детализированные тату в японском стиле, dark work и маскоты.
+  Каждая работа рисуется специально для вас.
+cta_label_en: Book a session
+cta_label_sr: Zakaži termin
+cta_label_ru: Записаться на сеанс
 cta_link: "#contact"
 gallery_heading_en: Recent Work
+gallery_heading_sr: Nedavni radovi
+gallery_heading_ru: Последние работы
 gallery_cta_en: View full gallery
 ---

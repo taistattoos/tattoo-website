@@ -60,7 +60,7 @@ collections:
     files:
       - name: about
         label: About section
-        file: content/about.json
+        file: content/about/about.md
         fields:
           - { name: image, label: Photo, widget: image }
           - { name: image_alt_en, label: Photo description (EN), widget: string }

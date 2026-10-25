@@ -5,6 +5,7 @@ import ContactForm from '@/components/layout/contact/contact-form/ContactForm';
 import { LocaleEnum } from '@/types/enums';
 import Testimonials from '@/components/layout/testimonials/Testimonials';
 import About from '@/components/layout/about/About';
+import { AboutLocale } from '@/types/about';
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -29,7 +30,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         ctaLink={data.cta_link || '#contact'}
       />
       
-      <About />
+      <About locale={locale as AboutLocale} />
 
       <Testimonials items={getTestimonials()} locale={LOCALE} />
 

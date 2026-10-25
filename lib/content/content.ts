@@ -39,21 +39,27 @@ export function getTestimonials(): TestimonialContentInterface[] {
   });
 }
 
-const ABOUT_CONTENT_PATH = 'content/about.json';
+const ABOUT_CONTENT_PATH = 'content/about/about.md';
 
-function pick(raw: AboutRaw, key: 'title' | 'body' | 'image_alt', locale: AboutLocale): string {
+function pick(raw: Record<string, unknown>, key: string, locale: AboutLocale): string {
   const value = raw[`${key}_${locale}`];
-  return value && value.trim() !== '' ? value : (raw[`${key}_en`] ?? '');
+  if (typeof value === 'string' && value.trim() !== '') return value;
+  const fallback = raw[`${key}_en`];
+  return typeof fallback === 'string' ? fallback : '';
 }
 
 export function getAbout(locale: AboutLocale): AboutContent {
   const file = fs.readFileSync(path.join(process.cwd(), ABOUT_CONTENT_PATH), 'utf-8');
-  const raw = JSON.parse(file) as AboutRaw;
+  const raw = matter(file).data as AboutRaw;
 
   return {
     title: pick(raw, 'title', locale),
     body: pick(raw, 'body', locale),
     image: raw.image,
     imageAlt: pick(raw, 'image_alt', locale),
+    specialties: (raw.specialties ?? []).map((item) => ({
+      title: pick(item, 'title', locale),
+      text: pick(item, 'text', locale),
+    })),
   };
 }

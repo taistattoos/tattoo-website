@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useReducedMotion, type Variants } from 'framer-motion';
-import { Fragment, type ElementType } from 'react';
+import { Fragment, useEffect, useState, type ElementType } from 'react';
 import { EASE_OUT, VIEWPORT, type TriggerType } from './config';
 
 type SplitTextProps = {

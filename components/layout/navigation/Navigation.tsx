@@ -41,9 +41,9 @@ export default function Navigation({ locale }: { locale: string }) {
         scrolled || menuOpen ? 'bg-black/80 backdrop-blur-md' : 'bg-transparent'
       }`}
     >
-      <div className='wrapper flex items-center justify-between pt-5 md:pb-5 pb-8'>
-        <Link href={`/${locale}`} className='block text-xl text-white'>
-          TAIS LOGO
+      <div className='wrapper flex items-center justify-between py-5'>
+        <Link href={`/${locale}`} className='block text-xl font-semibold text-white'>
+          TAIS
         </Link>
 
         {/* Desktop nav — visible from lg up */}
@@ -92,7 +92,7 @@ export default function Navigation({ locale }: { locale: string }) {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className='overflow-hidden bg-black/95 lg:hidden'
+            className='overflow-hidden bg-black/80 backdrop-blur-md lg:hidden'
           >
             <nav className='wrapper flex flex-col gap-6 py-8 text-sm uppercase tracking-[0.15em] text-white/70'>
               {NAV_LINKS.map((link) => (

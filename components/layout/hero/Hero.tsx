@@ -13,16 +13,18 @@ export default function Hero({ eyebrow, headline, subheadline, ctaLabel, ctaLink
       <div className='absolute inset-0 bg-black/60' />
 
       <div className='relative z-10 wrapper md:ml-auto mx-auto text-center md:text-right'>
-        {eyebrow && <Eyebrow text={eyebrow} className='mb-4'/>}
+        {eyebrow && <Eyebrow text={eyebrow} className='mb-4' />}
 
-        <SplitText
-          as='h1'
-          text={headline}
-          trigger='mount'
-          stagger={0.08}
-          className='xs:text-6xl text-4xl uppercase leading-tight text-white sm:text-7xl lg:text-9xl font-bold'
-        />
-
+        {headline && (
+          <SplitText
+            as='h1'
+            text={headline}
+            trigger='mount'
+            stagger={0.08}
+            className='xs:text-6xl text-4xl uppercase leading-tight text-white sm:text-7xl lg:text-9xl font-bold'
+          />
+        )}
+        
         {subheadline && <p className='mt-6 text-base leading-relaxed text-white/70'>{subheadline}</p>}
 
         {ctaLabel && <CTA className='mt-10' href={ctaLink || '#contact'} text={ctaLabel} />}
