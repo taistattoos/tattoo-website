@@ -24,18 +24,34 @@ collections:
           - { label: 'Button Text (Serbian)', name: 'cta_label_sr', widget: 'string', required: false }
           - { label: 'Button Text (Russian)', name: 'cta_label_ru', widget: 'string', required: false }
           - { label: 'Button Link', name: 'cta_link', widget: 'string', default: '#contact' }
-          - { label: 'Gallery Heading (English)', name: 'gallery_heading_en', widget: 'string', default: 'Recent Work' }
-          - { label: 'Gallery Heading (Serbian)', name: 'gallery_heading_sr', widget: 'string', required: false }
-          - { label: 'Gallery Heading (Russian)', name: 'gallery_heading_ru', widget: 'string', required: false }
-          - {
-              label: 'Gallery "View All" Label (English)',
-              name: 'gallery_cta_en',
-              widget: 'string',
-              default: 'View full gallery',
-            }
-          - { label: 'Gallery "View All" Label (Serbian)', name: 'gallery_cta_sr', widget: 'string', required: false }
-          - { label: 'Gallery "View All" Label (Russian)', name: 'gallery_cta_ru', widget: 'string', required: false }
-
+          - name: hero_video
+            label: Hero video
+            widget: file
+            required: false
+            choose_url: false
+            media_folder: '/public/assets/videos'
+            public_folder: '/assets/videos'
+            hint: 'MP4, no sound, about 10-15 seconds, ideally under 10 MB. Leave empty to use the default video.'
+          - name: hero_poster
+            label: Hero poster image (shown while the video loads)
+            widget: image
+            required: false
+          - name: hero_overlay
+            label: Darkness over the video (0 = none, 100 = black)
+            widget: number
+            value_type: int
+            min: 0
+            max: 100
+            default: 60
+            required: false
+          - name: hero_grayscale
+            label: Black and white amount (0 = full color, 100 = fully gray)
+            widget: number
+            value_type: int
+            min: 0
+            max: 100
+            default: 100
+            required: false
   - name: 'gallery'
     label: 'Gallery'
     folder: 'content/gallery'

@@ -1,4 +1,4 @@
-import { FormStateInterface } from "@/types/home";
+import { FormStateInterface } from "@/types/hero";
 
 export const initialState: FormStateInterface = {
   name: '',

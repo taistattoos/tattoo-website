@@ -1,7 +1,7 @@
 import SplitText from '@/components/animations/SplitText';
 import CTA from '@/components/ui/CTA';
 import Eyebrow from '@/components/ui/Eyebrow';
-import { HeroPropsInterface } from '@/types/home';
+import { HeroPropsInterface } from '@/types/hero';
 
 export default function Hero({ eyebrow, headline, subheadline, ctaLabel, ctaLink }: HeroPropsInterface) {
   return (

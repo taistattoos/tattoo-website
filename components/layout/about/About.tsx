@@ -4,9 +4,9 @@ import Eyebrow from '@/components/ui/Eyebrow';
 import Markdown from '@/components/ui/Markdown';
 import { ABOUT_LABELS } from '@/lib/constants/about';
 import { getAbout } from '@/lib/content/content';
-import type { AboutLocale } from '@/types/about';
+import { LocaleEnum } from '@/types/enums';
 
-export default function About({ locale }: { locale: AboutLocale }) {
+export default function About({ locale }: { locale: LocaleEnum }) {
   const about = getAbout(locale);
   const labels = ABOUT_LABELS[locale];
 

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CONTACT_LABELS } from './../../../../lib/constants/contactLabels';
-import { ColorChoice, ContactMethod, FormStateInterface, Placement } from '@/types/home';
+import { ColorChoice, ContactMethod, FormStateInterface, Placement } from '@/types/hero';
 import { initialState, inputClasses } from '@/lib/constants/contact-form';
 
 type Locale = keyof typeof CONTACT_LABELS;

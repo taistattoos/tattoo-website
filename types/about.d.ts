@@ -1,4 +1,6 @@
-type Localized<K extends string> = Record<`${K}_${AboutLocale}`, string>;
+import type { LocaleEnum } from './enums';
+
+type Localized<K extends string> = Record<`${K}_${LocaleEnum}`, string>;
 
 export type AboutSpecialtyRaw = Localized<'title'> & Localized<'text'>;
 

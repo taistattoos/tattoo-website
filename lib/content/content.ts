@@ -2,13 +2,14 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { CONTENT_PATHS } from '@/lib/constants/content';
-import { GalleryContentInterface, HomeContentInterface } from '@/types/content';
-import { TestimonialContentInterface } from '@/types/home';
+import { HomeContentInterface } from '@/types/content';
+import { TestimonialContentInterface } from '@/types/hero';
 import type { AboutContent, AboutRaw } from '@/types/about';
 import type { BookingContent, BookingRaw } from '@/types/booking';
 import { LocaleEnum } from '@/types/enums';
 import type { FaqContent, FaqRaw } from '@/types/faq';
 import { FooterContent, FooterRaw } from '@/types/footer';
+import { GalleryContentInterface } from '@/types/gallery';
 
 function readMarkdown<T>(relativePath: string): T {
   const file = fs.readFileSync(path.join(process.cwd(), relativePath), 'utf-8');

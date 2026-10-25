@@ -18,22 +18,8 @@ export interface HomeContentInterface {
   gallery_cta_en?: string;
   gallery_cta_sr?: string;
   gallery_cta_ru?: string;
-};
-
-export type GalleryCategory =
-  | 'black-grey'
-  | 'color'
-  | 'japanese'
-  | 'illustrative'
-  | 'whipshading';
-
-export interface GalleryContentInterface {
-  slug: string;
-  title_en?: string;
-  title_sr?: string;
-  title_ru?: string;
-  image?: string;
-  category?: GalleryCategory[];
-  featured?: boolean;
-  order?: number;
+  hero_video?: string;
+  hero_poster?: string;
+  hero_overlay?: number;
+  hero_grayscale?: number;
 }

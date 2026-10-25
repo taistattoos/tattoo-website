@@ -4,7 +4,11 @@ export interface HeroPropsInterface {
   subheadline: string;
   ctaLabel: string;
   ctaLink: string;
-};
+  videoSrc: string;
+  posterSrc?: string;
+  overlay: number;
+  grayscale: number;
+}
 
 type ContactMethod = 'form_now' | 'in_person' | 'whatsapp' | 'email_direct';
 type Placement = 'arm' | 'leg' | 'elbow' | 'neck' | 'other' | '';
@@ -20,7 +24,7 @@ export interface FormStateInterface {
   size: string;
   colors: ColorChoice[];
   message: string;
-};
+}
 
 export interface TestimonialContentInterface {
   slug: string;
