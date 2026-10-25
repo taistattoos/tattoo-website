@@ -7,7 +7,7 @@ collections:
   - name: 'home'
     label: 'Home Page'
     files:
-      - file: 'content/home.md'
+      - file: 'content/home/home.md'
         label: 'Home Page'
         name: 'home'
         fields:
@@ -109,3 +109,23 @@ collections:
       - { label: 'Quote', name: 'quote', widget: 'text' }
       - { label: 'Rating (1-5)', name: 'rating', widget: 'number', min: 1, max: 5, default: 5 }
       - { label: 'Source', name: 'source', widget: 'string', hint: 'e.g. iNKPPL, Google, Instagram' }
+  - name: booking
+    label: How booking works
+    files:
+      - name: booking
+        label: How booking works
+        file: content/booking/booking.md
+        fields:
+          - { name: title_en, label: Section title (EN), widget: string }
+          - { name: title_sr, label: Section title (SR), widget: string, required: false }
+          - { name: title_ru, label: Section title (RU), widget: string, required: false }
+          - name: steps
+            label: Steps
+            widget: list
+            fields:
+              - { name: title_en, label: Title (EN), widget: string }
+              - { name: title_sr, label: Title (SR), widget: string, required: false }
+              - { name: title_ru, label: Title (RU), widget: string, required: false }
+              - { name: text_en, label: Text (EN), widget: text }
+              - { name: text_sr, label: Text (SR), widget: text, required: false }
+              - { name: text_ru, label: Text (RU), widget: text, required: false }
