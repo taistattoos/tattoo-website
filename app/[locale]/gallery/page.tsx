@@ -1,11 +1,10 @@
 import type { Metadata } from 'next';
 import { getGalleryItems } from '@/lib/content/content';
 import GalleryGrid from '@/components/layout/gallery/GalleryGrid';
+import { LOCALES } from '@/lib/constants/shared';
+import { LocaleEnum } from '@/types/enums';
 
-const LOCALES = ['en', 'sr', 'ru'] as const;
-type Locale = (typeof LOCALES)[number];
-
-const PAGE_META: Record<Locale, { title: string; description: string }> = {
+const PAGE_META: Record<LocaleEnum, { title: string; description: string }> = {
   en: {
     title: 'Gallery',
     description: 'Browse black & grey and fine-line tattoo work by Tais.',
@@ -21,7 +20,7 @@ const PAGE_META: Record<Locale, { title: string; description: string }> = {
 };
 
 export function generateStaticParams() {
-  return LOCALES.map((locale) => ({ locale }));
+  return LOCALES.map(({ code }) => ({ locale: code }));
 }
 
 export async function generateMetadata({
@@ -30,7 +29,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const meta = PAGE_META[locale as Locale] ?? PAGE_META.en;
+  const meta = PAGE_META[locale as LocaleEnum] ?? PAGE_META.en;
   return {
     title: meta.title,
     description: meta.description,
@@ -44,7 +43,7 @@ export default async function GalleryPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const LOCALE = (LOCALES.includes(locale as Locale) ? locale : 'en') as Locale;
+    const LOCALE = locale as LocaleEnum;
 
   const items = getGalleryItems().map((item) => ({
     slug: item.slug,
@@ -54,9 +53,9 @@ export default async function GalleryPage({
   }));
 
   return (
-    <main className="bg-[var(--color-ink)] px-6 py-24 sm:px-12 lg:px-20">
+    <main className="px-6 py-24 sm:px-12 lg:px-20">
       <div className="mx-auto max-w-6xl">
-        <h1 className="mb-12 text-center font-[var(--font-display)] text-3xl text-[var(--color-paper)] sm:text-4xl">
+        <h1 className="mb-12 text-center text-3xl sm:text-4xl">
           {PAGE_META[LOCALE].title}
         </h1>
         <GalleryGrid items={items} />

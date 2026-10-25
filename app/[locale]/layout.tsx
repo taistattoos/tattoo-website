@@ -1,10 +1,9 @@
 import Navigation from '@/components/layout/navigation/Navigation';
 import SmoothScroll from '@/components/providers/SmoothScroll';
-
-const LOCALES = ['en', 'sr', 'ru'];
+import { LOCALES } from '@/lib/constants/shared';
 
 export function generateStaticParams() {
-  return LOCALES.map((locale) => ({ locale }));
+  return LOCALES.map(({ code }) => ({ locale: code }));
 }
 
 export default async function LocaleLayout({

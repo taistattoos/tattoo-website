@@ -1,5 +1,3 @@
-export type AboutLocale = 'en' | 'sr' | 'ru';
-
 type Localized<K extends string> = Record<`${K}_${AboutLocale}`, string>;
 
 export type AboutSpecialtyRaw = Localized<'title'> & Localized<'text'>;
