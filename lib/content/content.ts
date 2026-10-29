@@ -3,7 +3,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { CONTENT_PATHS } from '@/lib/constants/content';
 import { HomeContentInterface } from '@/types/content';
-import { TestimonialContentInterface } from '@/types/hero';
+import { TestimonialContentInterface } from '@/types/testimonials';
 import type { AboutContent, AboutRaw } from '@/types/about';
 import type { BookingContent, BookingRaw } from '@/types/booking';
 import { LocaleEnum } from '@/types/enums';
@@ -45,7 +45,9 @@ export function getGalleryItems(): GalleryContentInterface[] {
 }
 
 export function getTestimonials(): TestimonialContentInterface[] {
-  return readMarkdownFolder<TestimonialContentInterface>(CONTENT_PATHS.testimonials);
+  return readMarkdownFolder<TestimonialContentInterface>(CONTENT_PATHS.testimonials).sort(
+    (a, b) => new Date(b.date ?? 0).getTime() - new Date(a.date ?? 0).getTime()
+  );
 }
 
 export function getAbout(locale: LocaleEnum): AboutContent {

@@ -26,7 +26,7 @@ export default function Testimonials({ items, locale }: { items: Testimonial[]; 
     <section id='testimonials' className='wrapper py-24'>
       <SplitText
         as='h2'
-        id='booking-title'
+        id='testimonials-title'
         text={heading}
         by='words'
         stagger={0.08}
