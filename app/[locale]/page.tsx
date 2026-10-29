@@ -1,6 +1,5 @@
-import { getHomeContent, getGalleryItems, getTestimonials } from '@/lib/content/content';
+import { getHomeContent, getTestimonials, getTestimonialsSection } from '@/lib/content/content';
 import Hero from '@/components/layout/hero/Hero';
-import GalleryGrid from '@/components/layout/gallery/GalleryGrid';
 import ContactForm from '@/components/layout/contact/contact-form/ContactForm';
 import { LocaleEnum } from '@/types/enums';
 import Testimonials from '@/components/layout/testimonials/Testimonials';
@@ -8,19 +7,13 @@ import About from '@/components/layout/about/About';
 import Booking from '@/components/layout/booking/Booking';
 import Faq from '@/components/layout/faq/Faq';
 import { HERO_DEFAULTS } from '@/lib/constants/home';
+import Gallery from '@/components/layout/gallery/Gallery';
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const LOCALE = locale as LocaleEnum;
 
   const data = getHomeContent();
-
-  const galleryItems = getGalleryItems().map((item) => ({
-    slug: item.slug,
-    title: item[`title_${LOCALE}`] || item.title_en || '',
-    image: item.image || '',
-    category: item.category || [],
-  }));
 
   return (
     <main>
@@ -36,13 +29,11 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         grayscale={data.hero_grayscale ?? HERO_DEFAULTS.grayscale}
       />
 
-      <section id='gallery' className='wrapper py-24'>
-        <GalleryGrid items={galleryItems} />
-      </section>
+      <Gallery locale={LOCALE} />
 
       <About locale={LOCALE} />
 
-      <Testimonials items={getTestimonials()} locale={LOCALE} />
+      <Testimonials heading={getTestimonialsSection(LOCALE).title} items={getTestimonials(LOCALE)} locale={LOCALE} />
 
       <Booking locale={LOCALE} />
 

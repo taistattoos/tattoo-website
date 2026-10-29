@@ -3,67 +3,55 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import { GALLERY_LABELS } from '@/lib/constants/gallery';
+import { GalleryGridProps } from '@/types/gallery';
 
-type GalleryGridItem = {
-  slug: string;
-  title: string;
-  image: string;
-  category: string[];
-};
-
-const CATEGORY_LABELS: Record<string, string> = {
-  'black-grey': 'Black & Grey',
-  color: 'Color',
-  japanese: 'Japanese',
-  illustrative: 'Illustrative',
-  whipshading: 'Whipshading',
-};
-
-export default function GalleryGrid({ items }: { items: GalleryGridItem[] }) {
+export default function GalleryGrid({ items, locale, categories = [], showFilters = true }: GalleryGridProps) {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
 
-  // Only show filter pills for categories that actually have items —
-  // no point offering a filter that would just show an empty grid.
-  const availableCategories = Array.from(new Set(items.flatMap((item) => item.category)));
+  const labels = GALLERY_LABELS[locale] ?? GALLERY_LABELS.en;
+
+  const usedSlugs = new Set(items.flatMap((item) => item.category));
+  const availableCategories = categories.filter((category) => usedSlugs.has(category.slug));
 
   const filteredItems = activeFilter ? items.filter((item) => item.category.includes(activeFilter)) : items;
 
   if (items.length === 0) {
     return (
       <div className='rounded-lg border border-dashed border-white/15 px-6 py-16 text-center'>
-        <p className='text-xs uppercase tracking-[0.2em] text-white/35'>No gallery items yet — add some in /admin</p>
+        <p className='text-xs uppercase tracking-[0.2em] text-white/35'>{labels.empty}</p>
       </div>
     );
   }
 
   return (
     <div>
-      {/* Filter pills */}
-      <div className='mb-10 flex flex-wrap justify-center gap-2'>
-        <button
-          onClick={() => setActiveFilter(null)}
-          className={`rounded-full border px-4 py-1.5 text-xs uppercase transition-colors ${
-            activeFilter === null ? 'border-white text-white' : 'border-white/20 text-white/50 hover:border-white/40'
-          }`}
-        >
-          All
-        </button>
-        {availableCategories.map((cat) => (
+      {showFilters && (
+        <div className='mb-10 flex flex-wrap justify-center gap-2'>
           <button
-            key={cat}
-            onClick={() => setActiveFilter(cat)}
+            onClick={() => setActiveFilter(null)}
             className={`rounded-full border px-4 py-1.5 text-xs uppercase transition-colors ${
-              activeFilter === cat ? 'border-white text-white' : 'border-white/20 text-white/50 hover:border-white/40'
+              activeFilter === null ? 'border-white text-white' : 'border-white/20 text-white/50 hover:border-white/40'
             }`}
           >
-            {CATEGORY_LABELS[cat] ?? cat}
+            {labels.all}
           </button>
-        ))}
-      </div>
+          {availableCategories.map((category) => (
+            <button
+              key={category.slug}
+              onClick={() => setActiveFilter(category.slug)}
+              className={`rounded-full border px-4 py-1.5 text-xs uppercase transition-colors ${
+                activeFilter === category.slug
+                  ? 'border-white text-white'
+                  : 'border-white/20 text-white/50 hover:border-white/40'
+              }`}
+            >
+              {category.label}
+            </button>
+          ))}
+        </div>
+      )}
 
-      {/* Grid — AnimatePresence handles items entering/exiting as the
-          filter changes; `layout` on each item makes the remaining ones
-          smoothly slide into their new spot instead of snapping. */}
       <motion.div className='grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4'>
         <AnimatePresence mode='popLayout' initial={false}>
           {filteredItems.map((item) => (

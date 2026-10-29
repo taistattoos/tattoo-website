@@ -5,19 +5,16 @@ import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import LanguageSwitcher from './LanguageSwitcher';
 import { NAV_LABELS } from '@/lib/constants/shared';
-import { useAnchorScroll } from '@/hooks/useAnchorScroll';
 
 export default function Navigation({ locale }: { locale: string }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const labels = NAV_LABELS[locale] ?? NAV_LABELS.en;
-  const handleAnchorClick = useAnchorScroll();
-
   const NAV_LINKS = [
-    { href: '#gallery', label: labels.gallery },
-    { href: '#about', label: labels.about },
-    { href: '#contact', label: labels.contact },
+    { href: `/${locale}/gallery`, label: labels.gallery },
+    { href: `/${locale}/about`, label: labels.about },
+    { href: `/${locale}/contact`, label: labels.contact },
   ];
 
   useEffect(() => {
@@ -49,14 +46,9 @@ export default function Navigation({ locale }: { locale: string }) {
         {/* Desktop nav — visible from lg up */}
         <nav className='hidden items-center gap-8 text-xs uppercase tracking-[0.15em] text-white/60 md:flex'>
           {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={`/${locale}${link.href}`}
-              onClick={handleAnchorClick}
-              className='link-underline text-lg'
-            >
+            <Link key={link.href} href={link.href} className='link-underline text-lg'>
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -96,17 +88,14 @@ export default function Navigation({ locale }: { locale: string }) {
           >
             <nav className='wrapper flex flex-col gap-6 py-8 text-sm uppercase tracking-[0.15em] text-white/70'>
               {NAV_LINKS.map((link) => (
-                <a
+                <Link
                   key={link.href}
-                  href={`/${locale}${link.href}`}
-                  onClick={(event) => {
-                    setMenuOpen(false);
-                    handleAnchorClick(event);
-                  }}
+                  href={link.href}
+                  onClick={() => setMenuOpen(false)}
                   className='link-underline w-fit text-sm'
                 >
                   {link.label}
-                </a>
+                </Link>
               ))}
               <div className='pt-2'>
                 <LanguageSwitcher inline />

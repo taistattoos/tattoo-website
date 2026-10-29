@@ -3,13 +3,14 @@ import path from 'path';
 import matter from 'gray-matter';
 import { CONTENT_PATHS } from '@/lib/constants/content';
 import { HomeContentInterface } from '@/types/content';
-import { TestimonialContentInterface } from '@/types/testimonials';
+import { TestimonialContentInterface, TestimonialItem, TestimonialsSectionContent, TestimonialsSectionRaw } from '@/types/testimonials';
 import type { AboutContent, AboutRaw } from '@/types/about';
 import type { BookingContent, BookingRaw } from '@/types/booking';
 import { LocaleEnum } from '@/types/enums';
 import type { FaqContent, FaqRaw } from '@/types/faq';
 import { FooterContent, FooterRaw } from '@/types/footer';
-import { GalleryContentInterface } from '@/types/gallery';
+import type { CategoryContentInterface, CategoryOptionInterface, GalleryContentInterface, GalleryGridItemInterface } from '@/types/gallery';
+import type { GalleryPageContent, GalleryPageRaw } from '@/types/gallery';
 
 function readMarkdown<T>(relativePath: string): T {
   const file = fs.readFileSync(path.join(process.cwd(), relativePath), 'utf-8');
@@ -44,10 +45,35 @@ export function getGalleryItems(): GalleryContentInterface[] {
   return readMarkdownFolder<GalleryContentInterface>(CONTENT_PATHS.gallery);
 }
 
-export function getTestimonials(): TestimonialContentInterface[] {
-  return readMarkdownFolder<TestimonialContentInterface>(CONTENT_PATHS.testimonials).sort(
-    (a, b) => new Date(b.date ?? 0).getTime() - new Date(a.date ?? 0).getTime()
-  );
+export function getTestimonials(locale: LocaleEnum): TestimonialItem[] {
+  return readMarkdownFolder<TestimonialContentInterface>(CONTENT_PATHS.testimonials)
+    .sort((a, b) => new Date(b.date ?? 0).getTime() - new Date(a.date ?? 0).getTime())
+    .map((item) => {
+      const original = item.original_language ?? LocaleEnum.EN;
+
+      const translations: Record<LocaleEnum, string | undefined> = {
+        en: item.quote_en,
+        sr: item.quote_sr,
+        ru: item.quote_ru,
+      };
+      const translation = original !== locale ? translations[locale] : undefined;
+      const hasTranslation = typeof translation === 'string' && translation.trim() !== '';
+
+      return {
+        slug: item.slug,
+        name: item.client_name ?? '',
+        quote: hasTranslation ? translation : (item.quote ?? ''),
+        rating: item.rating,
+        source: item.source,
+        translatedFrom: hasTranslation ? original : undefined,
+      };
+    });
+}
+
+export function getTestimonialsSection(locale: LocaleEnum): TestimonialsSectionContent {
+  const raw = readMarkdown<TestimonialsSectionRaw>(CONTENT_PATHS.testimonialsSection);
+
+  return { title: pick(raw, 'title', locale) };
 }
 
 export function getAbout(locale: LocaleEnum): AboutContent {
@@ -98,4 +124,39 @@ export function getFooter(locale: LocaleEnum): FooterContent {
     copyrightName: raw.copyright_name || 'Tais Tattoos',
     socials: raw.socials ?? [],
   };
+}
+
+// Pages
+
+export function getGalleryPage(locale: LocaleEnum): GalleryPageContent {
+  const raw = readMarkdown<GalleryPageRaw>(CONTENT_PATHS.galleryPage);
+
+  return {
+    galleryHeading: pick(raw, 'gallery_heading', locale),
+    galleryCta: pick(raw, 'gallery_cta', locale),
+    title: pick(raw, 'page_title', locale),
+    intro: pick(raw, 'page_intro', locale),
+    favoriteSlug: raw.favorite || undefined,
+  };
+}
+
+export function getGalleryGridItems(locale: LocaleEnum, featuredOnly = false): GalleryGridItemInterface[] {
+  return getGalleryItems()
+    .filter((item) => !featuredOnly || item.featured)
+    .sort((a, b) => (a.order ?? 9999) - (b.order ?? 9999))
+    .map((item) => ({
+      slug: item.slug,
+      title: item[`title_${locale}`] || item.title_en || '',
+      image: item.image || '',
+      category: item.category || [],
+    }));
+}
+
+export function getCategories(locale: LocaleEnum): CategoryOptionInterface[] {
+  return readMarkdownFolder<CategoryContentInterface>(CONTENT_PATHS.categories)
+    .sort((a, b) => (a.order ?? 9999) - (b.order ?? 9999))
+    .map((item) => ({
+      slug: item.slug,
+      label: item[`name_${locale}`] || item.name_en,
+    }));
 }
