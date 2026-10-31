@@ -15,24 +15,25 @@ import { ContactFormContent, ContactFormRaw } from '@/types/contact-form';
 import { SiteContent } from '@/types/site';
 
 function readMarkdown<T>(relativePath: string): T {
-  const file = fs.readFileSync(path.join(process.cwd(), relativePath), 'utf-8');
+  const file = fs.readFileSync(path.join(/*turbopackIgnore: true*/ process.cwd(), relativePath), 'utf-8');
   return matter(file).data as T;
 }
 
 function readMarkdownFolder<T>(relativeDir: string): T[] {
-  const dir = path.join(process.cwd(), relativeDir);
+  const dir = path.join(/*turbopackIgnore: true*/ process.cwd(), relativeDir);
   if (!fs.existsSync(dir)) return [];
 
   return fs
-    .readdirSync(dir)
+    .readdirSync(/*turbopackIgnore: true*/ dir)
     .filter((file) => file.endsWith('.md'))
     .map((file) => {
-      const { data } = matter(fs.readFileSync(path.join(dir, file), 'utf-8'));
+      const { data } = matter(fs.readFileSync(path.join(/*turbopackIgnore: true*/ dir, file), 'utf-8'));
       return { slug: file.replace(/\.md$/, ''), ...data } as T;
     });
 }
 
-function pick(raw: Record<string, unknown>, key: string, locale: LocaleEnum): string {
+function pick(source: object, key: string, locale: LocaleEnum): string {
+  const raw = source as Record<string, unknown>;
   const value = raw[`${key}_${locale}`];
   if (typeof value === 'string' && value.trim() !== '') return value;
   const fallback = raw[`${key}_en`];
@@ -163,31 +164,26 @@ export function getCategories(locale: LocaleEnum): CategoryOptionInterface[] {
     }));
 }
 
-function localize(source: object, key: string, locale: LocaleEnum): string {
-  const data = source as Record<string, string | undefined>;
-  return data[`${key}_${locale}`] || data[`${key}_en`] || '';
-}
-
 export function getContactForm(locale: LocaleEnum): ContactFormContent {
   const raw = readMarkdown<ContactFormRaw>(CONTENT_PATHS.contactForm);
 
   return {
     locale,
-    nameLabel: localize(raw, 'name_label', locale),
-    emailLabel: localize(raw, 'email_label', locale),
-    submit: localize(raw, 'submit', locale),
-    sending: localize(raw, 'sending', locale),
-    success: localize(raw, 'success', locale),
-    error: localize(raw, 'error', locale),
+    nameLabel: pick(raw, 'name_label', locale),
+    emailLabel: pick(raw, 'email_label', locale),
+    submit: pick(raw, 'submit', locale),
+    sending: pick(raw, 'sending', locale),
+    success: pick(raw, 'success', locale),
+    error: pick(raw, 'error', locale),
     questions: (raw.questions ?? []).map((question) => ({
       key: question.key,
       type: question.type,
-      label: localize(question, 'label', locale),
-      placeholder: localize(question, 'placeholder', locale) || undefined,
+      label: pick(question, 'label', locale),
+      placeholder: pick(question, 'placeholder', locale) || undefined,
       required: question.required ?? false,
       options: (question.options ?? []).map((option) => ({
         value: option.value,
-        label: localize(option, 'label', locale),
+        label: pick(option, 'label', locale),
       })),
       showIf:
         question.show_if_field && question.show_if_value
