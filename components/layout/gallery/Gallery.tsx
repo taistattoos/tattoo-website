@@ -23,7 +23,7 @@ export default function Gallery({ locale }: { locale: LocaleEnum }) {
         />
       )}
 
-      <GalleryGrid items={items} />
+      <GalleryGrid items={items} locale={locale} showFilters={false} />
 
       {page.galleryCta && (
         <div className='mt-12 text-center'>

@@ -1,23 +1,10 @@
 import type { Metadata } from 'next';
-import { getGalleryItems } from '@/lib/content/content';
+import SplitText from '@/components/animations/SplitText';
+import FavoriteProject from '@/components/layout/gallery/FavoriteProject';
 import GalleryGrid from '@/components/layout/gallery/GalleryGrid';
 import { LOCALES } from '@/lib/constants/shared';
+import { getCategories, getGalleryGridItems, getGalleryPage } from '@/lib/content/content';
 import { LocaleEnum } from '@/types/enums';
-
-const PAGE_META: Record<LocaleEnum, { title: string; description: string }> = {
-  en: {
-    title: 'Gallery',
-    description: 'Browse black & grey and fine-line tattoo work by Tais.',
-  },
-  sr: {
-    title: 'Galerija',
-    description: 'Pregledajte black & grey i fine-line radove.',
-  },
-  ru: {
-    title: 'Галерея',
-    description: 'Просмотрите работы в стиле блэкворк и графика.',
-  },
-};
 
 export function generateStaticParams() {
   return LOCALES.map(({ code }) => ({ locale: code }));
@@ -29,10 +16,11 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const meta = PAGE_META[locale as LocaleEnum] ?? PAGE_META.en;
+  const page = getGalleryPage(locale as LocaleEnum);
+
   return {
-    title: meta.title,
-    description: meta.description,
+    title: page.title,
+    description: page.intro,
     alternates: { canonical: `/${locale}/gallery` },
   };
 }
@@ -43,23 +31,27 @@ export default async function GalleryPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-    const LOCALE = locale as LocaleEnum;
+  const LOCALE = locale as LocaleEnum;
 
-  const items = getGalleryItems().map((item) => ({
-    slug: item.slug,
-    title: item[`title_${LOCALE}`] || item.title_en || '',
-    image: item.image || '',
-    category: item.category || [],
-  }));
+  const page = getGalleryPage(LOCALE);
+  const items = getGalleryGridItems(LOCALE);
+
+  const favorite = items.find((item) => item.slug === page.favoriteSlug);
+  const rest = favorite ? items.filter((item) => item.slug !== favorite.slug) : items;
 
   return (
-    <main className="py-24">
-      <div className="wrapper">
-        <h1 className="mb-12 text-center text-3xl sm:text-4xl">
-          {PAGE_META[LOCALE].title}
-        </h1>
-        <GalleryGrid items={items} />
-      </div>
+    <main className='wrapper pb-24 pt-32'>
+      <SplitText
+        as='h1'
+        text={page.title}
+        trigger='mount'
+        className='mb-6 block text-4xl text-white md:text-5xl'
+      />
+      {page.intro && <p className='mb-12 max-w-2xl text-white/60'>{page.intro}</p>}
+
+      {favorite && <FavoriteProject item={favorite} />}
+
+      <GalleryGrid items={rest} locale={LOCALE} categories={getCategories(LOCALE)} />
     </main>
   );
 }
