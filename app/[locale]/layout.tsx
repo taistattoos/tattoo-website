@@ -8,6 +8,8 @@ export function generateStaticParams() {
   return LOCALES.map(({ code }) => ({ locale: code }));
 }
 
+export const dynamicParams = false;
+
 export default async function LocaleLayout({
   children,
   params,
@@ -26,3 +28,4 @@ export default async function LocaleLayout({
     </SmoothScroll>
   );
 }
+

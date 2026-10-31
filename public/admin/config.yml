@@ -281,3 +281,91 @@ collections:
         widget: number
         value_type: int
         required: false
+  - name: contact_form
+    label: Contact form
+    files:
+      - name: contact_form
+        label: Contact form
+        file: content/contact/contact.md
+        fields:
+          - { name: name_label_en, label: Name field label (EN), widget: string }
+          - { name: name_label_sr, label: Name field label (SR), widget: string, required: false }
+          - { name: name_label_ru, label: Name field label (RU), widget: string, required: false }
+          - { name: email_label_en, label: Email field label (EN), widget: string }
+          - { name: email_label_sr, label: Email field label (SR), widget: string, required: false }
+          - { name: email_label_ru, label: Email field label (RU), widget: string, required: false }
+          - { name: submit_en, label: Send button (EN), widget: string }
+          - { name: submit_sr, label: Send button (SR), widget: string, required: false }
+          - { name: submit_ru, label: Send button (RU), widget: string, required: false }
+          - { name: sending_en, label: Send button while sending (EN), widget: string }
+          - { name: sending_sr, label: Send button while sending (SR), widget: string, required: false }
+          - { name: sending_ru, label: Send button while sending (RU), widget: string, required: false }
+          - { name: success_en, label: Message after sending (EN), widget: text }
+          - { name: success_sr, label: Message after sending (SR), widget: text, required: false }
+          - { name: success_ru, label: Message after sending (RU), widget: text, required: false }
+          - { name: error_en, label: Message if sending fails (EN), widget: text }
+          - { name: error_sr, label: Message if sending fails (SR), widget: text, required: false }
+          - { name: error_ru, label: Message if sending fails (RU), widget: text, required: false }
+          - name: questions
+            label: Questions
+            widget: list
+            summary: '{{fields.label_en}}'
+            fields:
+              - name: key
+                label: Internal name
+                widget: string
+                hint: Short code, letters only, no spaces, for example placement. Used by the Show only if rules.
+              - name: type
+                label: Type
+                widget: select
+                default: text
+                options:
+                  - { label: Short answer, value: text }
+                  - { label: Long answer, value: textarea }
+                  - { label: Phone number, value: tel }
+                  - { label: Dropdown, value: select }
+                  - { label: Single choice, value: radio }
+                  - { label: Multiple choice, value: checkboxes }
+              - { name: label_en, label: Question (EN), widget: string }
+              - { name: label_sr, label: Question (SR), widget: string, required: false }
+              - { name: label_ru, label: Question (RU), widget: string, required: false }
+              - { name: placeholder_en, label: Hint text inside the field (EN), widget: string, required: false }
+              - { name: placeholder_sr, label: Hint text inside the field (SR), widget: string, required: false }
+              - { name: placeholder_ru, label: Hint text inside the field (RU), widget: string, required: false }
+              - { name: required, label: Required, widget: boolean, default: false }
+              - name: options
+                label: Options
+                widget: list
+                required: false
+                hint: Only for Dropdown, Single choice and Multiple choice.
+                summary: '{{fields.label_en}}'
+                fields:
+                  - name: value
+                    label: Internal name
+                    widget: string
+                    hint: Short code, letters only, for example arm.
+                  - { name: label_en, label: Option (EN), widget: string }
+                  - { name: label_sr, label: Option (SR), widget: string, required: false }
+                  - { name: label_ru, label: Option (RU), widget: string, required: false }
+              - name: show_if_field
+                label: Show only if this question
+                widget: string
+                required: false
+                hint: Internal name of another question. Leave empty to always show.
+              - name: show_if_value
+                label: Has this answer
+                widget: string
+                required: false
+                hint: Internal name of the option, for example whatsapp.
+  - name: site
+    label: Site settings
+    files:
+      - name: site
+        label: Site settings
+        file: content/site/site.md
+        fields:
+          - name: favicon
+            label: Favicon (small icon in the browser tab)
+            widget: image
+            required: false
+            hint: Square PNG, at least 512 by 512 pixels. Leave empty to use the default icon.

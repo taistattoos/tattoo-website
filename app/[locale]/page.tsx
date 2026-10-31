@@ -1,4 +1,4 @@
-import { getHomeContent, getTestimonials, getTestimonialsSection } from '@/lib/content/content';
+import { getContactForm, getHomeContent, getTestimonials, getTestimonialsSection } from '@/lib/content/content';
 import Hero from '@/components/layout/hero/Hero';
 import ContactForm from '@/components/layout/contact/contact-form/ContactForm';
 import { LocaleEnum } from '@/types/enums';
@@ -40,7 +40,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <Faq locale={LOCALE} />
 
       <section id='contact' className='wrapper py-24'>
-        <ContactForm locale={LOCALE} />
+        <ContactForm content={getContactForm(LOCALE)} />
       </section>
     </main>
   );

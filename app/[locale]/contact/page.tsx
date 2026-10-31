@@ -3,6 +3,7 @@ import SplitText from '@/components/animations/SplitText';
 import ContactForm from '@/components/layout/contact/contact-form/ContactForm';
 import { LOCALES } from '@/lib/constants/shared';
 import { LocaleEnum } from '@/types/enums';
+import { getContactForm } from '@/lib/content/content';
 
 const PAGE_META: Record<LocaleEnum, { title: string; description: string }> = {
   en: {
@@ -58,7 +59,7 @@ export default async function ContactPage({
         trigger='mount'
         className='mb-12 block text-4xl text-white md:text-5xl'
       />
-      <ContactForm locale={LOCALE} />
+      <ContactForm content={getContactForm(LOCALE)} />
     </main>
   );
 }

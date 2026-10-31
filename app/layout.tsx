@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Unbounded, Inter, IBM_Plex_Mono } from "next/font/google";
 import "../styles/globals.css";
+import { getSite } from "@/lib/content/content";
 
 const display = Unbounded({
   subsets: ["latin", "cyrillic"],
@@ -57,6 +58,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  icons: { icon: getSite().favicon || '/favicon.svg' },
 };
 
 export const viewport: Viewport = {

@@ -17,4 +17,11 @@ export const CONTENT_PATHS = {
   // Categories
 
   categories: 'content/categories',
+
+
+  contactForm: 'content/contact/contact.md',
+
+  // Site
+
+  site: 'content/site/site.md',
 } as const;
