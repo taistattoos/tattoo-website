@@ -1,17 +1,55 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
+import { Turnstile } from '@marsidev/react-turnstile';
 import FormField from '@/components/layout/contact/contact-form/FormField';
 import { useContactForm } from '@/hooks/useContactForm';
 import { inputClasses } from '@/lib/constants/contact-form';
 import type { ContactFormContent } from '@/types/contact-form';
 
 export default function ContactForm({ content }: { content: ContactFormContent }) {
-  const { name, setName, email, setEmail, answers, setAnswer, visibleQuestions, handleSubmit } =
-    useContactForm(content);
+  const {
+    name,
+    setName,
+    email,
+    setEmail,
+    answers,
+    setAnswer,
+    honeypot,
+    setHoneypot,
+    setToken,
+    turnstileRef,
+    status,
+    canSubmit,
+    visibleQuestions,
+    handleSubmit,
+  } = useContactForm(content);
+
+  if (status === 'success') {
+    return (
+      <p role='status' className='border border-white/20 px-6 py-8 text-lg text-white'>
+        {content.success}
+      </p>
+    );
+  }
 
   return (
-    <form onSubmit={handleSubmit} className='flex flex-col'>
+    <form onSubmit={handleSubmit} className='relative flex flex-col'>
+      {/* Honeypot: invisible to people and screen readers, bots fill it in */}
+      <div aria-hidden='true' className='absolute -left-2499.75 h-0 w-0 overflow-hidden'>
+        <label>
+          Website
+          <input
+            type='text'
+            name='website'
+            tabIndex={-1}
+            autoComplete='off'
+            value={honeypot}
+            onChange={(event) => setHoneypot(event.target.value)}
+          />
+        </label>
+      </div>
+
       <div className='grid gap-4 pb-6 sm:grid-cols-2'>
         <label className='flex flex-col gap-1 text-sm text-white/70'>
           {content.nameLabel} *
@@ -56,11 +94,29 @@ export default function ContactForm({ content }: { content: ContactFormContent }
         ))}
       </AnimatePresence>
 
+      <div className='pb-6'>
+        <Turnstile
+          ref={turnstileRef}
+          siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? ''}
+          options={{ theme: 'dark' }}
+          onSuccess={setToken}
+          onExpire={() => setToken('')}
+          onError={() => setToken('')}
+        />
+      </div>
+
+      {status === 'error' && (
+        <p role='alert' className='mb-6 border border-white/30 px-4 py-3 text-sm text-white/80'>
+          {content.error}
+        </p>
+      )}
+
       <button
         type='submit'
-        className='self-start rounded-full border border-white/30 px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-white/10'
+        disabled={!canSubmit}
+        className='self-start cursor-pointer rounded-full border border-white/30 px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40'
       >
-        {content.submit}
+        {status === 'sending' ? content.sending : content.submit}
       </button>
     </form>
   );

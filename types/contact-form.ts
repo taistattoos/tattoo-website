@@ -1,3 +1,5 @@
+import { LocaleEnum } from '@/types/enums';
+
 export type FormQuestionType = 'text' | 'textarea' | 'tel' | 'select' | 'radio' | 'checkboxes';
 
 export interface ContactFormOptionRaw {
@@ -60,6 +62,7 @@ export interface FormQuestion {
 }
 
 export interface ContactFormContent {
+  locale: LocaleEnum,
   nameLabel: string;
   emailLabel: string;
   submit: string;
@@ -70,3 +73,7 @@ export interface ContactFormContent {
 }
 
 export type FormAnswers = Record<string, string | string[]>;
+
+
+
+export type FormStatus = 'idle' | 'sending' | 'success' | 'error';

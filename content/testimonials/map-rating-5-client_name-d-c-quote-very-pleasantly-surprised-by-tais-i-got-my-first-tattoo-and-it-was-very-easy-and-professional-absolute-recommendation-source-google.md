@@ -1,9 +1,11 @@
 ---
 client_name: Daniel
-quote: This was my first tattoo and Tais made it so easy. She took her time to
-  explain everything and made sure I understood the whole process. Professional,
-  relaxed, and great vibes with jokes along the way. I’m already planning my
-  next one with her!
+date: 2026-10-31
 rating: 5
 source: Instagram
+original_language: sr
+quote: Ovo mi je bila prva tetovaža i Tais je sve učinila veoma lakim. Odvojila
+  je vreme da mi sve objasni i uverila se da razumem ceo proces. Profesionalna,
+  opuštena, a povezali smo se i preko drum and bass muzike. Već planiram sledeću
+  kod nje!
 ---

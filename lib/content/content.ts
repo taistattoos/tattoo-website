@@ -172,6 +172,7 @@ export function getContactForm(locale: LocaleEnum): ContactFormContent {
   const raw = readMarkdown<ContactFormRaw>(CONTENT_PATHS.contactForm);
 
   return {
+    locale,
     nameLabel: localize(raw, 'name_label', locale),
     emailLabel: localize(raw, 'email_label', locale),
     submit: localize(raw, 'submit', locale),
