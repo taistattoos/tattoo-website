@@ -20,6 +20,13 @@ interface OwnerMessage {
   replyTo: string;
 }
 
+interface CustomerMessage {
+  to: string;
+  subject: string;
+  text: string;
+  html: string;
+}
+
 export async function sendOwnerEmail({ subject, text, html, replyTo }: OwnerMessage) {
   const to = process.env.CONTACT_TO_EMAIL;
   if (!to) throw new Error('Recipient is not configured');
@@ -28,6 +35,17 @@ export async function sendOwnerEmail({ subject, text, html, replyTo }: OwnerMess
     from: `"Tais Tattoos website" <${process.env.CONTACT_SMTP_USER}>`,
     to,
     replyTo,
+    subject,
+    text,
+    html,
+  });
+}
+
+export async function sendCustomerEmail({ to, subject, text, html }: CustomerMessage) {
+  await getTransport().sendMail({
+    from: `"Tais Tattoos" <${process.env.CONTACT_SMTP_USER}>`,
+    to,
+    replyTo: process.env.CONTACT_TO_EMAIL || undefined,
     subject,
     text,
     html,

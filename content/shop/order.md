@@ -1,4 +1,13 @@
 ---
+confirm_subject_en: "Your Tais Tattoos order"
+confirm_subject_sr: "Vaša porudžbina - Tais Tattoos"
+confirm_subject_ru: "Ваш заказ - Tais Tattoos"
+confirm_intro_en: "Thank you for your order! Here is what we received:"
+confirm_intro_sr: "Hvala na porudžbini! Evo šta smo primili:"
+confirm_intro_ru: "Спасибо за заказ! Вот что мы получили:"
+confirm_outro_en: "Tais will contact you soon to confirm your order. If you have any questions, just reply to this email."
+confirm_outro_sr: "Tais će vam se uskoro javiti radi potvrde porudžbine. Ako imate pitanja, samo odgovorite na ovaj mejl."
+confirm_outro_ru: "Tais скоро свяжется с вами для подтверждения заказа. Если есть вопросы, просто ответьте на это письмо."
 consent_text_en: "I agree that Tais may use my details to process and deliver my order. Read the"
 consent_text_sr: "Saglasna/saglasan sam da Tais koristi moje podatke radi obrade i isporuke porudžbine. Pročitajte"
 consent_text_ru: "Я согласен(на), что Tais использует мои данные для обработки и доставки заказа. Прочитайте"

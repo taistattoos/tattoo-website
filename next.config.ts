@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ['192.168.*.*', 'localhost'],
   outputFileTracingIncludes: {
     '/api/contact': ['./content/contact/contact.md'],
-    '/api/order': ['./content/products/**/*', './content/site/site.md'],
+        '/api/order': ['./content/products/**/*', './content/site/site.md', './content/shop/order.md'],
   },
   async rewrites() {
     return [

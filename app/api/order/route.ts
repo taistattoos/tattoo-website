@@ -1,6 +1,8 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { ORDER_MAX_BODY_BYTES, ORDER_MIN_FILL_MS } from '@/lib/constants/shop';
-import { getProducts, getSite } from '@/lib/content/content';
+import { getProducts, getShopOrder, getSite } from '@/lib/content/content';
+import { buildCustomerOrderEmail, buildOwnerOrderEmail } from '@/lib/server/order-email';
+import { sendCustomerEmail, sendOwnerEmail } from '@/lib/server/mailer';
 import { validateOrder } from '@/lib/server/order-validation';
 import { verifyTurnstile } from '@/lib/server/turnstile';
 import { LocaleEnum } from '@/types/enums';
@@ -46,6 +48,31 @@ export async function POST(request: NextRequest) {
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
   const human = await verifyTurnstile(body.turnstileToken, ip);
   if (!human) return respond(400, 'captcha');
+
+  const locale = Object.values(LocaleEnum).includes(body.locale as LocaleEnum)
+    ? (body.locale as LocaleEnum)
+    : LocaleEnum.EN;
+
+  const order = result.data;
+  const names = new Map(getProducts(locale).map((product) => [product.slug, product.name]));
+
+  try {
+    await sendOwnerEmail({ ...buildOwnerOrderEmail(order, locale, names), replyTo: order.customer.email });
+  } catch (error) {
+    const { code, responseCode, command } = error as { code?: string; responseCode?: number; command?: string };
+    console.error('order: sending failed', { code, responseCode, command });
+    return respond(500, 'send');
+  }
+
+  // The order is already with Tais; a failed confirmation must not fail it.
+  try {
+    await sendCustomerEmail({
+      to: order.customer.email,
+      ...buildCustomerOrderEmail(order, locale, names, getShopOrder(locale)),
+    });
+  } catch {
+    console.error('order: confirmation failed');
+  }
 
   return respond(200, 'ok');
 }

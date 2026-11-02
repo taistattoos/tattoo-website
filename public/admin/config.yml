@@ -496,3 +496,12 @@ collections:
           - { label: 'Consent link text (EN)', name: consent_link_en, widget: string }
           - { label: 'Consent link text (SR)', name: consent_link_sr, widget: string, required: false }
           - { label: 'Consent link text (RU)', name: consent_link_ru, widget: string, required: false }
+          - { label: 'Confirmation subject (EN)', name: confirm_subject_en, widget: string }
+          - { label: 'Confirmation subject (SR)', name: confirm_subject_sr, widget: string, required: false }
+          - { label: 'Confirmation subject (RU)', name: confirm_subject_ru, widget: string, required: false }
+          - { label: 'Confirmation intro (EN)', name: confirm_intro_en, widget: text }
+          - { label: 'Confirmation intro (SR)', name: confirm_intro_sr, widget: text, required: false }
+          - { label: 'Confirmation intro (RU)', name: confirm_intro_ru, widget: text, required: false }
+          - { label: 'Confirmation closing (EN)', name: confirm_outro_en, widget: text }
+          - { label: 'Confirmation closing (SR)', name: confirm_outro_sr, widget: text, required: false }
+          - { label: 'Confirmation closing (RU)', name: confirm_outro_ru, widget: text, required: false }

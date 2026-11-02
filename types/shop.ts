@@ -69,6 +69,9 @@ export interface ShopOrderContent {
   error: string;
   consentText: string;
   consentLink: string;
+  confirmSubject: string;
+  confirmIntro: string;
+  confirmOutro: string;
 }
 
 export interface OrderItem {
