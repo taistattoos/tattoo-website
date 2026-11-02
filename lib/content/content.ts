@@ -250,8 +250,6 @@ export function getShopOrder(locale: LocaleEnum): ShopOrderContent {
 
   return {
     locale,
-    consentText: pick(raw, 'consent_text', locale),
-    consentLink: pick(raw, 'consent_link', locale),
     heading: pick(raw, 'order_heading', locale),
     quantity: pick(raw, 'quantity', locale),
     total: pick(raw, 'total', locale),
@@ -268,6 +266,11 @@ export function getShopOrder(locale: LocaleEnum): ShopOrderContent {
     sending: pick(raw, 'sending', locale),
     success: pick(raw, 'success', locale),
     error: pick(raw, 'error', locale),
+    consentText: pick(raw, 'consent_text', locale),
+    consentLink: pick(raw, 'consent_link', locale),
+    confirmSubject: pick(raw, 'confirm_subject', locale),
+    confirmIntro: pick(raw, 'confirm_intro', locale),
+    confirmOutro: pick(raw, 'confirm_outro', locale),
   };
 }
 

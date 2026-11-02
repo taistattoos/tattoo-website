@@ -1,9 +1,10 @@
-import { formatPrice } from '@/lib/utils/price';
-import type { LocaleEnum } from '@/types/enums';
-import type { ShopOrderContent, ValidatedOrder } from '@/types/shop';
+import type { ContactFormContent, FormAnswers } from '@/types/contact-form';
+import type { ContactSubmission } from '@/lib/server/contact-validation';
 
-const WRAPPER = 'font-family:Arial,sans-serif;max-width:560px;margin:0;color:#111';
-const LABEL = 'display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:#666';
+export interface AnswerLine {
+  label: string;
+  value: string;
+}
 
 export function escapeHtml(text: string): string {
   return text
@@ -14,94 +15,39 @@ export function escapeHtml(text: string): string {
     .replace(/'/g, '&#39;');
 }
 
-function multiline(text: string): string {
-  return escapeHtml(text).replace(/\n/g, '<br>');
+export function getAnswerLines(content: ContactFormContent, answers: FormAnswers): AnswerLine[] {
+  return content.questions
+    .filter((question) => question.key in answers)
+    .map((question) => {
+      const value = answers[question.key];
+      const list = Array.isArray(value) ? value : [value];
+      const labels = list
+        .filter(Boolean)
+        .map((item) => question.options.find((option) => option.value === item)?.label ?? item);
+      return { label: question.label, value: labels.join(', ') };
+    })
+    .filter((line) => line.value !== '');
 }
 
-function totalText(order: ValidatedOrder, locale: LocaleEnum): string {
-  return `${formatPrice(order.totalRsd, 'RSD', locale)} (${formatPrice(order.totalEur, 'EUR', locale)})`;
-}
-
-function summary(order: ValidatedOrder, locale: LocaleEnum, names: Map<string, string>, totalLabel: string) {
-  const items = order.lines.map((line) => ({
-    name: names.get(line.slug) ?? line.name,
-    quantity: line.quantity,
-    price: formatPrice(line.quantity * line.unitRsd, 'RSD', locale),
-  }));
-
-  const text = [
-    ...items.map((item) => `${item.quantity} x ${item.name} - ${item.price}`),
-    '',
-    `${totalLabel}: ${totalText(order, locale)}`,
-  ].join('\n');
-
-  const html = `<table style="width:100%;border-collapse:collapse;margin:0 0 8px">
-  ${items
-    .map(
-      (item) =>
-        `<tr><td style="padding:8px 0;border-bottom:1px solid #eee">${item.quantity} &times; ${escapeHtml(item.name)}</td><td style="padding:8px 0;border-bottom:1px solid #eee;text-align:right">${escapeHtml(item.price)}</td></tr>`,
-    )
-    .join('')}
-  <tr><td style="padding:10px 0"><strong>${escapeHtml(totalLabel)}</strong></td><td style="padding:10px 0;text-align:right"><strong>${escapeHtml(totalText(order, locale))}</strong></td></tr>
-  </table>`;
-
-  return { text, html };
-}
-
-function addressLines(order: ValidatedOrder): string[] {
-  const { street, postal, city } = order.customer;
-  return [street, `${postal} ${city}`, 'Serbia'];
-}
-
-export function buildOwnerOrderEmail(order: ValidatedOrder, locale: LocaleEnum, names: Map<string, string>) {
-  const { customer } = order;
-  const items = summary(order, 'en' as LocaleEnum, names, 'Total');
-
-  const details = [
-    { label: 'Name', value: customer.name },
-    { label: 'Phone', value: customer.phone },
-    { label: 'Email', value: customer.email },
-    { label: 'Address', value: addressLines(order).join('\n') },
+export function buildOwnerEmail(submission: ContactSubmission, lines: AnswerLine[], locale: string) {
+  const rows: AnswerLine[] = [
+    { label: 'Name', value: submission.name },
+    { label: 'Email', value: submission.email },
     { label: 'Language', value: locale.toUpperCase() },
-    ...(customer.note ? [{ label: 'Note', value: customer.note }] : []),
+    ...lines,
   ];
 
-  const text = [items.text, ...details.map((row) => `${row.label}: ${row.value}`)].join('\n\n');
+  const text = rows.map((row) => `${row.label}: ${row.value}`).join('\n\n');
 
-  const html = `<div style="${WRAPPER}">
-  <h2 style="margin:0 0 20px">New sticker order</h2>
-  ${items.html}
-  ${details
+  const html = `<div style="font-family:Arial,sans-serif;max-width:560px;margin:0;color:#111">
+  <h2 style="margin:0 0 20px">New tattoo inquiry</h2>
+  ${rows
     .map(
       (row) =>
-        `<p style="margin:16px 0 0"><strong style="${LABEL}">${escapeHtml(row.label)}</strong>${multiline(row.value)}</p>`,
+        `<p style="margin:0 0 16px"><strong style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:#666">${escapeHtml(row.label)}</strong>${escapeHtml(row.value).replace(/\n/g, '<br>')}</p>`,
     )
     .join('')}
   </div>`;
 
-  return { subject: `New sticker order from ${customer.name}`, text, html };
-}
-
-export function buildCustomerOrderEmail(
-  order: ValidatedOrder,
-  locale: LocaleEnum,
-  names: Map<string, string>,
-  content: ShopOrderContent,
-) {
-  const items = summary(order, locale, names, content.total);
-  const address = addressLines(order).join('\n');
-
-  const text = [content.confirmIntro, items.text, address, content.deliveryNote, content.confirmOutro]
-    .filter(Boolean)
-    .join('\n\n');
-
-  const html = `<div style="${WRAPPER}">
-  <p style="margin:0 0 20px">${multiline(content.confirmIntro)}</p>
-  ${items.html}
-  <p style="margin:16px 0 0">${multiline(address)}</p>
-  ${content.deliveryNote ? `<p style="margin:16px 0 0;color:#666">${multiline(content.deliveryNote)}</p>` : ''}
-  <p style="margin:24px 0 0">${multiline(content.confirmOutro)}</p>
-  </div>`;
-
-  return { subject: content.confirmSubject, text, html };
+  return { subject: `New inquiry from ${submission.name}`, text, html };
 }
