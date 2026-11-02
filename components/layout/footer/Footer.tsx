@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import AnchorLink from '@/components/ui/AnchorLink';
 import Eyebrow from '@/components/ui/Eyebrow';
 import { FOOTER_LABELS } from '@/lib/constants/footer';
@@ -60,8 +61,13 @@ export default function Footer({ locale }: { locale: LocaleEnum }) {
         )}
       </div>
 
-      <div className='wrapper mt-16 border-t border-white/10 pt-6 text-xs text-white/40'>
-        © {year} {footer.copyrightName}. {labels.rights}
+      <div className='wrapper mt-16 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-white/40 sm:flex-row sm:items-center sm:justify-between'>
+        <p>
+          © {year} {footer.copyrightName}. {labels.rights}
+        </p>
+        <Link href={`/${locale}/privacy`} className='link-underline'>
+          {labels.privacy}
+        </Link>
       </div>
     </footer>
   );

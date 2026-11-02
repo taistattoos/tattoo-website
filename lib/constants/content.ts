@@ -13,6 +13,9 @@ export const CONTENT_PATHS = {
   // Pages
 
   galleryPage: 'content/gallery-page/gallery-page.md',
+  products: 'content/products',
+  shopPage: 'content/shop/shop.md',
+  shopOrder: 'content/shop/order.md',
   privacy: 'content/pages/privacy.md',
 
   // Categories

@@ -24,6 +24,7 @@ import type { GalleryPageContent, GalleryPageRaw } from '@/types/gallery';
 import { ContactFormContent, ContactFormRaw } from '@/types/contact-form';
 import { SiteContent } from '@/types/site';
 import { LegalPageContent, LegalPageRaw } from '@/types/legal';
+import { ProductItem, ProductRaw, ShopOrderContent, ShopPageContent, ShopPageRaw } from '@/types/shop';
 
 function readMarkdown<T>(relativePath: string): T {
   const file = fs.readFileSync(path.join(/*turbopackIgnore: true*/ process.cwd(), relativePath), 'utf-8');
@@ -215,6 +216,58 @@ export function getPrivacyPage(locale: LocaleEnum): LegalPageContent {
     title: pick(raw, 'title', locale),
     body: pick(raw, 'body', locale),
     updated,
+  };
+}
+
+export function getShopPage(locale: LocaleEnum): ShopPageContent {
+  const raw = readMarkdown<ShopPageRaw>(CONTENT_PATHS.shopPage);
+
+  return {
+    title: pick(raw, 'page_title', locale),
+    intro: pick(raw, 'page_intro', locale),
+    soldOut: pick(raw, 'sold_out', locale),
+    empty: pick(raw, 'empty', locale),
+  };
+}
+
+export function getProducts(locale: LocaleEnum): ProductItem[] {
+  return readMarkdownFolder<ProductRaw>(CONTENT_PATHS.products)
+    .sort((a, b) => (a.order ?? 9999) - (b.order ?? 9999))
+    .map((item) => ({
+      slug: item.slug,
+      name: pick(item, 'name', locale),
+      description: pick(item, 'description', locale),
+      image: item.image ?? '',
+      imageAlt: item.image_alt_en || pick(item, 'name', locale),
+      priceRsd: item.price_rsd ?? 0,
+      priceEur: item.price_eur ?? 0,
+      available: item.available !== false,
+    }));
+}
+
+export function getShopOrder(locale: LocaleEnum): ShopOrderContent {
+  const raw = readMarkdown<Record<string, string>>(CONTENT_PATHS.shopOrder);
+
+  return {
+    locale,
+    consentText: pick(raw, 'consent_text', locale),
+    consentLink: pick(raw, 'consent_link', locale),
+    heading: pick(raw, 'order_heading', locale),
+    quantity: pick(raw, 'quantity', locale),
+    total: pick(raw, 'total', locale),
+    name: pick(raw, 'name', locale),
+    phone: pick(raw, 'phone', locale),
+    email: pick(raw, 'email', locale),
+    street: pick(raw, 'street', locale),
+    city: pick(raw, 'city', locale),
+    postal: pick(raw, 'postal', locale),
+    note: pick(raw, 'note', locale),
+    deliveryNote: pick(raw, 'delivery_note', locale),
+    emptyCart: pick(raw, 'empty_cart', locale),
+    submit: pick(raw, 'submit', locale),
+    sending: pick(raw, 'sending', locale),
+    success: pick(raw, 'success', locale),
+    error: pick(raw, 'error', locale),
   };
 }
 

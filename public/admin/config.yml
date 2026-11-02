@@ -398,3 +398,101 @@ collections:
           - { label: 'Text (EN)', name: body_en, widget: markdown }
           - { label: 'Text (SR)', name: body_sr, widget: markdown, required: false }
           - { label: 'Text (RU)', name: body_ru, widget: markdown, required: false }
+  - name: shop_page
+    label: Shop page
+    files:
+      - name: shop_page
+        label: Shop page
+        file: content/shop/shop.md
+        fields:
+          - { label: 'Page title (EN)', name: page_title_en, widget: string }
+          - { label: 'Page title (SR)', name: page_title_sr, widget: string, required: false }
+          - { label: 'Page title (RU)', name: page_title_ru, widget: string, required: false }
+          - { label: 'Intro (EN)', name: page_intro_en, widget: text, required: false }
+          - { label: 'Intro (SR)', name: page_intro_sr, widget: text, required: false }
+          - { label: 'Intro (RU)', name: page_intro_ru, widget: text, required: false }
+          - { label: 'Sold out label (EN)', name: sold_out_en, widget: string }
+          - { label: 'Sold out label (SR)', name: sold_out_sr, widget: string, required: false }
+          - { label: 'Sold out label (RU)', name: sold_out_ru, widget: string, required: false }
+          - { label: 'Empty shop text (EN)', name: empty_en, widget: string }
+          - { label: 'Empty shop text (SR)', name: empty_sr, widget: string, required: false }
+          - { label: 'Empty shop text (RU)', name: empty_ru, widget: string, required: false }
+  - name: products
+    label: Shop products
+    folder: content/products
+    create: true
+    extension: md
+    format: frontmatter
+    identifier_field: name_en
+    summary: '{{name_en}} - {{price_rsd}} RSD'
+    fields:
+      - { label: 'Name (EN)', name: name_en, widget: string }
+      - { label: 'Name (SR)', name: name_sr, widget: string, required: false }
+      - { label: 'Name (RU)', name: name_ru, widget: string, required: false }
+      - { label: 'Description (EN)', name: description_en, widget: text, required: false }
+      - { label: 'Description (SR)', name: description_sr, widget: text, required: false }
+      - { label: 'Description (RU)', name: description_ru, widget: text, required: false }
+      - { label: 'Image', name: image, widget: image }
+      - { label: 'Image description (EN)', name: image_alt_en, widget: string, required: false }
+      - { label: 'Price (RSD)', name: price_rsd, widget: number, value_type: int, min: 0 }
+      - { label: 'Price (EUR)', name: price_eur, widget: number, value_type: float, min: 0 }
+      - { label: 'Available', name: available, widget: boolean, default: true }
+      - { label: 'Order', name: order, widget: number, value_type: int, default: 1 }
+      - name: shop_order
+        label: Order form
+        file: content/shop/order.md
+        fields:
+          - { label: 'Heading (EN)', name: order_heading_en, widget: string }
+          - { label: 'Heading (SR)', name: order_heading_sr, widget: string, required: false }
+          - { label: 'Heading (RU)', name: order_heading_ru, widget: string, required: false }
+          - { label: 'Quantity (EN)', name: quantity_en, widget: string }
+          - { label: 'Quantity (SR)', name: quantity_sr, widget: string, required: false }
+          - { label: 'Quantity (RU)', name: quantity_ru, widget: string, required: false }
+          - { label: 'Total (EN)', name: total_en, widget: string }
+          - { label: 'Total (SR)', name: total_sr, widget: string, required: false }
+          - { label: 'Total (RU)', name: total_ru, widget: string, required: false }
+          - { label: 'Full name (EN)', name: name_en, widget: string }
+          - { label: 'Full name (SR)', name: name_sr, widget: string, required: false }
+          - { label: 'Full name (RU)', name: name_ru, widget: string, required: false }
+          - { label: 'Phone (EN)', name: phone_en, widget: string }
+          - { label: 'Phone (SR)', name: phone_sr, widget: string, required: false }
+          - { label: 'Phone (RU)', name: phone_ru, widget: string, required: false }
+          - { label: 'Email (EN)', name: email_en, widget: string }
+          - { label: 'Email (SR)', name: email_sr, widget: string, required: false }
+          - { label: 'Email (RU)', name: email_ru, widget: string, required: false }
+          - { label: 'Street and number (EN)', name: street_en, widget: string }
+          - { label: 'Street and number (SR)', name: street_sr, widget: string, required: false }
+          - { label: 'Street and number (RU)', name: street_ru, widget: string, required: false }
+          - { label: 'City (EN)', name: city_en, widget: string }
+          - { label: 'City (SR)', name: city_sr, widget: string, required: false }
+          - { label: 'City (RU)', name: city_ru, widget: string, required: false }
+          - { label: 'Postal code (EN)', name: postal_en, widget: string }
+          - { label: 'Postal code (SR)', name: postal_sr, widget: string, required: false }
+          - { label: 'Postal code (RU)', name: postal_ru, widget: string, required: false }
+          - { label: 'Note (EN)', name: note_en, widget: string }
+          - { label: 'Note (SR)', name: note_sr, widget: string, required: false }
+          - { label: 'Note (RU)', name: note_ru, widget: string, required: false }
+          - { label: 'Delivery info (EN)', name: delivery_note_en, widget: text }
+          - { label: 'Delivery info (SR)', name: delivery_note_sr, widget: text, required: false }
+          - { label: 'Delivery info (RU)', name: delivery_note_ru, widget: text, required: false }
+          - { label: 'Nothing chosen message (EN)', name: empty_cart_en, widget: string }
+          - { label: 'Nothing chosen message (SR)', name: empty_cart_sr, widget: string, required: false }
+          - { label: 'Nothing chosen message (RU)', name: empty_cart_ru, widget: string, required: false }
+          - { label: 'Submit button (EN)', name: submit_en, widget: string }
+          - { label: 'Submit button (SR)', name: submit_sr, widget: string, required: false }
+          - { label: 'Submit button (RU)', name: submit_ru, widget: string, required: false }
+          - { label: 'Sending (EN)', name: sending_en, widget: string }
+          - { label: 'Sending (SR)', name: sending_sr, widget: string, required: false }
+          - { label: 'Sending (RU)', name: sending_ru, widget: string, required: false }
+          - { label: 'Success message (EN)', name: success_en, widget: text }
+          - { label: 'Success message (SR)', name: success_sr, widget: text, required: false }
+          - { label: 'Success message (RU)', name: success_ru, widget: text, required: false }
+          - { label: 'Error message (EN)', name: error_en, widget: text }
+          - { label: 'Error message (SR)', name: error_sr, widget: text, required: false }
+          - { label: 'Error message (RU)', name: error_ru, widget: text, required: false }
+          - { label: 'Consent text (EN)', name: consent_text_en, widget: string }
+          - { label: 'Consent text (SR)', name: consent_text_sr, widget: string, required: false }
+          - { label: 'Consent text (RU)', name: consent_text_ru, widget: string, required: false }
+          - { label: 'Consent link text (EN)', name: consent_link_en, widget: string }
+          - { label: 'Consent link text (SR)', name: consent_link_sr, widget: string, required: false }
+          - { label: 'Consent link text (RU)', name: consent_link_ru, widget: string, required: false }
