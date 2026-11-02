@@ -6,14 +6,16 @@ import { AnimatePresence, motion } from 'framer-motion';
 import LanguageSwitcher from './LanguageSwitcher';
 import { NAV_LABELS } from '@/lib/constants/shared';
 
-export default function Navigation({ locale }: { locale: string }) {
+export default function Navigation({ locale, shopEnabled = false }: { locale: string, shopEnabled?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const labels = NAV_LABELS[locale] ?? NAV_LABELS.en;
+
   const NAV_LINKS = [
     { href: `/${locale}/gallery`, label: labels.gallery },
     { href: `/${locale}/about`, label: labels.about },
+    ...(shopEnabled ? [{ href: `/${locale}/shop`, label: labels.shop }] : []),
     { href: `/${locale}/contact`, label: labels.contact },
   ];
 
@@ -44,7 +46,7 @@ export default function Navigation({ locale }: { locale: string }) {
         </Link>
 
         {/* Desktop nav — visible from lg up */}
-        <nav className='hidden items-center gap-8 text-xs uppercase tracking-[0.15em] text-white/60 md:flex'>
+        <nav className='hidden items-center lg:gap-8 gap-6 text-xs uppercase tracking-[0.15em] text-white/60 md:flex'>
           {NAV_LINKS.map((link) => (
             <Link key={link.href} href={link.href} className='link-underline text-lg'>
               {link.label}
@@ -84,7 +86,7 @@ export default function Navigation({ locale }: { locale: string }) {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className='overflow-hidden bg-black/80 backdrop-blur-md lg:hidden'
+            className='overflow-hidden bg-black/80 backdrop-blur-md md:hidden'
           >
             <nav className='wrapper flex flex-col gap-6 py-8 text-sm uppercase tracking-[0.15em] text-white/70'>
               {NAV_LINKS.map((link) => (

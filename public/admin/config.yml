@@ -306,6 +306,12 @@ collections:
           - { name: error_en, label: Message if sending fails (EN), widget: text }
           - { name: error_sr, label: Message if sending fails (SR), widget: text, required: false }
           - { name: error_ru, label: Message if sending fails (RU), widget: text, required: false }
+          - { label: 'Consent text (EN)', name: consent_text_en, widget: string }
+          - { label: 'Consent text (SR)', name: consent_text_sr, widget: string, required: false }
+          - { label: 'Consent text (RU)', name: consent_text_ru, widget: string, required: false }
+          - { label: 'Consent link text (EN)', name: consent_link_en, widget: string }
+          - { label: 'Consent link text (SR)', name: consent_link_sr, widget: string, required: false }
+          - { label: 'Consent link text (RU)', name: consent_link_ru, widget: string, required: false }
           - name: questions
             label: Questions
             widget: list
@@ -364,8 +370,31 @@ collections:
         label: Site settings
         file: content/site/site.md
         fields:
-          - name: favicon
-            label: Favicon (small icon in the browser tab)
+          - label: Favicon
+            name: favicon
             widget: image
             required: false
-            hint: Square PNG, at least 512 by 512 pixels. Leave empty to use the default icon.
+          - label: 'Shop enabled'
+            name: shop_enabled
+            widget: boolean
+            default: false
+            required: false
+            hint: 'Turn on only when the shop is legally ready. While off, the shop page and its menu link do not exist.'
+          - label: 'Public contact email'
+            name: contact_email
+            widget: string
+            required: false
+  - name: pages
+    label: Legal pages
+    files:
+      - name: privacy
+        label: Privacy policy
+        file: content/pages/privacy.md
+        fields:
+          - { label: 'Title (EN)', name: title_en, widget: string }
+          - { label: 'Title (SR)', name: title_sr, widget: string, required: false }
+          - { label: 'Title (RU)', name: title_ru, widget: string, required: false }
+          - { label: 'Last updated', name: updated, widget: datetime, date_format: 'YYYY-MM-DD', time_format: false }
+          - { label: 'Text (EN)', name: body_en, widget: markdown }
+          - { label: 'Text (SR)', name: body_sr, widget: markdown, required: false }
+          - { label: 'Text (RU)', name: body_ru, widget: markdown, required: false }

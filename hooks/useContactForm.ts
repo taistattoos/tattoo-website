@@ -12,6 +12,7 @@ export function useContactForm(content: ContactFormContent) {
   const [honeypot, setHoneypot] = useState('');
   const [token, setToken] = useState('');
   const [status, setStatus] = useState<FormStatus>('idle');
+  const [consent, setConsent] = useState(false);
 
   const turnstileRef = useRef<TurnstileInstance>(null);
   const startedAt = useRef(0);
@@ -31,7 +32,7 @@ export function useContactForm(content: ContactFormContent) {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (status === 'sending' || !token) return;
+    if (status === 'sending' || !token || !consent) return;
     if (getMissingRequired(visibleQuestions, answers).length > 0) return;
 
     setStatus('sending');
@@ -48,6 +49,7 @@ export function useContactForm(content: ContactFormContent) {
           turnstileToken: token,
           elapsedMs: Date.now() - startedAt.current,
           locale: content.locale,
+          consent,
         }),
       });
 
@@ -65,10 +67,11 @@ export function useContactForm(content: ContactFormContent) {
     email, setEmail,
     answers, setAnswer,
     honeypot, setHoneypot,
+    consent, setConsent,
     setToken,
     turnstileRef,
     status,
-    canSubmit: Boolean(token) && status !== 'sending',
+    canSubmit: Boolean(token) && consent && status !== 'sending',
     visibleQuestions,
     handleSubmit,
   };

@@ -13,6 +13,7 @@ export const CONTENT_PATHS = {
   // Pages
 
   galleryPage: 'content/gallery-page/gallery-page.md',
+  privacy: 'content/pages/privacy.md',
 
   // Categories
 

@@ -1,4 +1,11 @@
 ---
+consent_text_en: "I agree that Tais may use my details to reply to my inquiry. Read the"
+consent_text_sr: "Saglasna/saglasan sam da Tais koristi moje podatke kako bi odgovorila na moj upit. Pročitajte"
+consent_text_ru: "Я согласен(на), что Tais использует мои данные, чтобы ответить на мой запрос. Прочитайте"
+consent_link_en: "Privacy Policy"
+consent_link_sr: "Politiku privatnosti"
+consent_link_ru: "Политику конфиденциальности"
+
 name_label_en: "Name"
 name_label_sr: "Ime"
 name_label_ru: "Имя"

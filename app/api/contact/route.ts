@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
   if (!isSameOrigin(request)) return respond(403, 'origin');
 
   const raw = await request.text();
-  if (raw.length > CONTACT_MAX_BODY_BYTES) return respond(413, 'size');
+  if (Buffer.byteLength(raw, 'utf-8') > CONTACT_MAX_BODY_BYTES) return respond(413, 'size');
 
   let body: Record<string, unknown>;
   try {
@@ -38,6 +38,8 @@ export async function POST(request: NextRequest) {
 
   const tooFast = typeof body.elapsedMs !== 'number' || body.elapsedMs < CONTACT_MIN_FILL_MS;
   if (body.website || tooFast) return respond(200, 'ok');
+
+  if (body.consent !== true) return respond(400, 'consent');
 
   const content = getContactForm(LocaleEnum.EN);
   const result = validateSubmission(body, content);

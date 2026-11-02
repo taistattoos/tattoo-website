@@ -3,16 +3,27 @@ import path from 'path';
 import matter from 'gray-matter';
 import { CONTENT_PATHS } from '@/lib/constants/content';
 import { HomeContentInterface } from '@/types/content';
-import { TestimonialContentInterface, TestimonialItem, TestimonialsSectionContent, TestimonialsSectionRaw } from '@/types/testimonials';
+import {
+  TestimonialContentInterface,
+  TestimonialItem,
+  TestimonialsSectionContent,
+  TestimonialsSectionRaw,
+} from '@/types/testimonials';
 import type { AboutContent, AboutRaw } from '@/types/about';
 import type { BookingContent, BookingRaw } from '@/types/booking';
 import { LocaleEnum } from '@/types/enums';
 import type { FaqContent, FaqRaw } from '@/types/faq';
 import { FooterContent, FooterRaw } from '@/types/footer';
-import type { CategoryContentInterface, CategoryOptionInterface, GalleryContentInterface, GalleryGridItemInterface } from '@/types/gallery';
+import type {
+  CategoryContentInterface,
+  CategoryOptionInterface,
+  GalleryContentInterface,
+  GalleryGridItemInterface,
+} from '@/types/gallery';
 import type { GalleryPageContent, GalleryPageRaw } from '@/types/gallery';
 import { ContactFormContent, ContactFormRaw } from '@/types/contact-form';
 import { SiteContent } from '@/types/site';
+import { LegalPageContent, LegalPageRaw } from '@/types/legal';
 
 function readMarkdown<T>(relativePath: string): T {
   const file = fs.readFileSync(path.join(/*turbopackIgnore: true*/ process.cwd(), relativePath), 'utf-8');
@@ -169,6 +180,8 @@ export function getContactForm(locale: LocaleEnum): ContactFormContent {
 
   return {
     locale,
+    consentText: pick(raw, 'consent_text', locale),
+    consentLink: pick(raw, 'consent_link', locale),
     nameLabel: pick(raw, 'name_label', locale),
     emailLabel: pick(raw, 'email_label', locale),
     submit: pick(raw, 'submit', locale),
@@ -193,6 +206,20 @@ export function getContactForm(locale: LocaleEnum): ContactFormContent {
   };
 }
 
+export function getPrivacyPage(locale: LocaleEnum): LegalPageContent {
+  const raw = readMarkdown<LegalPageRaw>(CONTENT_PATHS.privacy);
+
+  const updated = raw.updated instanceof Date ? raw.updated.toISOString().slice(0, 10) : (raw.updated ?? '');
+
+  return {
+    title: pick(raw, 'title', locale),
+    body: pick(raw, 'body', locale),
+    updated,
+  };
+}
+
 export function getSite(): SiteContent {
-  return readMarkdown<SiteContent>(CONTENT_PATHS.site);
+  const raw = readMarkdown<SiteContent>(CONTENT_PATHS.site);
+
+  return { ...raw, shop_enabled: raw.shop_enabled === true };
 }

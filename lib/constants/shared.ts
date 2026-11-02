@@ -1,7 +1,14 @@
-export const NAV_LABELS: Record<string, { gallery: string; about: string; contact: string }> = {
-  en: { gallery: 'Gallery', about: 'About', contact: 'Contact' },
-  sr: { gallery: 'Galerija', about: 'O meni', contact: 'Kontakt' },
-  ru: { gallery: 'Галерея', about: 'Обо мне', contact: 'Контакты' },
+interface NavLabelsInterface {
+  gallery: string;
+  about: string;
+  contact: string;
+  shop: string;
+}
+
+export const NAV_LABELS: Record<string, NavLabelsInterface> = {
+  en: { gallery: 'Gallery', about: 'About', contact: 'Contact', shop: 'Shop' },
+  sr: { gallery: 'Galerija', about: 'O meni', contact: 'Kontakt', shop: 'Prodavnica' },
+  ru: { gallery: 'Галерея', about: 'Обо мне', contact: 'Контакты', shop: 'Магазин' },
 };
 
 type LocaleType = {
@@ -16,3 +23,4 @@ export const LOCALES: LocaleType[] = [
 ];
 
 export const NAV_ANCHORS = ['gallery', 'about', 'contact'] as const;
+

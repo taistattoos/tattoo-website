@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Turnstile } from '@marsidev/react-turnstile';
 import FormField from '@/components/layout/contact/contact-form/FormField';
@@ -17,6 +18,8 @@ export default function ContactForm({ content }: { content: ContactFormContent }
     setAnswer,
     honeypot,
     setHoneypot,
+    consent,
+    setConsent,
     setToken,
     turnstileRef,
     status,
@@ -35,7 +38,6 @@ export default function ContactForm({ content }: { content: ContactFormContent }
 
   return (
     <form onSubmit={handleSubmit} className='relative flex flex-col'>
-      {/* Honeypot: invisible to people and screen readers, bots fill it in */}
       <div aria-hidden='true' className='absolute -left-2499.75 h-0 w-0 overflow-hidden'>
         <label>
           Website
@@ -93,6 +95,26 @@ export default function ContactForm({ content }: { content: ContactFormContent }
           </motion.div>
         ))}
       </AnimatePresence>
+
+      <label className='flex cursor-pointer items-start gap-3 pb-6 text-sm text-white/70'>
+        <input
+          type='checkbox'
+          checked={consent}
+          onChange={(event) => setConsent(event.target.checked)}
+          required
+          className='mt-1 h-4 w-4 shrink-0 accent-white'
+        />
+        <span>
+          {content.consentText}{' '}
+          <Link
+            href={`/${content.locale}/privacy`}
+            target='_blank'
+            className='text-white underline underline-offset-4 hover:text-white/70'
+          >
+            {content.consentLink}
+          </Link>
+        </span>
+      </label>
 
       <div className='pb-6'>
         <Turnstile

@@ -44,6 +44,12 @@ export interface ContactFormRaw {
   error_sr?: string;
   error_ru?: string;
   questions?: ContactFormQuestionRaw[];
+  consent_text_en?: string;
+  consent_text_sr?: string;
+  consent_text_ru?: string;
+  consent_link_en?: string;
+  consent_link_sr?: string;
+  consent_link_ru?: string;
 }
 
 export interface FormOption {
@@ -62,7 +68,7 @@ export interface FormQuestion {
 }
 
 export interface ContactFormContent {
-  locale: LocaleEnum,
+  locale: LocaleEnum;
   nameLabel: string;
   emailLabel: string;
   submit: string;
@@ -70,10 +76,10 @@ export interface ContactFormContent {
   success: string;
   error: string;
   questions: FormQuestion[];
+  consentText: string;
+  consentLink: string;
 }
 
 export type FormAnswers = Record<string, string | string[]>;
-
-
 
 export type FormStatus = 'idle' | 'sending' | 'success' | 'error';
