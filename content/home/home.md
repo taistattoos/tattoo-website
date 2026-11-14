@@ -2,7 +2,7 @@
 cta_label_en: Book a session
 gallery_cta_en: View full gallery
 gallery_heading_sr: Nedavni radovi
-eyebrow_en: Tattoo artist · Zrenjanin, Novi Sad & Belgrad
+eyebrow_en: Tattoo artist · Zrenjanin, Novi Sad & Belgrade
 eyebrow_sr: Tetovažerka · Zrenjanin, Novi Sad i Beograd
 eyebrow_ru: Тату-мастер · Зренянин и Белград
 headline_en: Tais Tattoos
