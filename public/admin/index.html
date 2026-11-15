@@ -20,6 +20,29 @@
       // Change this when handover!
       const REPO = 'DanielCikora/tattoo-website';
 
+      // Warn before saving Site settings with the shop switched on but seller details missing.
+      // (The website also keeps the shop hidden on the live site in that case.)
+      window.CMS.registerEventListener({
+        name: 'preSave',
+        handler: ({ entry }) => {
+          if (entry.get('collection') !== 'settings' || entry.get('slug') !== 'site') return;
+
+          const data = entry.get('data');
+          const sellerFields = ['seller_name', 'seller_address', 'seller_mb', 'seller_pib'];
+          const missingSeller = sellerFields.some((field) => !String(data.get(field) || '').trim());
+
+          if (data.get('shop_enabled') && missingSeller) {
+            const proceed = window.confirm(
+              'Shop is switched ON, but the seller details are not filled in.\n\n' +
+                'Selling online in Serbia requires a registered business (name, address, MB and PIB). ' +
+                'Until those are filled in, the shop stays hidden on the live website.\n\n' +
+                'Save anyway?',
+            );
+            if (!proceed) throw new Error('Saving cancelled: fill in the seller details or switch the shop off.');
+          }
+        },
+      });
+
       window.initCMS({
         config: {
           backend: {

@@ -22,7 +22,8 @@ import type {
 } from '@/types/gallery';
 import type { GalleryPageContent, GalleryPageRaw } from '@/types/gallery';
 import { ContactFormContent, ContactFormRaw } from '@/types/contact-form';
-import { SiteContent } from '@/types/site';
+import type { SiteContent, SiteRaw } from '@/types/site';
+import { ALLOW_INDEXING } from '@/lib/seo';
 import { LegalPageContent, LegalPageRaw } from '@/types/legal';
 import { ProductItem, ProductRaw, ShopOrderContent, ShopPageContent, ShopPageRaw } from '@/types/shop';
 
@@ -278,7 +279,24 @@ export function getShopOrder(locale: LocaleEnum): ShopOrderContent {
 }
 
 export function getSite(): SiteContent {
-  const raw = readMarkdown<SiteContent>(CONTENT_PATHS.site);
+  const raw = readMarkdown<SiteRaw>(CONTENT_PATHS.site);
 
-  return { ...raw, shop_enabled: raw.shop_enabled === true };
+  const sellerFields = [raw.seller_name, raw.seller_address, raw.seller_mb, raw.seller_pib].map((value) =>
+    typeof value === 'string' ? value.trim() : '',
+  );
+  const [name, address, mb, pib] = sellerFields;
+  const seller = sellerFields.every(Boolean) ? { name, address, mb, pib } : undefined;
+
+  // Launch safeguard: on the live site, selling without seller details is not allowed in Serbia,
+  // so the shop stays hidden even if the switch is on. During development it works without them.
+  const switchedOn = raw.shop_enabled === true;
+  const blocked = switchedOn && ALLOW_INDEXING && !seller;
+
+  return {
+    favicon: raw.favicon,
+    contact_email: raw.contact_email?.trim() || undefined,
+    shop_enabled: switchedOn && !blocked,
+    shop_blocked: blocked,
+    seller,
+  };
 }

@@ -108,6 +108,12 @@ types/                 TypeScript types for content and forms
 3. Each failure returns a code (`rate`, `captcha`, `invalid`, `unavailable`, `send`…) that `lib/utils/post-form.ts` turns into a translated message. Requests time out after 25 s.
 4. Rate-limit rules are in `lib/constants/rate-limit.ts`. Contact limits *fail open* (the form keeps working if Redis is down); shop limits *fail closed* (orders are refused with "temporarily unavailable").
 
+### Shop safeguard
+- `getSite()` in `lib/content/content.ts` is the single source for whether the shop exists (page, menu link, sitemap, order API).
+- When `ALLOW_INDEXING=true` (the live site), the shop is only enabled if `shop_enabled` **and** all seller details (`seller_name`, `seller_address`, `seller_mb`, `seller_pib`) are set. Otherwise `/shop` returns 404. In development the switch alone decides.
+- `/admin` also shows a confirmation dialog (`preSave` listener in `public/admin/index.html`) when saving Settings with the shop on and seller details missing.
+- Filled-in seller details are shown at the bottom of the Shop page, as Serbian e-commerce rules require.
+
 ### Performance notes
 - **Above-the-fold headings** use `SplitText` with `reveal='focus'`: letters are painted from the first frame (blur + rise) instead of fading in from `opacity: 0`, which Largest Contentful Paint would ignore until the animation ends. Headings further down keep the default `'fade'`.
 - **Hero video:** keep it under ~3 MB (720p H.264, no audio, "web optimized"/faststart) and set a poster image in the CMS. The current file is a placeholder.

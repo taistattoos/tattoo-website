@@ -1,3 +1,4 @@
+import { LocaleEnum } from '@/types/enums';
 import type { OrderFields } from '@/types/shop';
 
 export const SHOP_MAX_QUANTITY = 20;
@@ -50,3 +51,9 @@ export const ORDER_FIELDS: OrderFieldConfig[] = [
     inputMode: 'numeric',
   },
 ];
+// Seller information shown on the shop page (required for selling online in Serbia).
+export const SELLER_LABELS: Record<LocaleEnum, { heading: string; address: string; mb: string; pib: string }> = {
+  en: { heading: 'Seller', address: 'Address', mb: 'Registration no. (MB)', pib: 'Tax no. (PIB)' },
+  sr: { heading: 'Prodavac', address: 'Adresa', mb: 'Matični broj', pib: 'PIB' },
+  ru: { heading: 'Продавец', address: 'Адрес', mb: 'Регистрационный номер (MB)', pib: 'ИНН (PIB)' },
+};

@@ -26,7 +26,7 @@ Bookmark that page — that's your control panel.
 ## Adding a new tattoo photo to your gallery
 
 1. Log into `/admin`.
-2. Click **"Gallery"** on the left.
+2. Click **"Gallery photos"** on the left.
 3. Click **"New Gallery photo"** (or the **+** button).
 4. Fill in:
    - **Title** — just a short name for the piece, like "Rose forearm" — one box per language (English, Serbian, Russian). English is enough if you're in a rush, you can always add the others later.
@@ -45,7 +45,7 @@ Give it about a minute after publishing before checking the live site — it nee
 ## Changing the text on your homepage
 
 1. Log into `/admin`.
-2. Click **"Home Page."**
+2. Click **"Home page"**, then the section you want: **Top section**, **About me**, **Reviews heading**, **How booking works** or **FAQ**. They're listed in the same order as on the website.
 3. You'll see boxes for things like your headline, your intro sentence, and your button text — each one has separate boxes for English, Serbian, and Russian.
 4. Change whatever you like. You don't have to fill in every language right away — if a box is empty, the site just shows the English version instead, so nothing looks broken.
 5. Click **"Publish"** when you're happy with it.
@@ -55,7 +55,7 @@ Give it about a minute after publishing before checking the live site — it nee
 ## Adding a client review / testimonial
 
 1. Log into `/admin`.
-2. Click **"Testimonials."**
+2. Click **"Reviews."**
 3. Click **"New Testimonial."**
 4. Fill in:
    - **Client Name** — first name, or first name + last initial ("Ana M.")
@@ -75,7 +75,7 @@ The home page shows the 6 newest reviews, with a button to open the rest.
 
 The booking steps can show photos. On computers the photo sits beside the steps and changes as visitors scroll; on phones each photo appears under its own step.
 
-1. Log into `/admin` → **"How booking works."**
+1. Log into `/admin` → **"Home page"** → **"How booking works."**
 2. Open a step and use **Image** to pick a photo. Add a short **Image description** too.
 3. Publish.
 
@@ -99,7 +99,23 @@ Big videos make the site slow, and Google ranks slow sites lower, so shrink it f
 4. **Summary** tab: tick **Web Optimized**.
 5. Start Encode. Aim for **under 3 MB**. If it's bigger, raise **Constant Quality RF** on the Video tab to 26–28 and encode again.
 
-Then in `/admin` → **Home Page**, upload it under **Hero video**. For a poster, open the video in VLC, pause on a nice frame, use **Video → Take Snapshot**, and upload that picture under **Hero poster image**. Visitors see it instantly while the video loads.
+Then in `/admin` → **Home page** → **Top section**, upload it under **Hero video**. For a poster, open the video in VLC, pause on a nice frame, use **Video → Take Snapshot**, and upload that picture under **Hero poster image**. Visitors see it instantly while the video loads.
+
+---
+
+## Where everything is in /admin
+
+| Group | What's inside |
+|---|---|
+| **Gallery photos** | Your tattoo photos |
+| **Gallery categories** | The filter buttons (Japanese, Black & Grey…) |
+| **Reviews** | Client reviews |
+| **Home page** | Every home page section, top to bottom |
+| **Other pages & forms** | Gallery texts, contact form, privacy policy |
+| **Shop products** / **Shop texts** | Everything for the shop |
+| **Settings** | Footer, favicon, contact email, shop switch |
+
+**About the shop switch:** selling online in Serbia needs a registered business. If you switch the shop on without the seller details, the admin asks you to confirm, and the shop stays hidden on the website until they're filled in. Talk to Daniel before turning it on.
 
 ---
 
