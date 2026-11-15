@@ -6,7 +6,10 @@ import Eyebrow from '@/components/ui/Eyebrow';
 import { DESKTOP_QUERY, useMediaQuery } from '@/hooks/useMediaQuery';
 import type { AboutSpecialty } from '@/types/about';
 
-// Each card pins this far below the top, plus a step per card so the stack's edges stay visible.
+// Every card sits in a pinned slot of the same height. Equal slots with no margins are what let all
+// cards stay pinned until the last one lands (a margin on a sticky element counts against its room).
+const SLOT_VH = 80;
+// Inside its slot, each card starts this far down, plus a step per card so the stack's edges stay visible.
 const STICKY_TOP_REM = 7;
 const STACK_STEP_REM = 1.75;
 // How much each card shrinks for every card that lands on top of it.
@@ -22,15 +25,20 @@ interface CardProps {
 
 function SpecialtyCard({ item, index, total, progress, stacking }: CardProps) {
   const cardsAbove = total - 1 - index;
-  const start = index / total;
+  // Progress 0 = first card pinned, 1 = last card landed; card i lands at i / (total - 1).
+  const start = total > 1 ? index / (total - 1) : 0;
 
   const scale = useTransform(progress, [start, 1], [1, 1 - cardsAbove * SHRINK_PER_CARD]);
   const dim = useTransform(progress, [start, 1], [0, cardsAbove * 0.18]);
 
   return (
     <li
-      className={stacking ? 'sticky mb-[22vh] last:mb-0' : undefined}
-      style={stacking ? { top: `${STICKY_TOP_REM + index * STACK_STEP_REM}rem` } : undefined}
+      className={stacking ? 'sticky top-0' : undefined}
+      style={
+        stacking
+          ? { height: `${SLOT_VH}svh`, paddingTop: `${STICKY_TOP_REM + index * STACK_STEP_REM}rem` }
+          : undefined
+      }
     >
       <motion.article
         style={stacking ? { scale } : undefined}
@@ -66,7 +74,11 @@ export default function AboutSpecialties({ items, heading }: { items: AboutSpeci
   const isDesktop = useMediaQuery(DESKTOP_QUERY);
   const stacking = isDesktop && !reduce;
 
-  const { scrollYProgress } = useScroll({ target: listRef, offset: ['start start', 'end end'] });
+  const { scrollYProgress } = useScroll({
+    target: listRef,
+    // Ends when the last slot reaches the top, i.e. the list's bottom is one slot below the top.
+    offset: ['start start', `end ${SLOT_VH}%`],
+  });
 
   if (items.length === 0) return null;
 
