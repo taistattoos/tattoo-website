@@ -114,6 +114,8 @@ export function getBooking(locale: LocaleEnum): BookingContent {
     steps: (raw.steps ?? []).map((step) => ({
       title: pick(step, 'title', locale),
       text: pick(step, 'text', locale),
+      image: step.image || undefined,
+      imageAlt: pick(step, 'image_alt', locale) || pick(step, 'title', locale),
     })),
   };
 }

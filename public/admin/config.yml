@@ -170,6 +170,14 @@ collections:
               - { name: text_en, label: Text (EN), widget: text }
               - { name: text_sr, label: Text (SR), widget: text, required: false }
               - { name: text_ru, label: Text (RU), widget: text, required: false }
+              - name: image
+                label: Image (optional)
+                widget: image
+                required: false
+                hint: 'Shown beside the steps on desktop and swaps as visitors scroll. Portrait photo (4:5) works best. Leave every step empty to hide the picture column.'
+              - { name: image_alt_en, label: Image description (EN), widget: string, required: false, hint: 'Short description for Google and screen readers, e.g. "Pencil sketch of a koi sleeve"' }
+              - { name: image_alt_sr, label: Image description (SR), widget: string, required: false }
+              - { name: image_alt_ru, label: Image description (RU), widget: string, required: false }
   - name: faq
     label: FAQ
     files:

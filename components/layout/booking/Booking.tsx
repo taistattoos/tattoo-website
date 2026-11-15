@@ -1,5 +1,5 @@
 import SplitText from '@/components/animations/SplitText';
-import BookingStep from '@/components/layout/booking/BookingStep';
+import BookingSteps from '@/components/layout/booking/BookingSteps';
 import { getBooking } from '@/lib/content/content';
 import { LocaleEnum } from '@/types/enums';
 
@@ -20,17 +20,7 @@ export default function Booking({ locale }: { locale: LocaleEnum }) {
           className='mb-16 block text-4xl leading-tight text-white md:text-5xl'
         />
 
-        <ol className='max-w-2xl'>
-          {booking.steps.map((step, index) => (
-            <BookingStep
-              key={index}
-              number={index + 1}
-              title={step.title}
-              text={step.text}
-              isLast={index === booking.steps.length - 1}
-            />
-          ))}
-        </ol>
+        <BookingSteps steps={booking.steps} />
       </div>
     </section>
   );
