@@ -15,7 +15,7 @@ export default function Hero({
   grayscale,
 }: HeroPropsInterface) {
   return (
-    <section className='relative flex min-h-screen items-center overflow-hidden bg-black'>
+    <section className='relative flex min-h-svh items-center overflow-hidden bg-black'>
       {/* Decorative background: the poster paints instantly while the video loads. */}
       <video
         className='absolute inset-0 h-full w-full object-cover'

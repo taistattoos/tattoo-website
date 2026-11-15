@@ -16,7 +16,7 @@ export default function GlobalNotFound() {
   return (
     <html lang='en'>
       <body className={`${inter.variable} antialiased`}>
-        <main className='wrapper flex min-h-screen flex-col items-center justify-center gap-6 text-center'>
+        <main className='wrapper flex min-h-svh flex-col items-center justify-center gap-6 text-center'>
           <p className='text-xs uppercase tracking-[0.2em] text-white/40'>404</p>
           <h1 className='text-4xl text-white md:text-5xl'>Page not found</h1>
           <Link href='/en' className='link-underline text-sm uppercase tracking-[0.15em] text-white/70'>
