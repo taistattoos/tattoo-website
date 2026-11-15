@@ -4,6 +4,7 @@ import { getContactForm } from '@/lib/content/content';
 import { buildOwnerEmail, getAnswerLines } from '@/lib/server/contact-email';
 import { validateSubmission } from '@/lib/server/contact-validation';
 import { sendOwnerEmail } from '@/lib/server/mailer';
+import { isRateLimited } from '@/lib/server/rate-limit';
 import { verifyTurnstile } from '@/lib/server/turnstile';
 import { LocaleEnum } from '@/types/enums';
 
@@ -23,6 +24,9 @@ function isSameOrigin(request: NextRequest): boolean {
 
 export async function POST(request: NextRequest) {
   if (!isSameOrigin(request)) return respond(403, 'origin');
+
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
+  if (await isRateLimited('contactIp', ip ?? 'unknown')) return respond(429, 'rate');
 
   const raw = await request.text();
   if (Buffer.byteLength(raw, 'utf-8') > CONTACT_MAX_BODY_BYTES) return respond(413, 'size');
@@ -45,9 +49,10 @@ export async function POST(request: NextRequest) {
   const result = validateSubmission(body, content);
   if (!result.ok) return respond(400, 'invalid');
 
-  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
   const human = await verifyTurnstile(body.turnstileToken, ip);
   if (!human) return respond(400, 'captcha');
+
+  if (await isRateLimited('contactGlobal', 'all')) return respond(429, 'rate');
 
   const locale = Object.values(LocaleEnum).includes(body.locale as LocaleEnum)
     ? (body.locale as LocaleEnum)

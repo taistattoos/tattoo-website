@@ -1,9 +1,10 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { ORDER_MAX_BODY_BYTES, ORDER_MIN_FILL_MS } from '@/lib/constants/shop';
 import { getProducts, getShopOrder, getSite } from '@/lib/content/content';
-import { buildCustomerOrderEmail, buildOwnerOrderEmail } from '@/lib/server/order-email';
 import { sendCustomerEmail, sendOwnerEmail } from '@/lib/server/mailer';
+import { buildCustomerOrderEmail, buildOwnerOrderEmail } from '@/lib/server/order-email';
 import { validateOrder } from '@/lib/server/order-validation';
+import { isRateLimited } from '@/lib/server/rate-limit';
 import { verifyTurnstile } from '@/lib/server/turnstile';
 import { LocaleEnum } from '@/types/enums';
 
@@ -25,6 +26,9 @@ export async function POST(request: NextRequest) {
   if (!getSite().shop_enabled) return respond(404, 'closed');
   if (!isSameOrigin(request)) return respond(403, 'origin');
 
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
+  if (await isRateLimited('orderIp', ip ?? 'unknown')) return respond(429, 'rate');
+
   const raw = await request.text();
   if (Buffer.byteLength(raw, 'utf-8') > ORDER_MAX_BODY_BYTES) return respond(413, 'size');
 
@@ -45,15 +49,17 @@ export async function POST(request: NextRequest) {
   const result = validateOrder(body, getProducts(LocaleEnum.EN));
   if (!result.ok) return respond(400, 'invalid');
 
-  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
   const human = await verifyTurnstile(body.turnstileToken, ip);
   if (!human) return respond(400, 'captcha');
+
+  // Only requests that passed every check use up the per-recipient and global quotas.
+  const order = result.data;
+  if (await isRateLimited('orderRecipient', order.customer.email.toLowerCase())) return respond(429, 'rate');
+  if (await isRateLimited('orderGlobal', 'all')) return respond(429, 'rate');
 
   const locale = Object.values(LocaleEnum).includes(body.locale as LocaleEnum)
     ? (body.locale as LocaleEnum)
     : LocaleEnum.EN;
-
-  const order = result.data;
   const names = new Map(getProducts(locale).map((product) => [product.slug, product.name]));
 
   try {

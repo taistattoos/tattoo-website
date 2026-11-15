@@ -81,16 +81,14 @@ export function buildCustomerOrderEmail(
   content: ShopOrderContent,
 ) {
   const items = summary(order, locale, names, content.total);
-  const address = addressLines(order).join('\n');
 
-  const text = [content.confirmIntro, items.text, address, content.deliveryNote, content.confirmOutro]
+  const text = [content.confirmIntro, items.text, content.deliveryNote, content.confirmOutro]
     .filter(Boolean)
     .join('\n\n');
 
   const html = `<div style="${WRAPPER}">
   <p style="margin:0 0 20px">${multiline(content.confirmIntro)}</p>
   ${items.html}
-  <p style="margin:16px 0 0">${multiline(address)}</p>
   ${content.deliveryNote ? `<p style="margin:16px 0 0;color:#666">${multiline(content.deliveryNote)}</p>` : ''}
   <p style="margin:24px 0 0">${multiline(content.confirmOutro)}</p>
   </div>`;
