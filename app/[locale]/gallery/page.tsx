@@ -42,6 +42,7 @@ export default async function GalleryPage({
         as='h1'
         text={page.title}
         trigger='mount'
+        reveal='focus'
         className='mb-6 block text-4xl text-white md:text-5xl'
       />
       {page.intro && <p className='mb-12 max-w-2xl text-white/60'>{page.intro}</p>}

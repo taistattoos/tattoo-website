@@ -34,6 +34,7 @@ export default async function ShopPage({ params }: Props) {
         by='words'
         stagger={0.08}
         trigger='mount'
+        reveal='focus'
         className='mb-6 block text-4xl leading-tight text-white md:text-5xl'
       />
       {page.intro && <p className='mb-12 max-w-xl text-white/70'>{page.intro}</p>}

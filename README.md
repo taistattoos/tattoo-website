@@ -89,6 +89,20 @@ Portrait photos (taller than wide) look best. You can start with just one or two
 
 ---
 
+## Changing the video at the top of the home page
+
+Big videos make the site slow, and Google ranks slow sites lower, so shrink it first with **HandBrake** (free):
+
+1. Open your video in HandBrake.
+2. Preset: **Web → Creator 720p30**.
+3. **Audio** tab: remove all tracks (the video plays without sound anyway).
+4. **Summary** tab: tick **Web Optimized**.
+5. Start Encode. Aim for **under 3 MB**. If it's bigger, raise **Constant Quality RF** on the Video tab to 26–28 and encode again.
+
+Then in `/admin` → **Home Page**, upload it under **Hero video**. For a poster, open the video in VLC, pause on a nice frame, use **Video → Take Snapshot**, and upload that picture under **Hero poster image**. Visitors see it instantly while the video loads.
+
+---
+
 ## A few things worth knowing
 
 - **Nothing you do here can "break" the website.** Worst case, something looks a little off for a minute — it's never permanent, and it's always fixable.

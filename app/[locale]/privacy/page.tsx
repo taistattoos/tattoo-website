@@ -29,6 +29,7 @@ export default async function PrivacyPage({ params }: Props) {
         by='words'
         stagger={0.08}
         trigger='mount'
+        reveal='focus'
         className='mb-4 block text-4xl leading-tight text-white md:text-5xl'
       />
       {page.updated && (

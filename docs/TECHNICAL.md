@@ -108,6 +108,10 @@ types/                 TypeScript types for content and forms
 3. Each failure returns a code (`rate`, `captcha`, `invalid`, `unavailable`, `send`…) that `lib/utils/post-form.ts` turns into a translated message. Requests time out after 25 s.
 4. Rate-limit rules are in `lib/constants/rate-limit.ts`. Contact limits *fail open* (the form keeps working if Redis is down); shop limits *fail closed* (orders are refused with "temporarily unavailable").
 
+### Performance notes
+- **Above-the-fold headings** use `SplitText` with `reveal='focus'`: letters are painted from the first frame (blur + rise) instead of fading in from `opacity: 0`, which Largest Contentful Paint would ignore until the animation ends. Headings further down keep the default `'fade'`.
+- **Hero video:** keep it under ~3 MB (720p H.264, no audio, "web optimized"/faststart) and set a poster image in the CMS. The current file is a placeholder.
+
 ### Security
 - Security headers and a Content-Security-Policy in `next.config.ts` (CSP is currently **report-only**; switch to enforcing once the browser console is clean).
 - Only hashes of IPs and emails are stored by the rate limiter.

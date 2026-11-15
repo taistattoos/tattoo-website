@@ -54,6 +54,7 @@ export default async function ContactPage({
         as='h1'
         text={meta.title}
         trigger='mount'
+        reveal='focus'
         className='mb-12 block text-4xl text-white md:text-5xl'
       />
       <ContactForm content={getContactForm(LOCALE)} />

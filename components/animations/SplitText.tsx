@@ -14,6 +14,12 @@ type SplitTextProps = {
   trigger?: TriggerType;
   className?: string;
   id?: string;
+  /**
+   * 'fade': pieces fade in from invisible (fine below the fold).
+   * 'focus': pieces are painted from the first frame, rising from a blur. Use it for above-the-fold
+   * headings: Google's Largest Contentful Paint ignores invisible text, so 'fade' there delays the score.
+   */
+  reveal?: 'fade' | 'focus';
 };
 
 export default function SplitText({
@@ -26,6 +32,7 @@ export default function SplitText({
   trigger = 'inView',
   className,
   id,
+  reveal = 'fade',
 }: SplitTextProps) {
   const reduce = useReducedMotion();
 
@@ -43,8 +50,8 @@ export default function SplitText({
   };
 
   const piece: Variants = {
-    hidden: { opacity: 0, y: '0.4em' },
-    visible: { opacity: 1, y: 0, transition: { duration, ease: EASE_OUT } },
+    hidden: reveal === 'focus' ? { opacity: 1, y: '0.3em', filter: 'blur(12px)' } : { opacity: 0, y: '0.4em' },
+    visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration, ease: EASE_OUT } },
   };
 
   const words = text.split(' ');

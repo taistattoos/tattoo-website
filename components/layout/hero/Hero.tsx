@@ -33,17 +33,20 @@ export default function Hero({
       <div className='absolute inset-0 bg-black' style={{ opacity: overlay / 100 }} />
 
       <div className='relative z-10 wrapper md:ml-auto mx-auto text-center md:text-right'>
-        {eyebrow && <Eyebrow text={eyebrow} className='mb-4' />}
+        {/* The eyebrow sits inside the h1 so the main heading carries "tattoo artist" and the cities, not just the name. */}
+        <h1>
+          {eyebrow && <Eyebrow text={eyebrow} className='mb-4' />}
 
-        {headline && (
-          <SplitText
-            as='h1'
-            text={headline}
-            trigger='mount'
-            stagger={0.08}
-            className='max-w-175 ml-auto xs:text-6xl text-4xl uppercase leading-tight text-white sm:text-7xl lg:text-9xl font-bold'
-          />
-        )}
+          {headline && (
+            <SplitText
+              text={headline}
+              trigger='mount'
+              stagger={0.08}
+              reveal='focus'
+              className='block max-w-175 ml-auto xs:text-6xl text-4xl uppercase leading-tight text-white sm:text-7xl lg:text-9xl font-bold'
+            />
+          )}
+        </h1>
         
         {subheadline && <p className='mt-6 text-base leading-relaxed text-white/70'>{subheadline}</p>}
 
