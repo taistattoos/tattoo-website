@@ -33,13 +33,12 @@ function TestimonialCard({ item, locale, index }: { item: TestimonialItem; local
       transition={{ delay: (index % 3) * 0.1, duration: 0.5, ease: EASE }}
       className='flex flex-col rounded-lg border border-white/10 px-6 py-5'
     >
-      <blockquote className='text-white/80'>&ldquo;{item.quote}&rdquo;</blockquote>
+      {/* Fixed-height row, kept even when empty, so every quote starts at the same height. */}
+      <p className='mb-3 h-4 text-xs leading-4 italic text-white/30' aria-hidden={!item.translatedFrom}>
+        {item.translatedFrom && `${labels.prefix} ${labels.from[item.translatedFrom]}`}
+      </p>
 
-      {item.translatedFrom && (
-        <span className='mt-4 w-fit rounded-full border border-white/15 px-3 py-1 text-[11px] uppercase tracking-[0.15em] text-white/50'>
-          {labels.prefix} {labels.from[item.translatedFrom]}
-        </span>
-      )}
+      <blockquote className='text-white/80'>&ldquo;{item.quote}&rdquo;</blockquote>
 
       <figcaption className='mt-auto pt-4 text-xs uppercase tracking-[0.15em] text-white/40'>
         {item.name} — {item.source}
