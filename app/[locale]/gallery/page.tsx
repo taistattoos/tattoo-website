@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import SplitText from '@/components/animations/SplitText';
 import FavoriteProject from '@/components/layout/gallery/FavoriteProject';
 import GalleryGrid from '@/components/layout/gallery/GalleryGrid';
@@ -18,11 +19,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const page = getGalleryPage(locale as LocaleEnum);
 
-  return {
-    title: page.title,
-    description: page.intro,
-    alternates: { canonical: `/${locale}/gallery` },
-  };
+  return pageMetadata({ locale, path: '/gallery', title: page.title, description: page.intro });
 }
 
 export default async function GalleryPage({

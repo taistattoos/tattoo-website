@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import SplitText from '@/components/animations/SplitText';
 import Markdown from '@/components/ui/Markdown';
 import { LEGAL_LABELS } from '@/lib/constants/legal';
@@ -11,10 +12,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const page = getPrivacyPage(locale as LocaleEnum);
 
-  return {
-    title: page.title,
-    alternates: { canonical: `/${locale}/privacy` },
-  };
+  return pageMetadata({ locale, path: '/privacy', title: page.title });
 }
 
 export default async function PrivacyPage({ params }: Props) {

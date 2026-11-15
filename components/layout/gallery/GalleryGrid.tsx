@@ -68,7 +68,7 @@ export default function GalleryGrid({ items, locale, categories = [], showFilter
                 src={item.image}
                 alt={item.title}
                 fill
-                sizes='(max-width: 640px) 50vw, 33vw'
+                sizes='(max-width: 479px) 100vw, (max-width: 767px) 50vw, 33vw'
                 className='object-cover grayscale transition-all duration-700 ease-out group-hover:scale-110 group-hover:grayscale-0'
               />
             </motion.div>

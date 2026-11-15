@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import SplitText from '@/components/animations/SplitText';
 import ContactForm from '@/components/layout/contact/contact-form/ContactForm';
 import { LOCALES } from '@/lib/constants/shared';
@@ -35,11 +36,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const meta = PAGE_META[locale as LocaleEnum] ?? PAGE_META.en;
 
-  return {
-    title: meta.title,
-    description: meta.description,
-    alternates: { canonical: `/${locale}/contact` },
-  };
+  return pageMetadata({ locale, path: '/contact', title: meta.title, description: meta.description });
 }
 
 export default async function ContactPage({

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import About from '@/components/layout/about/About';
 import { LOCALES } from '@/lib/constants/shared';
 import { LocaleEnum } from '@/types/enums';
@@ -33,11 +34,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const meta = PAGE_META[locale as LocaleEnum] ?? PAGE_META.en;
 
-  return {
-    title: meta.title,
-    description: meta.description,
-    alternates: { canonical: `/${locale}/about` },
-  };
+  return pageMetadata({ locale, path: '/about', title: meta.title, description: meta.description });
 }
 
 export default async function AboutPage({

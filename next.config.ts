@@ -45,6 +45,10 @@ const CSP_HEADER = 'Content-Security-Policy-Report-Only';
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ['192.168.*.*', 'localhost'],
+  experimental: {
+    // The root layout lives under app/[locale], so unmatched URLs need app/global-not-found.tsx.
+    globalNotFound: true,
+  },
   outputFileTracingIncludes: {
     '/api/contact': ['./content/contact/contact.md'],
     '/api/order': ['./content/products/**/*', './content/site/site.md', './content/shop/order.md'],

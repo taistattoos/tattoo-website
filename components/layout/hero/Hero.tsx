@@ -3,14 +3,34 @@ import CTA from '@/components/ui/CTA';
 import Eyebrow from '@/components/ui/Eyebrow';
 import { HeroPropsInterface } from '@/types/hero';
 
-export default function Hero({ eyebrow, headline, subheadline, ctaLabel, ctaLink }: HeroPropsInterface) {
+export default function Hero({
+  eyebrow,
+  headline,
+  subheadline,
+  ctaLabel,
+  ctaLink,
+  videoSrc,
+  posterSrc,
+  overlay,
+  grayscale,
+}: HeroPropsInterface) {
   return (
     <section className='relative flex min-h-screen items-center overflow-hidden bg-black'>
-      <video className='absolute inset-0 h-full w-full object-cover grayscale' autoPlay muted loop playsInline>
-        <source src='/assets/videos/tattoing-video.mp4' type='video/mp4' />
+      {/* Decorative background: the poster paints instantly while the video loads. */}
+      <video
+        className='absolute inset-0 h-full w-full object-cover'
+        style={{ filter: `grayscale(${grayscale}%)` }}
+        poster={posterSrc}
+        autoPlay
+        muted
+        loop
+        playsInline
+        aria-hidden='true'
+      >
+        <source src={videoSrc} type='video/mp4' />
       </video>
 
-      <div className='absolute inset-0 bg-black/60' />
+      <div className='absolute inset-0 bg-black' style={{ opacity: overlay / 100 }} />
 
       <div className='relative z-10 wrapper md:ml-auto mx-auto text-center md:text-right'>
         {eyebrow && <Eyebrow text={eyebrow} className='mb-4' />}

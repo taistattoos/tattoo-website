@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import { notFound } from 'next/navigation';
 import SplitText from '@/components/animations/SplitText';
 import ShopOrder from '@/components/layout/shop/ShopOrder';
@@ -13,11 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const page = getShopPage(locale as LocaleEnum);
 
-  return {
-    title: page.title,
-    description: page.intro || undefined,
-    alternates: { canonical: `/${locale}/shop` },
-  };
+  return pageMetadata({ locale, path: '/shop', title: page.title, description: page.intro || undefined });
 }
 
 export default async function ShopPage({ params }: Props) {
