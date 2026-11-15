@@ -24,4 +24,11 @@ export const HOME_META: Record<LocaleEnum, PageMetaInterface> = {
   },
 };
 
+// Search-result titles for the Gallery page. The visible heading stays the short CMS title ("Gallery").
+export const GALLERY_SEO_TITLE: Record<LocaleEnum, string> = {
+  en: 'Tattoo Gallery: Japanese-Style Work',
+  sr: 'Galerija tetovaža u japanskom stilu',
+  ru: 'Галерея татуировок в японском стиле',
+};
+
 export const AREA_SERVED = ['Belgrade', 'Novi Sad', 'Zrenjanin'];
