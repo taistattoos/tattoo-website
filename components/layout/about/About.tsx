@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import SplitText from '@/components/animations/SplitText';
+import AboutSpecialties from '@/components/layout/about/AboutSpecialties';
 import Eyebrow from '@/components/ui/Eyebrow';
 import Markdown from '@/components/ui/Markdown';
 import { ABOUT_LABELS } from '@/lib/constants/about';
@@ -36,22 +37,10 @@ export default function About({ locale }: { locale: LocaleEnum }) {
           />
 
           <Markdown>{about.body}</Markdown>
-
-          {about.specialties.length > 0 && (
-            <div className='mt-12 border-t border-white/10 pt-8'>
-              <Eyebrow text={labels.specialties} className='mb-6' />
-              <ul className='space-y-6'>
-                {about.specialties.map((item, index) => (
-                  <li key={index}>
-                    <h3 className='mb-1 text-lg text-white'>{item.title}</h3>
-                    <p className='text-sm leading-relaxed text-white/50'>{item.text}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
         </div>
       </div>
+
+      <AboutSpecialties items={about.specialties} heading={labels.specialties} />
     </section>
   );
 }
