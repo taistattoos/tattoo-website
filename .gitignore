@@ -41,5 +41,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-#security reports
+# security reports
 SECURITY-REPORT.md

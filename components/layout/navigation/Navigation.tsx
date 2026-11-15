@@ -80,7 +80,7 @@ export default function Navigation({ locale, shopEnabled = false }: { locale: st
           <Link
             href={`/${locale}`}
             onClick={closeMenu}
-            className='justify-self-start text-xl font-semibold text-white'
+            className='justify-self-start text-3xl font-semibold text-white'
           >
             TAIS
           </Link>
