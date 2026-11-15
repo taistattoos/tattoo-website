@@ -10,6 +10,9 @@ socials:
   - platform: instagram
     label: Instagram
     url: https://www.instagram.com/tais.tattoos
+  - platform: telegram
+    label: Telegram
+    url: https://t.me/taisiya_kulygina
   - platform: inkppl
     label: iNKPPL
     url: https://inkppl.com/en/user/tais.tattoos
