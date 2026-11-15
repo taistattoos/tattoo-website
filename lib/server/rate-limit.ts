@@ -3,10 +3,28 @@ import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
 import { RATE_LIMITS, type RateBucket } from '@/lib/constants/rate-limit';
 
-const url = process.env.UPSTASH_REDIS_REST_URL;
-const token = process.env.UPSTASH_REDIS_REST_TOKEN;
-const redis = url && token ? new Redis({ url, token }) : null;
 const isProd = process.env.NODE_ENV === 'production';
+
+let redis: Redis | null | undefined;
+
+// Created on first use, not at import, so a missing or malformed env var can never break the build.
+function getRedis(): Redis | null {
+  if (redis !== undefined) return redis;
+
+  const url = process.env.UPSTASH_REDIS_REST_URL?.trim();
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN?.trim();
+
+  if (!url || !token) {
+    redis = null;
+  } else if (!url.startsWith('https://')) {
+    console.error('rate limit: UPSTASH_REDIS_REST_URL must be the REST URL starting with https://');
+    redis = null;
+  } else {
+    redis = new Redis({ url, token });
+  }
+
+  return redis;
+}
 
 const limiters = new Map<RateBucket, Ratelimit>();
 
@@ -30,6 +48,7 @@ const hashKey = (key: string) => createHash('sha256').update(key).digest('hex').
 // Returns true when the request must be refused.
 export async function isRateLimited(bucket: RateBucket, key: string): Promise<boolean> {
   const { failClosed } = RATE_LIMITS[bucket];
+  const redis = getRedis();
 
   if (!redis) {
     // Without Upstash, protected buckets block in production and are skipped in local development.
