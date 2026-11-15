@@ -37,6 +37,8 @@ export default function BookingSteps({ steps }: { steps: BookingStepType[] }) {
           title={step.title}
           text={step.text}
           isLast={index === steps.length - 1}
+          image={step.image}
+          imageAlt={step.imageAlt}
           onActiveChange={hasImages ? (isActive) => handleActiveChange(index, isActive) : undefined}
         />
       ))}

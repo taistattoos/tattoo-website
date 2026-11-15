@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
+import Image from 'next/image';
 import { motion, useMotionValueEvent, useReducedMotion, useTransform } from 'framer-motion';
 import { useScrollProgress } from '@/hooks/useScrollProgress';
 import { STEP_CIRCLE_OFFSET, STEP_LINE_OFFSET } from '@/lib/constants/scroll';
@@ -10,11 +11,22 @@ interface BookingStepPropsInterface {
   title: string;
   text: string;
   isLast: boolean;
+  /** Phones and tablets show the step's own photo under its text (desktop uses the sticky column instead). */
+  image?: string;
+  imageAlt?: string;
   /** Fires when this step's circle passes half full, scrolling either way. */
   onActiveChange?: (active: boolean) => void;
 }
 
-export default function BookingStep({ number, title, text, isLast, onActiveChange }: BookingStepPropsInterface) {
+export default function BookingStep({
+  number,
+  title,
+  text,
+  isLast,
+  image,
+  imageAlt = '',
+  onActiveChange,
+}: BookingStepPropsInterface) {
   const ref = useRef<HTMLLIElement>(null);
   const reduce = useReducedMotion();
 
@@ -57,11 +69,18 @@ export default function BookingStep({ number, title, text, isLast, onActiveChang
       )}
 
       <motion.div
-        className='pt-2'
+        className='min-w-0 flex-1 pt-2'
         style={reduce ? undefined : { opacity: textOpacity, y: textY }}
       >
         <h3 className='text-xl text-white'>{title}</h3>
         <p className='mt-2 max-w-md text-base leading-relaxed text-white/60'>{text}</p>
+
+        {/* Hidden from lg up, so desktop never downloads it (lazy images inside display:none don't load). */}
+        {image && (
+          <div className='relative mt-6 aspect-4/3 max-w-md overflow-hidden rounded-lg bg-neutral-900 lg:hidden'>
+            <Image src={image} alt={imageAlt} fill sizes='(max-width: 448px) 85vw, 448px' className='object-cover' />
+          </div>
+        )}
       </motion.div>
     </li>
   );

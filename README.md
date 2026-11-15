@@ -73,7 +73,7 @@ The home page shows the 6 newest reviews, with a button to open the rest.
 
 ## Adding photos to "How booking works"
 
-The booking steps can show a photo beside them on computers (phones don't show it). The photo changes as visitors scroll through the steps.
+The booking steps can show photos. On computers the photo sits beside the steps and changes as visitors scroll; on phones each photo appears under its own step.
 
 1. Log into `/admin` → **"How booking works."**
 2. Open a step and use **Image** to pick a photo. Add a short **Image description** too.
