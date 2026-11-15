@@ -45,21 +45,26 @@ function getLimiter(bucket: RateBucket, client: Redis): Ratelimit {
 // Only a hash is stored, never the raw IP or email address.
 const hashKey = (key: string) => createHash('sha256').update(key).digest('hex').slice(0, 32);
 
-// Returns true when the request must be refused.
-export async function isRateLimited(bucket: RateBucket, key: string): Promise<boolean> {
+/**
+ * 'ok': let it through. 'limited': this visitor sent too many.
+ * 'unavailable': the limiter itself is down and this bucket fails closed — not the visitor's fault.
+ */
+export type RateLimitResult = 'ok' | 'limited' | 'unavailable';
+
+export async function checkRateLimit(bucket: RateBucket, key: string): Promise<RateLimitResult> {
   const { failClosed } = RATE_LIMITS[bucket];
   const redis = getRedis();
 
   if (!redis) {
     // Without Upstash, protected buckets block in production and are skipped in local development.
-    return isProd && failClosed;
+    return isProd && failClosed ? 'unavailable' : 'ok';
   }
 
   try {
     const { success } = await getLimiter(bucket, redis).limit(hashKey(key));
-    return !success;
+    return success ? 'ok' : 'limited';
   } catch {
     console.error('rate limit: check failed');
-    return failClosed;
+    return failClosed ? 'unavailable' : 'ok';
   }
 }

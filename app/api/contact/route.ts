@@ -4,13 +4,20 @@ import { getContactForm } from '@/lib/content/content';
 import { buildOwnerEmail, getAnswerLines } from '@/lib/server/contact-email';
 import { validateSubmission } from '@/lib/server/contact-validation';
 import { sendOwnerEmail } from '@/lib/server/mailer';
-import { isRateLimited } from '@/lib/server/rate-limit';
+import { checkRateLimit, type RateLimitResult } from '@/lib/server/rate-limit';
 import { verifyTurnstile } from '@/lib/server/turnstile';
 import { LocaleEnum } from '@/types/enums';
 
 export const runtime = 'nodejs';
 
 const respond = (status: number, code: string) => NextResponse.json({ ok: status === 200, code }, { status });
+
+// Refuses the request when a rate limit says no; returns null to continue.
+function refuseIfLimited(result: RateLimitResult) {
+  if (result === 'limited') return respond(429, 'rate');
+  if (result === 'unavailable') return respond(503, 'unavailable');
+  return null;
+}
 
 function isSameOrigin(request: NextRequest): boolean {
   try {
@@ -26,7 +33,8 @@ export async function POST(request: NextRequest) {
   if (!isSameOrigin(request)) return respond(403, 'origin');
 
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
-  if (await isRateLimited('contactIp', ip ?? 'unknown')) return respond(429, 'rate');
+  const ipLimit = refuseIfLimited(await checkRateLimit('contactIp', ip ?? 'unknown'));
+  if (ipLimit) return ipLimit;
 
   const raw = await request.text();
   if (Buffer.byteLength(raw, 'utf-8') > CONTACT_MAX_BODY_BYTES) return respond(413, 'size');
@@ -52,7 +60,8 @@ export async function POST(request: NextRequest) {
   const human = await verifyTurnstile(body.turnstileToken, ip);
   if (!human) return respond(400, 'captcha');
 
-  if (await isRateLimited('contactGlobal', 'all')) return respond(429, 'rate');
+  const globalLimit = refuseIfLimited(await checkRateLimit('contactGlobal', 'all'));
+  if (globalLimit) return globalLimit;
 
   const locale = Object.values(LocaleEnum).includes(body.locale as LocaleEnum)
     ? (body.locale as LocaleEnum)

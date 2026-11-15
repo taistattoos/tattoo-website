@@ -4,13 +4,20 @@ import { getProducts, getShopOrder, getSite } from '@/lib/content/content';
 import { sendCustomerEmail, sendOwnerEmail } from '@/lib/server/mailer';
 import { buildCustomerOrderEmail, buildOwnerOrderEmail } from '@/lib/server/order-email';
 import { validateOrder } from '@/lib/server/order-validation';
-import { isRateLimited } from '@/lib/server/rate-limit';
+import { checkRateLimit, type RateLimitResult } from '@/lib/server/rate-limit';
 import { verifyTurnstile } from '@/lib/server/turnstile';
 import { LocaleEnum } from '@/types/enums';
 
 export const runtime = 'nodejs';
 
 const respond = (status: number, code: string) => NextResponse.json({ ok: status === 200, code }, { status });
+
+// Refuses the request when a rate limit says no; returns null to continue.
+function refuseIfLimited(result: RateLimitResult) {
+  if (result === 'limited') return respond(429, 'rate');
+  if (result === 'unavailable') return respond(503, 'unavailable');
+  return null;
+}
 
 function isSameOrigin(request: NextRequest): boolean {
   try {
@@ -27,7 +34,8 @@ export async function POST(request: NextRequest) {
   if (!isSameOrigin(request)) return respond(403, 'origin');
 
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
-  if (await isRateLimited('orderIp', ip ?? 'unknown')) return respond(429, 'rate');
+  const ipLimit = refuseIfLimited(await checkRateLimit('orderIp', ip ?? 'unknown'));
+  if (ipLimit) return ipLimit;
 
   const raw = await request.text();
   if (Buffer.byteLength(raw, 'utf-8') > ORDER_MAX_BODY_BYTES) return respond(413, 'size');
@@ -54,8 +62,10 @@ export async function POST(request: NextRequest) {
 
   // Only requests that passed every check use up the per-recipient and global quotas.
   const order = result.data;
-  if (await isRateLimited('orderRecipient', order.customer.email.toLowerCase())) return respond(429, 'rate');
-  if (await isRateLimited('orderGlobal', 'all')) return respond(429, 'rate');
+  const recipientLimit = refuseIfLimited(await checkRateLimit('orderRecipient', order.customer.email.toLowerCase()));
+  if (recipientLimit) return recipientLimit;
+  const globalLimit = refuseIfLimited(await checkRateLimit('orderGlobal', 'all'));
+  if (globalLimit) return globalLimit;
 
   const locale = Object.values(LocaleEnum).includes(body.locale as LocaleEnum)
     ? (body.locale as LocaleEnum)

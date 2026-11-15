@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import type { TurnstileInstance } from '@marsidev/react-turnstile';
+import type { FormErrorCode } from '@/lib/constants/form-errors';
+import { getFormErrorMessage, postForm } from '@/lib/utils/post-form';
 import { getInitialAnswers, getMissingRequired, getVisibleAnswers, getVisibleQuestions } from '@/lib/utils/form';
 import type { ContactFormContent, FormAnswers, FormStatus } from '@/types/contact-form';
 
@@ -12,6 +14,7 @@ export function useContactForm(content: ContactFormContent) {
   const [honeypot, setHoneypot] = useState('');
   const [token, setToken] = useState('');
   const [status, setStatus] = useState<FormStatus>('idle');
+  const [errorCode, setErrorCode] = useState<FormErrorCode | null>(null);
   const [consent, setConsent] = useState(false);
 
   const turnstileRef = useRef<TurnstileInstance>(null);
@@ -30,36 +33,50 @@ export function useContactForm(content: ContactFormContent) {
     setAnswers((previous) => ({ ...previous, [key]: value }));
   }
 
+  function handleToken(value: string) {
+    setToken(value);
+    // A fresh token means the spam check works again.
+    if (value && errorCode === 'turnstile') {
+      setErrorCode(null);
+      setStatus('idle');
+    }
+  }
+
+  function handleTurnstileFail() {
+    setToken('');
+    setErrorCode('turnstile');
+    setStatus('error');
+  }
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (status === 'sending' || !token || !consent) return;
     if (getMissingRequired(visibleQuestions, answers).length > 0) return;
 
     setStatus('sending');
+    setErrorCode(null);
 
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          email,
-          answers: getVisibleAnswers(visibleQuestions, answers),
-          website: honeypot,
-          turnstileToken: token,
-          elapsedMs: Date.now() - startedAt.current,
-          locale: content.locale,
-          consent,
-        }),
-      });
+    const result = await postForm('/api/contact', {
+      name,
+      email,
+      answers: getVisibleAnswers(visibleQuestions, answers),
+      website: honeypot,
+      turnstileToken: token,
+      elapsedMs: Date.now() - startedAt.current,
+      locale: content.locale,
+      consent,
+    });
 
-      if (!response.ok) throw new Error('request failed');
+    if (result.ok) {
       setStatus('success');
-    } catch {
-      setStatus('error');
-      setToken('');
-      turnstileRef.current?.reset();
+      return;
     }
+
+    setErrorCode(result.code);
+    setStatus('error');
+    // A used token can't be reused: get a fresh one for the next attempt.
+    setToken('');
+    turnstileRef.current?.reset();
   }
 
   return {
@@ -69,6 +86,9 @@ export function useContactForm(content: ContactFormContent) {
     honeypot, setHoneypot,
     consent, setConsent,
     setToken,
+    handleToken,
+    handleTurnstileFail,
+    errorMessage: status === 'error' ? getFormErrorMessage(errorCode, content.locale, content.error) : '',
     turnstileRef,
     status,
     canSubmit: Boolean(token) && consent && status !== 'sending',

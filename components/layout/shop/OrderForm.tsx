@@ -2,7 +2,8 @@
 
 import { BUTTON_CLASSES } from '@/lib/constants/ui';
 import Link from 'next/link';
-import { Turnstile } from '@marsidev/react-turnstile';
+import FormAlert from '@/components/ui/FormAlert';
+import FormTurnstile from '@/components/ui/FormTurnstile';
 import { useOrderForm } from '@/hooks/useOrderForm';
 import { inputClasses } from '@/lib/constants/contact-form';
 import { ORDER_FIELDS } from '@/lib/constants/shop';
@@ -22,7 +23,9 @@ export default function OrderForm({ content, items, onSuccess }: OrderFormProps)
     setHoneypot,
     consent,
     setConsent,
-    setToken,
+    handleToken,
+    handleTurnstileFail,
+    errorMessage,
     turnstileRef,
     status,
     showEmptyHint,
@@ -111,16 +114,7 @@ export default function OrderForm({ content, items, onSuccess }: OrderFormProps)
         </span>
       </label>
 
-      <div className='pb-6'>
-        <Turnstile
-          ref={turnstileRef}
-          siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? ''}
-          options={{ theme: 'dark' }}
-          onSuccess={setToken}
-          onExpire={() => setToken('')}
-          onError={() => setToken('')}
-        />
-      </div>
+      <FormTurnstile turnstileRef={turnstileRef} onToken={handleToken} onFail={handleTurnstileFail} />
 
       {showEmptyHint && (
         <p role='alert' className='mb-6 border border-white/30 px-4 py-3 text-sm text-white/80'>
@@ -128,11 +122,7 @@ export default function OrderForm({ content, items, onSuccess }: OrderFormProps)
         </p>
       )}
 
-      {status === 'error' && (
-        <p role='alert' className='mb-6 border border-white/30 px-4 py-3 text-sm text-white/80'>
-          {content.error}
-        </p>
-      )}
+      <FormAlert message={errorMessage} />
 
       <button
         type='submit'
