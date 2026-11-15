@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { OAUTH_STATE_COOKIE } from '@/lib/constants/oauth';
+import { getSiteOrigin } from '@/lib/server/site-origin';
 
 function fail(status: number) {
   const response = new NextResponse('Login failed', { status, headers: { 'Cache-Control': 'no-store' } });
@@ -42,7 +43,7 @@ export async function GET(request: NextRequest) {
   }
 
   // The token is only ever sent to this site's own origin, never to whoever answers the handshake.
-  const origin = request.nextUrl.origin;
+  const origin = getSiteOrigin(request);
   const payload = JSON.stringify({ token: accessToken, provider: 'github' });
   const message = `authorization:github:success:${payload}`;
 

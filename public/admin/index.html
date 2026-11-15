@@ -8,6 +8,15 @@
     <title>Content Manager</title>
     <script>
       window.CMS_MANUAL_INIT = true;
+
+      // Netlify also serves each deploy on its own address (<deploy-id>--<site>.netlify.app).
+      // The GitHub login only works on the main address, so jump there.
+      (function () {
+        var host = window.location.hostname;
+        if (host.endsWith('.netlify.app') && host.indexOf('--') !== -1) {
+          window.location.replace('https://' + host.split('--').pop() + window.location.pathname);
+        }
+      })();
     </script>
   </head>
   <body>

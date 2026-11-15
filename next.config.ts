@@ -45,6 +45,10 @@ const CSP_HEADER = 'Content-Security-Policy-Report-Only';
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ['192.168.*.*', 'localhost'],
+  env: {
+    // Netlify's main site address (set during its builds). Used by the CMS login; empty locally.
+    SITE_ORIGIN: process.env.URL ?? '',
+  },
   experimental: {
     // The root layout lives under app/[locale], so unmatched URLs need app/global-not-found.tsx.
     globalNotFound: true,

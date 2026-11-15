@@ -119,6 +119,7 @@ types/                 TypeScript types for content and forms
 - **Hero video:** keep it under ~3 MB (720p H.264, no audio, "web optimized"/faststart) and set a poster image in the CMS. The current file is a placeholder.
 
 ### Security
+- The CMS login (`/api/auth`, `/api/callback`) uses the site's main address from `SITE_ORIGIN` (Netlify's `URL`, baked in at build), not the request host, because Netlify also serves deploy permalinks that GitHub would reject. `/admin` on a permalink redirects to the main address.
 - Client IPs come from `x-nf-client-connection-ip` (set by Netlify, not spoofable) via `lib/server/client-ip.ts`; `x-forwarded-for` is only a local fallback.
 - Security headers and a Content-Security-Policy in `next.config.ts` (CSP is currently **report-only**; switch to enforcing once the browser console is clean).
 - Only hashes of IPs and emails are stored by the rate limiter.
@@ -142,6 +143,7 @@ npm run build                # production build (run before pushing)
 - [ ] Add `public/og-default.jpg` (1200×630 photo of her work).
 - [ ] Replace placeholder gallery items and remove test shop products (or turn the shop off in Site settings).
 - [ ] Set `ALLOW_INDEXING=true` in Netlify for the **Production** deploy context only.
+- [ ] When the custom domain is added: update the GitHub OAuth app (Homepage + callback URL `https://<domain>/api/callback`), add the domain to the Turnstile widget's hostnames, then redeploy. The CMS login always uses Netlify's main address (`URL`), which switches to the custom domain automatically.
 - [ ] Verify the domain in Google Search Console and Bing Webmaster Tools; submit `/sitemap.xml`.
 - [ ] Create a Google Business Profile (service-area business) and link the site.
 - [ ] Switch the CSP header from report-only to enforcing.

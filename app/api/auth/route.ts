@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { OAUTH_STATE_COOKIE, OAUTH_STATE_MAX_AGE_SECONDS } from '@/lib/constants/oauth';
+import { getSiteOrigin } from '@/lib/server/site-origin';
 
 export async function GET(request: NextRequest) {
   const clientId = process.env.OAUTH_GITHUB_CLIENT_ID;
@@ -13,7 +14,8 @@ export async function GET(request: NextRequest) {
 
   const authUrl = new URL('https://github.com/login/oauth/authorize');
   authUrl.searchParams.set('client_id', clientId);
-  authUrl.searchParams.set('redirect_uri', `${request.nextUrl.origin}/api/callback`);
+  // Always the main address: GitHub only accepts the callback URL registered in the OAuth app.
+  authUrl.searchParams.set('redirect_uri', `${getSiteOrigin(request)}/api/callback`);
   // The repo is public, so Decap only needs "public_repo" (commit access to public repos),
   // not "repo", which would also grant access to every private repository on the account.
   authUrl.searchParams.set('scope', 'public_repo');
