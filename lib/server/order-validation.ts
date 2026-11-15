@@ -1,7 +1,7 @@
 import { ORDER_LIMITS, ORDER_MAX_LINES, SHOP_MAX_QUANTITY } from '@/lib/constants/shop';
+import { isValidEmail } from '@/lib/server/email-address';
 import type { OrderFields, OrderLine, ProductItem, ValidatedOrder } from '@/types/shop';
 
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_PATTERN = /^\+?[\d\s()\-/.]{6,30}$/;
 const POSTAL_PATTERN = /^\d{5}$/;
 
@@ -61,7 +61,7 @@ function validateCustomer(value: unknown): OrderFields | null {
 
   if (name === null || name.length < 2) return null;
   if (phone === null || !PHONE_PATTERN.test(phone)) return null;
-  if (email === null || !EMAIL_PATTERN.test(email)) return null;
+  if (email === null || !isValidEmail(email)) return null;
   if (street === null || street.length < 3) return null;
   if (city === null || city.length < 2) return null;
   if (postal === null || !POSTAL_PATTERN.test(postal)) return null;

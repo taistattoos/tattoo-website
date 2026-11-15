@@ -1,4 +1,5 @@
 import { CONTACT_LIMITS } from '@/lib/constants/contact-api';
+import { isValidEmail } from '@/lib/server/email-address';
 import { getMissingRequired, getVisibleAnswers, getVisibleQuestions } from '@/lib/utils/form';
 import type { ContactFormContent, FormAnswers } from '@/types/contact-form';
 
@@ -9,8 +10,6 @@ export interface ContactSubmission {
 }
 
 export type ValidationResult = { ok: true; data: ContactSubmission } | { ok: false; error: string };
-
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 const fail = (error: string): ValidationResult => ({ ok: false, error });
 
@@ -32,7 +31,7 @@ export function validateSubmission(body: unknown, content: ContactFormContent): 
   if (!cleanName) return fail('name');
 
   const cleanEmail = clean(email, CONTACT_LIMITS.email);
-  if (!cleanEmail || !EMAIL_PATTERN.test(cleanEmail)) return fail('email');
+  if (!cleanEmail || !isValidEmail(cleanEmail)) return fail('email');
 
   if (!answers || typeof answers !== 'object' || Array.isArray(answers)) return fail('answers');
   const raw = answers as Record<string, unknown>;

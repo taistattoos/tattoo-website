@@ -6,6 +6,7 @@ import { validateSubmission } from '@/lib/server/contact-validation';
 import { sendOwnerEmail } from '@/lib/server/mailer';
 import { checkRateLimit, type RateLimitResult } from '@/lib/server/rate-limit';
 import { getClientIp } from '@/lib/server/client-ip';
+import { readJsonBody } from '@/lib/server/read-json-body';
 import { verifyTurnstile } from '@/lib/server/turnstile';
 import { LocaleEnum } from '@/types/enums';
 
@@ -37,17 +38,9 @@ export async function POST(request: NextRequest) {
   const ipLimit = refuseIfLimited(await checkRateLimit('contactIp', ip ?? 'unknown'));
   if (ipLimit) return ipLimit;
 
-  const raw = await request.text();
-  if (Buffer.byteLength(raw, 'utf-8') > CONTACT_MAX_BODY_BYTES) return respond(413, 'size');
-
-  let body: Record<string, unknown>;
-  try {
-    const parsed: unknown = JSON.parse(raw);
-    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return respond(400, 'invalid');
-    body = parsed as Record<string, unknown>;
-  } catch {
-    return respond(400, 'invalid');
-  }
+  const parsed = await readJsonBody(request, CONTACT_MAX_BODY_BYTES);
+  if (!parsed.ok) return respond(parsed.status, parsed.code);
+  const body = parsed.body;
 
   const tooFast = typeof body.elapsedMs !== 'number' || body.elapsedMs < CONTACT_MIN_FILL_MS;
   if (body.website || tooFast) return respond(200, 'ok');

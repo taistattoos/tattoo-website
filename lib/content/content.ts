@@ -140,7 +140,8 @@ export function getFooter(locale: LocaleEnum): FooterContent {
     tagline: pick(raw, 'tagline', locale),
     location: pick(raw, 'location', locale),
     copyrightName: raw.copyright_name || 'Tais Tattoos',
-    socials: raw.socials ?? [],
+    // Only real web, email and phone links: a javascript: or data: URL typed into the CMS is dropped.
+    socials: (raw.socials ?? []).filter((social) => /^(https?:\/\/|mailto:|tel:)/i.test(social.url?.trim() ?? '')),
   };
 }
 

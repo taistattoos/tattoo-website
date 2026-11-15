@@ -6,6 +6,7 @@ import { buildCustomerOrderEmail, buildOwnerOrderEmail } from '@/lib/server/orde
 import { validateOrder } from '@/lib/server/order-validation';
 import { checkRateLimit, type RateLimitResult } from '@/lib/server/rate-limit';
 import { getClientIp } from '@/lib/server/client-ip';
+import { readJsonBody } from '@/lib/server/read-json-body';
 import { verifyTurnstile } from '@/lib/server/turnstile';
 import { LocaleEnum } from '@/types/enums';
 
@@ -38,17 +39,9 @@ export async function POST(request: NextRequest) {
   const ipLimit = refuseIfLimited(await checkRateLimit('orderIp', ip ?? 'unknown'));
   if (ipLimit) return ipLimit;
 
-  const raw = await request.text();
-  if (Buffer.byteLength(raw, 'utf-8') > ORDER_MAX_BODY_BYTES) return respond(413, 'size');
-
-  let body: Record<string, unknown>;
-  try {
-    const parsed: unknown = JSON.parse(raw);
-    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return respond(400, 'invalid');
-    body = parsed as Record<string, unknown>;
-  } catch {
-    return respond(400, 'invalid');
-  }
+  const parsed = await readJsonBody(request, ORDER_MAX_BODY_BYTES);
+  if (!parsed.ok) return respond(parsed.status, parsed.code);
+  const body = parsed.body;
 
   const tooFast = typeof body.elapsedMs !== 'number' || body.elapsedMs < ORDER_MIN_FILL_MS;
   if (body.trap || tooFast) return respond(200, 'ok');
