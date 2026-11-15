@@ -8,7 +8,7 @@ body_en: |
 
   ## Who is responsible
 
-  The person responsible for your data is Tais, an independent tattoo artist based in Zrenjanin, Serbia. You can contact her at [tais.tattoos.contact@gmail.com](mailto:tais.tattoos.contact@gmail.com).
+  The person responsible for your data is Taisiya Kulygina (Tais), an independent tattoo artist based in Zrenjanin, Serbia. You can contact her at [tais.tattoos.contact@gmail.com](mailto:tais.tattoos.contact@gmail.com).
 
   ## What we collect and why
 
@@ -55,7 +55,7 @@ body_sr: |
 
   ## Ko je odgovoran
 
-  Za vaše podatke odgovorna je Tais, samostalna tatu majstorica iz Zrenjanina, Srbija. Možete je kontaktirati na [tais.tattoos.contact@gmail.com](mailto:tais.tattoos.contact@gmail.com).
+  Za vaše podatke odgovorna je Taisiya Kulygina (Tais), samostalna tatu majstorica iz Zrenjanina, Srbija. Možete je kontaktirati na [tais.tattoos.contact@gmail.com](mailto:tais.tattoos.contact@gmail.com).
 
   ## Šta prikupljamo i zašto
 
@@ -102,7 +102,7 @@ body_ru: |
 
   ## Кто отвечает за данные
 
-  За ваши данные отвечает Tais, независимый тату-мастер из Зренянина, Сербия. Связаться с ней можно по адресу [tais.tattoos.contact@gmail.com](mailto:tais.tattoos.contact@gmail.com).
+  За ваши данные отвечает Таисия Кулыгина (Tais), независимый тату-мастер из Зренянина, Сербия. Связаться с ней можно по адресу [tais.tattoos.contact@gmail.com](mailto:tais.tattoos.contact@gmail.com).
 
   ## Что мы собираем и зачем
 
