@@ -14,8 +14,9 @@ export async function GET(request: NextRequest) {
   const authUrl = new URL('https://github.com/login/oauth/authorize');
   authUrl.searchParams.set('client_id', clientId);
   authUrl.searchParams.set('redirect_uri', `${request.nextUrl.origin}/api/callback`);
-  // "repo" lets Decap commit to the repository. Use "public_repo" instead if the repo is public.
-  authUrl.searchParams.set('scope', 'repo');
+  // The repo is public, so Decap only needs "public_repo" (commit access to public repos),
+  // not "repo", which would also grant access to every private repository on the account.
+  authUrl.searchParams.set('scope', 'public_repo');
   authUrl.searchParams.set('state', state);
 
   const response = NextResponse.redirect(authUrl);
