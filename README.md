@@ -45,7 +45,7 @@ Give it about a minute after publishing before checking the live site — it nee
 ## Changing the text on your homepage
 
 1. Log into `/admin`.
-2. Click **"Home page"**, then the section you want: **Top section**, **About me**, **Reviews heading**, **How booking works** or **FAQ**. They're listed in the same order as on the website.
+2. On the left, click the section you want to change, e.g. **Hero**, **About** or **FAQ**. The list follows the same order as the website, top to bottom.
 3. You'll see boxes for things like your headline, your intro sentence, and your button text — each one has separate boxes for English, Serbian, and Russian.
 4. Change whatever you like. You don't have to fill in every language right away — if a box is empty, the site just shows the English version instead, so nothing looks broken.
 5. Click **"Publish"** when you're happy with it.
@@ -75,7 +75,7 @@ The home page shows the 6 newest reviews, with a button to open the rest.
 
 The booking steps can show photos. On computers the photo sits beside the steps and changes as visitors scroll; on phones each photo appears under its own step.
 
-1. Log into `/admin` → **"Home page"** → **"How booking works."**
+1. Log into `/admin` → **"How booking works."**
 2. Open a step and use **Image** to pick a photo. Add a short **Image description** too.
 3. Publish.
 
@@ -99,21 +99,29 @@ Big videos make the site slow, and Google ranks slow sites lower, so shrink it f
 4. **Summary** tab: tick **Web Optimized**.
 5. Start Encode. Aim for **under 3 MB**. If it's bigger, raise **Constant Quality RF** on the Video tab to 26–28 and encode again.
 
-Then in `/admin` → **Home page** → **Top section**, upload it under **Hero video**. For a poster, open the video in VLC, pause on a nice frame, use **Video → Take Snapshot**, and upload that picture under **Hero poster image**. Visitors see it instantly while the video loads.
+Then in `/admin` → **Hero**, upload it under **Hero video**. For a poster, open the video in VLC, pause on a nice frame, use **Video → Take Snapshot**, and upload that picture under **Hero poster image**. Visitors see it instantly while the video loads.
 
 ---
 
 ## Where everything is in /admin
 
-| Group | What's inside |
+The list on the left follows the website from top to bottom, then the shop and settings:
+
+| In /admin | What it changes |
 |---|---|
+| **Hero** | The video section at the top: headline, intro, button |
 | **Gallery photos** | Your tattoo photos |
 | **Gallery categories** | The filter buttons (Japanese, Black & Grey…) |
-| **Reviews** | Client reviews |
-| **Home page** | Every home page section, top to bottom |
-| **Other pages & forms** | Gallery texts, contact form, privacy policy |
+| **Gallery texts** | Gallery headings and the "View full gallery" button |
+| **About** | Your photo, about text and the "What I do" cards |
+| **Reviews** / **Reviews heading** | Client reviews and the title above them |
+| **How booking works** | The booking steps and their photos |
+| **FAQ** | Questions and answers |
+| **Contact form** | The inquiry form's questions and messages |
+| **Footer** | Tagline, cities, social links |
 | **Shop products** / **Shop texts** | Everything for the shop |
-| **Settings** | Footer, favicon, contact email, shop switch |
+| **Privacy policy** | The privacy page |
+| **Settings** | Contact email, favicon, shop switch |
 
 **About the shop switch:** selling online in Serbia needs a registered business. If you switch the shop on without the seller details, the admin asks you to confirm, and the shop stays hidden on the website until they're filled in. Talk to Daniel before turning it on.
 

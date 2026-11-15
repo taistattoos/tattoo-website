@@ -3,9 +3,58 @@ local_backend: true
 media_folder: 'public/images/uploads'
 public_folder: '/images/uploads'
 
-# Collections are grouped by topic. Each group lists its pages in the order they appear on the site.
+# One sidebar entry per website section, in the order they appear on the site; shop and settings last.
 collections:
-  # ── Your work ───────────────────────────────────────────────────────────
+  - name: hero
+    label: 'Hero'
+    description: 'The big video section at the top of the home page: headline, intro and button.'
+    files:
+      - file: 'content/home/home.md'
+        label: 'Hero'
+        name: 'home'
+        fields:
+          - { label: 'Eyebrow (English)', name: 'eyebrow_en', widget: 'string' }
+          - { label: 'Eyebrow (Serbian)', name: 'eyebrow_sr', widget: 'string', required: false }
+          - { label: 'Eyebrow (Russian)', name: 'eyebrow_ru', widget: 'string', required: false }
+          - { label: 'Headline (English)', name: 'headline_en', widget: 'string' }
+          - { label: 'Headline (Serbian)', name: 'headline_sr', widget: 'string', required: false }
+          - { label: 'Headline (Russian)', name: 'headline_ru', widget: 'string', required: false }
+          - { label: 'Subheadline (English)', name: 'subheadline_en', widget: 'text' }
+          - { label: 'Subheadline (Serbian)', name: 'subheadline_sr', widget: 'text', required: false }
+          - { label: 'Subheadline (Russian)', name: 'subheadline_ru', widget: 'text', required: false }
+          - { label: 'Button Text (English)', name: 'cta_label_en', widget: 'string' }
+          - { label: 'Button Text (Serbian)', name: 'cta_label_sr', widget: 'string', required: false }
+          - { label: 'Button Text (Russian)', name: 'cta_label_ru', widget: 'string', required: false }
+          - { label: 'Button Link', name: 'cta_link', widget: 'string', default: '#contact' }
+          - name: hero_video
+            label: Hero video
+            widget: file
+            required: false
+            choose_url: false
+            media_folder: '/public/assets/videos'
+            public_folder: '/assets/videos'
+            hint: 'MP4, no sound, about 10-15 seconds, ideally under 3 MB so the page loads fast. Leave empty to use the default video.'
+          - name: hero_poster
+            label: Hero poster image (shown while the video loads)
+            widget: image
+            required: false
+            hint: 'A still frame from the video. Makes the page feel instant on slow connections.'
+          - name: hero_overlay
+            label: Darkness over the video (0 = none, 100 = black)
+            widget: number
+            value_type: int
+            min: 0
+            max: 100
+            default: 60
+            required: false
+          - name: hero_grayscale
+            label: Black and white amount (0 = full color, 100 = fully gray)
+            widget: number
+            value_type: int
+            min: 0
+            max: 100
+            default: 100
+            required: false
 
   - name: 'gallery'
     label: 'Gallery photos'
@@ -52,88 +101,41 @@ collections:
       - { label: Name (RU), name: name_ru, widget: string, required: false }
       - { label: Order, name: order, widget: number, value_type: int, required: false }
 
-  - name: 'testimonials'
-    label: 'Reviews'
-    label_singular: 'Testimonial'
-    description: 'Client reviews. The newest show first on the home page.'
-    folder: 'content/testimonials'
-    create: true
-    slug: '{{year}}-{{month}}-{{day}}-{{client_name}}'
-    identifier_field: client_name
-    summary: '{{client_name}} ({{source}}), {{date}}'
-    sortable_fields: ['date', 'client_name']
-    fields:
-      - { label: 'Client Name', name: 'client_name', widget: 'string', hint: 'First name, or first name and last initial, e.g. "Ana M."' }
-      - { label: 'Date', name: 'date', widget: 'datetime', date_format: 'YYYY-MM-DD', time_format: false, picker_utc: true }
-      - { label: 'Rating (1-5)', name: 'rating', widget: 'number', min: 1, max: 5, default: 5 }
-      - { label: 'Source', name: 'source', widget: 'string', hint: 'e.g. iNKPPL, Google, Instagram' }
-      - label: 'Original language'
-        name: 'original_language'
-        widget: 'select'
-        options:
-          - { label: 'English', value: 'en' }
-          - { label: 'Serbian', value: 'sr' }
-          - { label: 'Russian', value: 'ru' }
-        default: 'en'
-      - { label: 'Quote (original text)', name: 'quote', widget: 'text' }
-      - { label: 'Translation to English (optional, leave empty if the original is English)', name: 'quote_en', widget: 'text', required: false }
-      - { label: 'Translation to Serbian (optional, leave empty if the original is Serbian)', name: 'quote_sr', widget: 'text', required: false }
-      - { label: 'Translation to Russian (optional, leave empty if the original is Russian)', name: 'quote_ru', widget: 'text', required: false }
-
-  # ── Page texts ──────────────────────────────────────────────────────────
-
-  - name: home_page
-    label: 'Home page'
-    description: 'Every section of the home page, from top to bottom.'
+  - name: gallery_texts
+    label: 'Gallery texts'
+    description: 'Headings and buttons for the gallery on the home page and the Gallery page.'
     files:
-      - file: 'content/home/home.md'
-        label: 'Top section (video, headline, button)'
-        name: 'home'
+      - name: gallery_page
+        label: 'Gallery texts'
+        file: content/gallery-page/gallery-page.md
         fields:
-          - { label: 'Eyebrow (English)', name: 'eyebrow_en', widget: 'string' }
-          - { label: 'Eyebrow (Serbian)', name: 'eyebrow_sr', widget: 'string', required: false }
-          - { label: 'Eyebrow (Russian)', name: 'eyebrow_ru', widget: 'string', required: false }
-          - { label: 'Headline (English)', name: 'headline_en', widget: 'string' }
-          - { label: 'Headline (Serbian)', name: 'headline_sr', widget: 'string', required: false }
-          - { label: 'Headline (Russian)', name: 'headline_ru', widget: 'string', required: false }
-          - { label: 'Subheadline (English)', name: 'subheadline_en', widget: 'text' }
-          - { label: 'Subheadline (Serbian)', name: 'subheadline_sr', widget: 'text', required: false }
-          - { label: 'Subheadline (Russian)', name: 'subheadline_ru', widget: 'text', required: false }
-          - { label: 'Button Text (English)', name: 'cta_label_en', widget: 'string' }
-          - { label: 'Button Text (Serbian)', name: 'cta_label_sr', widget: 'string', required: false }
-          - { label: 'Button Text (Russian)', name: 'cta_label_ru', widget: 'string', required: false }
-          - { label: 'Button Link', name: 'cta_link', widget: 'string', default: '#contact' }
-          - name: hero_video
-            label: Hero video
-            widget: file
+          - { name: gallery_heading_en, label: Homepage gallery heading (EN), widget: string }
+          - { name: gallery_heading_sr, label: Homepage gallery heading (SR), widget: string, required: false }
+          - { name: gallery_heading_ru, label: Homepage gallery heading (RU), widget: string, required: false }
+          - { name: gallery_cta_en, label: "'View all' button text (EN)", widget: string }
+          - { name: gallery_cta_sr, label: "'View all' button text (SR)", widget: string, required: false }
+          - { name: gallery_cta_ru, label: "'View all' button text (RU)", widget: string, required: false }
+          - { name: page_title_en, label: Gallery page title (EN), widget: string }
+          - { name: page_title_sr, label: Gallery page title (SR), widget: string, required: false }
+          - { name: page_title_ru, label: Gallery page title (RU), widget: string, required: false }
+          - { name: page_intro_en, label: Gallery page intro (EN), widget: text }
+          - { name: page_intro_sr, label: Gallery page intro (SR), widget: text, required: false }
+          - { name: page_intro_ru, label: Gallery page intro (RU), widget: text, required: false }
+          - name: favorite
+            label: Favorite piece (shown large at the top of the Gallery page)
+            widget: relation
+            collection: gallery
+            search_fields: [title_en]
+            value_field: '{{slug}}'
+            display_fields: [title_en]
             required: false
-            choose_url: false
-            media_folder: '/public/assets/videos'
-            public_folder: '/assets/videos'
-            hint: 'MP4, no sound, about 10-15 seconds, ideally under 3 MB so the page loads fast. Leave empty to use the default video.'
-          - name: hero_poster
-            label: Hero poster image (shown while the video loads)
-            widget: image
-            required: false
-            hint: 'A still frame from the video. Makes the page feel instant on slow connections.'
-          - name: hero_overlay
-            label: Darkness over the video (0 = none, 100 = black)
-            widget: number
-            value_type: int
-            min: 0
-            max: 100
-            default: 60
-            required: false
-          - name: hero_grayscale
-            label: Black and white amount (0 = full color, 100 = fully gray)
-            widget: number
-            value_type: int
-            min: 0
-            max: 100
-            default: 100
-            required: false
+
+  - name: about
+    label: 'About'
+    description: 'The "About me" section: your photo, text and the "What I do" cards.'
+    files:
       - name: about
-        label: 'About me'
+        label: 'About'
         file: content/about/about.md
         fields:
           - { name: image, label: Photo, widget: image }
@@ -175,6 +177,39 @@ collections:
               - { name: text_en, label: Description (EN), widget: text }
               - { name: text_sr, label: Description (SR), widget: text, required: false }
               - { name: text_ru, label: Description (RU), widget: text, required: false }
+
+  - name: 'testimonials'
+    label: 'Reviews'
+    label_singular: 'Testimonial'
+    description: 'Client reviews. The newest show first on the home page.'
+    folder: 'content/testimonials'
+    create: true
+    slug: '{{year}}-{{month}}-{{day}}-{{client_name}}'
+    identifier_field: client_name
+    summary: '{{client_name}} ({{source}}), {{date}}'
+    sortable_fields: ['date', 'client_name']
+    fields:
+      - { label: 'Client Name', name: 'client_name', widget: 'string', hint: 'First name, or first name and last initial, e.g. "Ana M."' }
+      - { label: 'Date', name: 'date', widget: 'datetime', date_format: 'YYYY-MM-DD', time_format: false, picker_utc: true }
+      - { label: 'Rating (1-5)', name: 'rating', widget: 'number', min: 1, max: 5, default: 5 }
+      - { label: 'Source', name: 'source', widget: 'string', hint: 'e.g. iNKPPL, Google, Instagram' }
+      - label: 'Original language'
+        name: 'original_language'
+        widget: 'select'
+        options:
+          - { label: 'English', value: 'en' }
+          - { label: 'Serbian', value: 'sr' }
+          - { label: 'Russian', value: 'ru' }
+        default: 'en'
+      - { label: 'Quote (original text)', name: 'quote', widget: 'text' }
+      - { label: 'Translation to English (optional, leave empty if the original is English)', name: 'quote_en', widget: 'text', required: false }
+      - { label: 'Translation to Serbian (optional, leave empty if the original is Serbian)', name: 'quote_sr', widget: 'text', required: false }
+      - { label: 'Translation to Russian (optional, leave empty if the original is Russian)', name: 'quote_ru', widget: 'text', required: false }
+
+  - name: reviews_heading
+    label: 'Reviews heading'
+    description: 'The heading above the reviews.'
+    files:
       - name: testimonials_section
         label: 'Reviews heading'
         file: content/testimonials-section/testimonials-section.md
@@ -182,8 +217,13 @@ collections:
           - { name: title_en, label: Heading (EN), widget: string }
           - { name: title_sr, label: Heading (SR), widget: string, required: false }
           - { name: title_ru, label: Heading (RU), widget: string, required: false }
+
+  - name: booking
+    label: 'How booking works'
+    description: 'The numbered booking steps, with optional photos.'
+    files:
       - name: booking
-        label: How booking works
+        label: 'How booking works'
         file: content/booking/booking.md
         fields:
           - { name: title_en, label: Section title (EN), widget: string }
@@ -209,8 +249,13 @@ collections:
               - { name: image_alt_en, label: Image description (EN), widget: string, required: false, hint: 'Short description for Google and screen readers, e.g. "Pencil sketch of a koi sleeve"' }
               - { name: image_alt_sr, label: Image description (SR), widget: string, required: false }
               - { name: image_alt_ru, label: Image description (RU), widget: string, required: false }
+
+  - name: faq
+    label: 'FAQ'
+    description: 'Frequently asked questions.'
+    files:
       - name: faq
-        label: FAQ
+        label: 'FAQ'
         file: content/faq/faq.md
         fields:
           - { name: title_en, label: Section title (EN), widget: string }
@@ -246,36 +291,12 @@ collections:
                 buttons: [bold, italic, link, bulleted-list, numbered-list]
                 editor_components: []
 
-  - name: pages
-    label: 'Other pages & forms'
-    description: 'Gallery page texts, the contact form and the privacy policy.'
+  - name: contact_form
+    label: 'Contact form'
+    description: 'The inquiry form: its questions, buttons and messages.'
     files:
-      - name: gallery_page
-        label: 'Gallery texts (home page and Gallery page)'
-        file: content/gallery-page/gallery-page.md
-        fields:
-          - { name: gallery_heading_en, label: Homepage gallery heading (EN), widget: string }
-          - { name: gallery_heading_sr, label: Homepage gallery heading (SR), widget: string, required: false }
-          - { name: gallery_heading_ru, label: Homepage gallery heading (RU), widget: string, required: false }
-          - { name: gallery_cta_en, label: "'View all' button text (EN)", widget: string }
-          - { name: gallery_cta_sr, label: "'View all' button text (SR)", widget: string, required: false }
-          - { name: gallery_cta_ru, label: "'View all' button text (RU)", widget: string, required: false }
-          - { name: page_title_en, label: Gallery page title (EN), widget: string }
-          - { name: page_title_sr, label: Gallery page title (SR), widget: string, required: false }
-          - { name: page_title_ru, label: Gallery page title (RU), widget: string, required: false }
-          - { name: page_intro_en, label: Gallery page intro (EN), widget: text }
-          - { name: page_intro_sr, label: Gallery page intro (SR), widget: text, required: false }
-          - { name: page_intro_ru, label: Gallery page intro (RU), widget: text, required: false }
-          - name: favorite
-            label: Favorite piece (shown large at the top of the Gallery page)
-            widget: relation
-            collection: gallery
-            search_fields: [title_en]
-            value_field: '{{slug}}'
-            display_fields: [title_en]
-            required: false
       - name: contact_form
-        label: Contact form
+        label: 'Contact form'
         file: content/contact/contact.md
         fields:
           - { name: name_label_en, label: Name field label (EN), widget: string }
@@ -355,19 +376,31 @@ collections:
                 widget: string
                 required: false
                 hint: Internal name of the option, for example whatsapp.
-      - name: privacy
-        label: Privacy policy
-        file: content/pages/privacy.md
-        fields:
-          - { label: 'Title (EN)', name: title_en, widget: string }
-          - { label: 'Title (SR)', name: title_sr, widget: string, required: false }
-          - { label: 'Title (RU)', name: title_ru, widget: string, required: false }
-          - { label: 'Last updated', name: updated, widget: datetime, date_format: 'YYYY-MM-DD', time_format: false }
-          - { label: 'Text (EN)', name: body_en, widget: markdown }
-          - { label: 'Text (SR)', name: body_sr, widget: markdown, required: false }
-          - { label: 'Text (RU)', name: body_ru, widget: markdown, required: false }
 
-  # ── Shop ────────────────────────────────────────────────────────────────
+  - name: footer
+    label: 'Footer'
+    description: 'Bottom of every page: tagline, cities and social links.'
+    files:
+      - name: footer
+        label: 'Footer'
+        file: content/footer/footer.md
+        fields:
+          - { name: tagline_en, label: Tagline (EN), widget: string }
+          - { name: tagline_sr, label: Tagline (SR), widget: string, required: false }
+          - { name: tagline_ru, label: Tagline (RU), widget: string, required: false }
+          - { name: location_en, label: Locations (EN), widget: string }
+          - { name: location_sr, label: Locations (SR), widget: string, required: false }
+          - { name: location_ru, label: Locations (RU), widget: string, required: false }
+          - { name: copyright_name, label: Name in copyright line, widget: string, default: Tais Tattoos }
+          - name: socials
+            label: Social links
+            label_singular: Social link
+            widget: list
+            summary: '{{fields.label}}'
+            fields:
+              - { name: platform, label: Platform, widget: select, options: [instagram, threads, telegram, whatsapp, email, inkppl] }
+              - { name: label, label: Text shown, widget: string }
+              - { name: url, label: Link, widget: string, hint: 'For email use mailto:name@example.com, for WhatsApp use https://wa.me/381...' }
 
   - name: products
     label: 'Shop products'
@@ -484,34 +517,28 @@ collections:
           - { label: 'Confirmation closing (SR)', name: confirm_outro_sr, widget: text, required: false }
           - { label: 'Confirmation closing (RU)', name: confirm_outro_ru, widget: text, required: false }
 
-  # ── Settings ────────────────────────────────────────────────────────────
+  - name: privacy
+    label: 'Privacy policy'
+    description: 'The privacy policy page.'
+    files:
+      - name: privacy
+        label: 'Privacy policy'
+        file: content/pages/privacy.md
+        fields:
+          - { label: 'Title (EN)', name: title_en, widget: string }
+          - { label: 'Title (SR)', name: title_sr, widget: string, required: false }
+          - { label: 'Title (RU)', name: title_ru, widget: string, required: false }
+          - { label: 'Last updated', name: updated, widget: datetime, date_format: 'YYYY-MM-DD', time_format: false }
+          - { label: 'Text (EN)', name: body_en, widget: markdown }
+          - { label: 'Text (SR)', name: body_sr, widget: markdown, required: false }
+          - { label: 'Text (RU)', name: body_ru, widget: markdown, required: false }
 
   - name: settings
     label: 'Settings'
-    description: 'Footer, favicon, contact email, and the shop switch with seller details.'
+    description: 'Contact email, favicon, and the shop switch with seller details.'
     files:
-      - name: footer
-        label: Footer
-        file: content/footer/footer.md
-        fields:
-          - { name: tagline_en, label: Tagline (EN), widget: string }
-          - { name: tagline_sr, label: Tagline (SR), widget: string, required: false }
-          - { name: tagline_ru, label: Tagline (RU), widget: string, required: false }
-          - { name: location_en, label: Locations (EN), widget: string }
-          - { name: location_sr, label: Locations (SR), widget: string, required: false }
-          - { name: location_ru, label: Locations (RU), widget: string, required: false }
-          - { name: copyright_name, label: Name in copyright line, widget: string, default: Tais Tattoos }
-          - name: socials
-            label: Social links
-            label_singular: Social link
-            widget: list
-            summary: '{{fields.label}}'
-            fields:
-              - { name: platform, label: Platform, widget: select, options: [instagram, threads, telegram, whatsapp, email, inkppl] }
-              - { name: label, label: Text shown, widget: string }
-              - { name: url, label: Link, widget: string, hint: 'For email use mailto:name@example.com, for WhatsApp use https://wa.me/381...' }
       - name: site
-        label: 'Site settings and shop'
+        label: 'Settings'
         file: content/site/site.md
         fields:
           - label: 'Public contact email'
