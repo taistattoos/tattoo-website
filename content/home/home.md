@@ -2,7 +2,7 @@
 eyebrow_en: Tattoo artist · Zrenjanin, Novi Sad & Belgrade
 eyebrow_sr: Tetovažerka · Zrenjanin, Novi Sad i Beograd
 eyebrow_ru: Тату-мастер · Зренянин, Нови-Сад и Белград
-headline_en: Tais Tattoo
+headline_en: Tais Tattoos
 headline_sr: Tais Tattoos
 headline_ru: Tais Tattoos
 subheadline_en: Highly detailed Japanese-style tattoos, dark work and mascots.
