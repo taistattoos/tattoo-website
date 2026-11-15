@@ -1,5 +1,6 @@
 import SplitText from '@/components/animations/SplitText';
 import PinnedGallery from '@/components/layout/gallery/PinnedGallery';
+import { HOME_GALLERY_MAX } from '@/lib/constants/gallery';
 import { getGalleryGridItems, getGalleryPage } from '@/lib/content/content';
 import { LocaleEnum } from '@/types/enums';
 
@@ -7,7 +8,7 @@ export default function Gallery({ locale }: { locale: LocaleEnum }) {
   const page = getGalleryPage(locale);
 
   const featured = getGalleryGridItems(locale, true);
-  const items = featured.length > 0 ? featured : getGalleryGridItems(locale);
+  const items = (featured.length > 0 ? featured : getGalleryGridItems(locale)).slice(0, HOME_GALLERY_MAX);
   const galleryHref = `/${locale}/gallery`;
 
   if (items.length === 0) return null;

@@ -1,21 +1,42 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
-import { GALLERY_LABELS } from '@/lib/constants/gallery';
-import { PILL_CLASSES } from '@/lib/constants/ui';
+import { GALLERY_LABELS, GALLERY_PAGE_SIZE } from '@/lib/constants/gallery';
+import { BUTTON_CLASSES, PILL_CLASSES } from '@/lib/constants/ui';
 import { GalleryGridProps } from '@/types/gallery';
+
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 export default function GalleryGrid({ items, locale, categories = [], showFilters = true }: GalleryGridProps) {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
+  const [visibleCount, setVisibleCount] = useState(GALLERY_PAGE_SIZE);
+  // Where the last "Load more" started, so only the new photos get a staggered entrance.
+  const [batchStart, setBatchStart] = useState(0);
+  const reduce = useReducedMotion();
 
   const labels = GALLERY_LABELS[locale] ?? GALLERY_LABELS.en;
 
-  const usedSlugs = new Set(items.flatMap((item) => item.category));
-  const availableCategories = categories.filter((category) => usedSlugs.has(category.slug));
+  const countFor = (slug: string) => items.filter((item) => item.category.includes(slug)).length;
+  const availableCategories = categories
+    .map((category) => ({ ...category, count: countFor(category.slug) }))
+    .filter((category) => category.count > 0);
 
   const filteredItems = activeFilter ? items.filter((item) => item.category.includes(activeFilter)) : items;
+  const shownItems = filteredItems.slice(0, visibleCount);
+  const hasMore = filteredItems.length > shownItems.length;
+
+  function selectFilter(slug: string | null) {
+    setActiveFilter(slug);
+    setVisibleCount(GALLERY_PAGE_SIZE);
+    setBatchStart(0);
+  }
+
+  function loadMore() {
+    setBatchStart(visibleCount);
+    setVisibleCount((count) => count + GALLERY_PAGE_SIZE);
+  }
 
   if (items.length === 0) {
     return (
@@ -25,55 +46,73 @@ export default function GalleryGrid({ items, locale, categories = [], showFilter
     );
   }
 
+  const pills = [
+    { slug: null, label: labels.all, count: items.length },
+    ...availableCategories.map(({ slug, label, count }) => ({ slug, label, count })),
+  ];
+
   return (
     <div>
-      {showFilters && (
+      {showFilters && availableCategories.length > 0 && (
         <div className='mb-10 flex flex-wrap justify-center gap-2'>
-          <button
-            type='button'
-            onClick={() => setActiveFilter(null)}
-            aria-pressed={activeFilter === null}
-            className={PILL_CLASSES}
-          >
-            {labels.all}
-          </button>
-          {availableCategories.map((category) => (
+          {pills.map((pill) => (
             <button
-              key={category.slug}
+              key={pill.slug ?? 'all'}
               type='button'
-              onClick={() => setActiveFilter(category.slug)}
-              aria-pressed={activeFilter === category.slug}
+              onClick={() => selectFilter(pill.slug)}
+              aria-pressed={activeFilter === pill.slug}
               className={PILL_CLASSES}
             >
-              {category.label}
+              {pill.label}
+              <span className='ml-1.5 opacity-50'>{pill.count}</span>
             </button>
           ))}
         </div>
       )}
 
-      <motion.div className='grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4'>
+      <div className='grid grid-cols-1 gap-3 xs:grid-cols-2 sm:gap-4 md:grid-cols-3'>
         <AnimatePresence mode='popLayout' initial={false}>
-          {filteredItems.map((item) => (
-            <motion.div
-              key={item.slug}
-              layout
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.35, ease: 'easeOut' }}
-              className='group relative aspect-square overflow-hidden bg-neutral-900'
-            >
-              <Image
-                src={item.image}
-                alt={item.imageAlt}
-                fill
-                sizes='(max-width: 479px) 100vw, (max-width: 767px) 50vw, 33vw'
-                className='object-cover grayscale transition-all duration-700 ease-out group-hover:scale-110 group-hover:grayscale-0'
-              />
-            </motion.div>
-          ))}
+          {shownItems.map((item, index) => {
+            const isNew = index >= batchStart;
+            const delay = isNew && !reduce ? Math.min(index - batchStart, 11) * 0.05 : 0;
+
+            return (
+              <motion.div
+                key={item.slug}
+                layout={!reduce}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.5, ease: EASE, delay }}
+                className='group relative aspect-square overflow-hidden bg-neutral-900'
+              >
+                <Image
+                  src={item.image}
+                  alt={item.imageAlt}
+                  fill
+                  sizes='(max-width: 479px) 100vw, (max-width: 767px) 50vw, 33vw'
+                  className='object-cover grayscale transition-all duration-700 ease-out group-hover:scale-110 group-hover:grayscale-0'
+                />
+              </motion.div>
+            );
+          })}
         </AnimatePresence>
-      </motion.div>
+      </div>
+
+      {filteredItems.length > GALLERY_PAGE_SIZE && (
+        <div className='mt-12 flex flex-col items-center gap-5'>
+          <p className='text-xs uppercase tracking-[0.2em] text-white/40' aria-live='polite'>
+            {labels.showing
+              .replace('{shown}', String(shownItems.length))
+              .replace('{total}', String(filteredItems.length))}
+          </p>
+          {hasMore && (
+            <button type='button' onClick={loadMore} className={BUTTON_CLASSES}>
+              {labels.loadMore}
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }

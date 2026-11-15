@@ -33,7 +33,7 @@ Bookmark that page — that's your control panel.
    - **Image** — click the box, choose a photo from your phone or computer.
    - **Image description** *(optional, but worth it)* — one sentence describing the photo, like "Japanese koi sleeve, black and grey, on the forearm". This is how Google Images finds your work. If you skip it, the title is used instead.
    - **Category** — tick whatever fits (Japanese, black & grey, etc.)
-   - **Featured on homepage** — turn this on if you want this specific photo to show up on your homepage. Leave it off for photos that only live in the full gallery.
+   - **Featured on homepage** — turn this on if you want this specific photo to show up on your homepage. Leave it off for photos that only live in the full gallery. The home page shows up to **10** featured photos, so pick your strongest pieces. Use **Order** (lower numbers first) to choose which ones lead.
 5. Scroll up, click the green **"Publish"** button in the top corner.
 
 **That's the step people forget** — if you don't click Publish, it stays as a private draft and nobody sees it but you. Always publish.

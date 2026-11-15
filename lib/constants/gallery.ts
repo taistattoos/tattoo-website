@@ -1,17 +1,21 @@
 import { LocaleEnum } from '@/types/enums';
 
-export const GALLERY_PREVIEW_LIMIT = 6;
+// Gallery page: photos shown at first, and how many each "Load more" adds.
+export const GALLERY_PAGE_SIZE = 12;
 
-export const GALLERY_LABELS: Record<LocaleEnum, { all: string; empty: string }> = {
-  en: { all: 'All', empty: 'Gallery coming soon' },
-  sr: { all: 'Sve', empty: 'Galerija uskoro' },
-  ru: { all: 'Все', empty: 'Галерея скоро появится' },
-};
+// Home page pinned gallery: most featured photos to show, so the sideways scroll stays a sensible length.
+export const HOME_GALLERY_MAX = 10;
 
-export const CATEGORY_LABELS: Record<string, Record<LocaleEnum, string>> = {
-  'black-grey': { en: 'Black & Grey', sr: 'Crno-sivo', ru: 'Чёрно-серое' },
-  color: { en: 'Color', sr: 'Kolor', ru: 'Цвет' },
-  japanese: { en: 'Japanese', sr: 'Japanski', ru: 'Японский' },
-  illustrative: { en: 'Illustrative', sr: 'Ilustrativni', ru: 'Иллюстративный' },
-  whipshading: { en: 'Whipshading', sr: 'Whipshading', ru: 'Whipshading' },
+interface GalleryLabelsInterface {
+  all: string;
+  empty: string;
+  loadMore: string;
+  /** "{shown}" and "{total}" are replaced with numbers. */
+  showing: string;
+}
+
+export const GALLERY_LABELS: Record<LocaleEnum, GalleryLabelsInterface> = {
+  en: { all: 'All', empty: 'Gallery coming soon', loadMore: 'Load more', showing: 'Showing {shown} of {total}' },
+  sr: { all: 'Sve', empty: 'Galerija uskoro', loadMore: 'Učitaj još', showing: 'Prikazano {shown} od {total}' },
+  ru: { all: 'Все', empty: 'Галерея скоро появится', loadMore: 'Показать ещё', showing: 'Показано {shown} из {total}' },
 };
