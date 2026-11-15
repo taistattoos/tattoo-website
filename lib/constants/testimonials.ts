@@ -6,8 +6,11 @@ export const TRANSLATED_LABELS: Record<LocaleEnum, { prefix: string; from: Recor
   ru: { prefix: 'Переведено с', from: { en: 'английского', sr: 'сербского', ru: 'русского' } },
 };
 
-// How many reviews show before "Show all".
-export const TESTIMONIALS_INITIAL_COUNT = 6;
+// How many reviews show before "Show all": fewer on phones, where cards stack in one column.
+export const TESTIMONIALS_INITIAL_COUNT = { mobile: 3, tablet: 6 } as const;
+
+// Matches the grid going to two columns (Tailwind md).
+export const TESTIMONIALS_TABLET_QUERY = '(min-width: 768px)';
 
 export const TESTIMONIALS_TOGGLE_LABELS: Record<LocaleEnum, { more: string; less: string }> = {
   en: { more: 'Show all reviews', less: 'Show fewer reviews' },

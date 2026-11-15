@@ -6,10 +6,12 @@ import { useLenis } from 'lenis/react';
 import SplitText from '@/components/animations/SplitText';
 import {
   TESTIMONIALS_INITIAL_COUNT,
+  TESTIMONIALS_TABLET_QUERY,
   TESTIMONIALS_TOGGLE_LABELS,
   TRANSLATED_LABELS,
 } from '@/lib/constants/testimonials';
 import { BUTTON_CLASSES } from '@/lib/constants/ui';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { LocaleEnum } from '@/types/enums';
 import type { TestimonialItem } from '@/types/testimonials';
 
@@ -51,12 +53,14 @@ export default function Testimonials({ heading, items, locale }: TestimonialsPro
   const [expanded, setExpanded] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const lenis = useLenis();
+  const isTablet = useMediaQuery(TESTIMONIALS_TABLET_QUERY);
 
   if (items.length === 0) return null;
 
   const toggleLabels = TESTIMONIALS_TOGGLE_LABELS[locale] ?? TESTIMONIALS_TOGGLE_LABELS.en;
-  const visible = items.slice(0, TESTIMONIALS_INITIAL_COUNT);
-  const rest = items.slice(TESTIMONIALS_INITIAL_COUNT);
+  const initialCount = isTablet ? TESTIMONIALS_INITIAL_COUNT.tablet : TESTIMONIALS_INITIAL_COUNT.mobile;
+  const visible = items.slice(0, initialCount);
+  const rest = items.slice(initialCount);
 
   function toggle() {
     // When collapsing, glide back to the top of the section so the page doesn't seem to jump.
