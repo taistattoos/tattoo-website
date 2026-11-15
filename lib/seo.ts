@@ -11,7 +11,7 @@ export const OG_IMAGE = { url: '/og-default.jpg', width: 1200, height: 630, alt:
 
 /**
  * Search engines may index the site only when ALLOW_INDEXING=true.
- * Set it on the Vercel *Production* environment at launch; previews and local stay hidden.
+ * Set it for the Netlify *Production* deploy context at launch; previews and local stay hidden.
  */
 export const ALLOW_INDEXING = process.env.ALLOW_INDEXING === 'true';
 

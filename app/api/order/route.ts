@@ -5,6 +5,7 @@ import { sendCustomerEmail, sendOwnerEmail } from '@/lib/server/mailer';
 import { buildCustomerOrderEmail, buildOwnerOrderEmail } from '@/lib/server/order-email';
 import { validateOrder } from '@/lib/server/order-validation';
 import { checkRateLimit, type RateLimitResult } from '@/lib/server/rate-limit';
+import { getClientIp } from '@/lib/server/client-ip';
 import { verifyTurnstile } from '@/lib/server/turnstile';
 import { LocaleEnum } from '@/types/enums';
 
@@ -33,7 +34,7 @@ export async function POST(request: NextRequest) {
   if (!getSite().shop_enabled) return respond(404, 'closed');
   if (!isSameOrigin(request)) return respond(403, 'origin');
 
-  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
+  const ip = getClientIp(request);
   const ipLimit = refuseIfLimited(await checkRateLimit('orderIp', ip ?? 'unknown'));
   if (ipLimit) return ipLimit;
 

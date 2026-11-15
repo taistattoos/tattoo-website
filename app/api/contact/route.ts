@@ -5,6 +5,7 @@ import { buildOwnerEmail, getAnswerLines } from '@/lib/server/contact-email';
 import { validateSubmission } from '@/lib/server/contact-validation';
 import { sendOwnerEmail } from '@/lib/server/mailer';
 import { checkRateLimit, type RateLimitResult } from '@/lib/server/rate-limit';
+import { getClientIp } from '@/lib/server/client-ip';
 import { verifyTurnstile } from '@/lib/server/turnstile';
 import { LocaleEnum } from '@/types/enums';
 
@@ -32,7 +33,7 @@ function isSameOrigin(request: NextRequest): boolean {
 export async function POST(request: NextRequest) {
   if (!isSameOrigin(request)) return respond(403, 'origin');
 
-  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
+  const ip = getClientIp(request);
   const ipLimit = refuseIfLimited(await checkRateLimit('contactIp', ip ?? 'unknown'));
   if (ipLimit) return ipLimit;
 

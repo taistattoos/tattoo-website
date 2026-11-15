@@ -14,8 +14,8 @@ A multilingual (English, Serbian, Russian) portfolio and booking site for a tatt
 |---|---|
 | Live site | https://taistattoos.com |
 | CMS | https://taistattoos.com/admin |
-| Repository | `DanielCikora/tattoo-website` (branch `main`) |
-| Hosting | Vercel (auto-deploys every push to `main`) |
+| Repository | `taistattoos/tattoo-website` (branch `main`) |
+| Hosting | Netlify, free plan (auto-deploys every push to `main`; settings in `netlify.toml`) |
 
 ---
 
@@ -33,7 +33,7 @@ A multilingual (English, Serbian, Russian) portfolio and booking site for a tatt
 | Email | `nodemailer` over Gmail SMTP |
 | Spam protection | Cloudflare Turnstile (`@marsidev/react-turnstile`), honeypot field, minimum fill time |
 | Rate limiting | Upstash Redis + `@upstash/ratelimit` (sliding window) |
-| Images | `next/image` (automatic resizing and modern formats on Vercel) |
+| Images | `next/image` (resized and converted to modern formats by Netlify Image CDN) |
 | Linting | ESLint 9 with `eslint-config-next` |
 
 ---
@@ -42,7 +42,7 @@ A multilingual (English, Serbian, Russian) portfolio and booking site for a tatt
 
 | Service | Used for | Where it's configured | Env vars |
 |---|---|---|---|
-| **Vercel** | Hosting, builds, image optimisation, serverless API routes | Vercel dashboard | all below |
+| **Netlify** | Hosting, builds, image optimisation, serverless API routes | Netlify dashboard → Site configuration | all below |
 | **GitHub** | Code and content storage; the CMS commits content here | `public/admin/index.html` (`REPO`) | — |
 | **GitHub OAuth App** | Logging into `/admin` | GitHub → Settings → Developer settings → OAuth Apps. Callback: `https://taistattoos.com/api/callback` | `OAUTH_GITHUB_CLIENT_ID`, `OAUTH_GITHUB_CLIENT_SECRET` |
 | **Gmail (SMTP)** | Sending contact inquiries and shop orders to Tais, and order confirmations to customers | Google account with 2-step verification + an App Password | `CONTACT_SMTP_USER`, `CONTACT_SMTP_PASS`, `CONTACT_TO_EMAIL` |
@@ -53,7 +53,7 @@ A multilingual (English, Serbian, Russian) portfolio and booking site for a tatt
 
 Other env var: `ALLOW_INDEXING=true` on **Production only** lets search engines index the site. Anywhere else the site sends `noindex` and a blocking `robots.txt`.
 
-All variables are documented in `.env.example`. In Vercel, enter values **without quotes**.
+All variables are documented in `.env.example`. In Netlify, enter values **without quotes**.
 
 ---
 
@@ -93,7 +93,7 @@ types/                 TypeScript types for content and forms
 
 ### Content and CMS
 - Decap CMS reads `public/admin/config.yml`. Collections are listed in the same order as the website sections.
-- Saving in `/admin` commits to `main` on GitHub, which triggers a Vercel deploy (about a minute).
+- Saving in `/admin` commits to `main` on GitHub, which triggers a Netlify deploy (a minute or two).
 - Locally, `npm run dev` starts both Next.js and `decap-server`, so `/admin` edits the local files directly (`local_backend: true`).
 
 ### SEO
@@ -119,6 +119,7 @@ types/                 TypeScript types for content and forms
 - **Hero video:** keep it under ~3 MB (720p H.264, no audio, "web optimized"/faststart) and set a poster image in the CMS. The current file is a placeholder.
 
 ### Security
+- Client IPs come from `x-nf-client-connection-ip` (set by Netlify, not spoofable) via `lib/server/client-ip.ts`; `x-forwarded-for` is only a local fallback.
 - Security headers and a Content-Security-Policy in `next.config.ts` (CSP is currently **report-only**; switch to enforcing once the browser console is clean).
 - Only hashes of IPs and emails are stored by the rate limiter.
 - The OAuth flow uses a `state` cookie to prevent CSRF.
@@ -140,11 +141,10 @@ npm run build                # production build (run before pushing)
 
 - [ ] Add `public/og-default.jpg` (1200×630 photo of her work).
 - [ ] Replace placeholder gallery items and remove test shop products (or turn the shop off in Site settings).
-- [ ] Set `ALLOW_INDEXING=true` in Vercel **Production**.
+- [ ] Set `ALLOW_INDEXING=true` in Netlify for the **Production** deploy context only.
 - [ ] Verify the domain in Google Search Console and Bing Webmaster Tools; submit `/sitemap.xml`.
 - [ ] Create a Google Business Profile (service-area business) and link the site.
 - [ ] Switch the CSP header from report-only to enforcing.
-- [ ] On handover: transfer the repo, update `REPO` in `public/admin/index.html`, update the OAuth App owner and callback URL, and move env vars to the new Vercel account.
 
 ---
 

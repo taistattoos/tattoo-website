@@ -30,7 +30,7 @@ body_en: |
 
   ## Who receives your data
 
-  - Vercel, which hosts this website.
+  - Netlify, which hosts this website.
   - Cloudflare, which provides spam protection.
   - Upstash, which stores the temporary counters described above.
   - Google (Gmail), which delivers form messages and orders to Tais and sends your order confirmation.
@@ -77,7 +77,7 @@ body_sr: |
 
   ## Ko prima vaše podatke
 
-  - Vercel, koji hostuje ovaj sajt.
+  - Netlify, koji hostuje ovaj sajt.
   - Cloudflare, koji obezbeđuje zaštitu od spama.
   - Upstash, koji čuva privremene brojače opisane iznad.
   - Google (Gmail), koji isporučuje poruke i porudžbine Tais i šalje vam potvrdu porudžbine.
@@ -124,7 +124,7 @@ body_ru: |
 
   ## Кто получает ваши данные
 
-  - Vercel, на серверах которого размещён сайт.
+  - Netlify, на серверах которого размещён сайт.
   - Cloudflare, обеспечивающий защиту от спама.
   - Upstash, хранящий временные счётчики, описанные выше.
   - Google (Gmail), доставляющий сообщения и заказы Tais и отправляющий вам подтверждение заказа.
