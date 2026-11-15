@@ -1,5 +1,6 @@
 'use client';
 
+import { BUTTON_CLASSES } from '@/lib/constants/ui';
 import Link from 'next/link';
 import { Turnstile } from '@marsidev/react-turnstile';
 import { useOrderForm } from '@/hooks/useOrderForm';
@@ -136,7 +137,7 @@ export default function OrderForm({ content, items, onSuccess }: OrderFormProps)
       <button
         type='submit'
         disabled={!canSubmit}
-        className='self-start cursor-pointer rounded-full border border-white/30 px-8 py-3 text-sm font-medium text-white transition-colors hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40'
+        className={`${BUTTON_CLASSES} self-start`}
       >
         {status === 'sending' ? content.sending : content.submit}
       </button>

@@ -9,6 +9,7 @@ import {
   TESTIMONIALS_TOGGLE_LABELS,
   TRANSLATED_LABELS,
 } from '@/lib/constants/testimonials';
+import { BUTTON_CLASSES } from '@/lib/constants/ui';
 import { LocaleEnum } from '@/types/enums';
 import type { TestimonialItem } from '@/types/testimonials';
 
@@ -18,7 +19,7 @@ interface TestimonialsPropsInterface {
   locale: LocaleEnum;
 }
 
-const GRID_CLASS = 'grid gap-6 sm:grid-cols-2 md:grid-cols-3';
+const GRID_CLASS = 'grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3';
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 function TestimonialCard({ item, locale, index }: { item: TestimonialItem; locale: LocaleEnum; index: number }) {
@@ -110,7 +111,7 @@ export default function Testimonials({ heading, items, locale }: TestimonialsPro
             onClick={toggle}
             aria-expanded={expanded}
             aria-controls='testimonials-more'
-            className='inline-flex cursor-pointer items-center gap-3 rounded-full border border-white/30 px-8 py-3 text-sm font-medium text-white transition-colors duration-300 hover:bg-white hover:text-black'
+            className={BUTTON_CLASSES}
           >
             {expanded ? toggleLabels.less : `${toggleLabels.more} (${items.length})`}
             <svg

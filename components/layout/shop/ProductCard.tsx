@@ -16,7 +16,7 @@ interface ProductCardProps {
 }
 
 const stepperButton =
-  'flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-white/30 text-white transition-colors hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-30';
+  'btn-fill flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-white/30 text-white disabled:cursor-not-allowed disabled:opacity-30';
 
 export default function ProductCard({
   product,

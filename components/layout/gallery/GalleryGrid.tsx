@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { GALLERY_LABELS } from '@/lib/constants/gallery';
+import { PILL_CLASSES } from '@/lib/constants/ui';
 import { GalleryGridProps } from '@/types/gallery';
 
 export default function GalleryGrid({ items, locale, categories = [], showFilters = true }: GalleryGridProps) {
@@ -29,22 +30,20 @@ export default function GalleryGrid({ items, locale, categories = [], showFilter
       {showFilters && (
         <div className='mb-10 flex flex-wrap justify-center gap-2'>
           <button
+            type='button'
             onClick={() => setActiveFilter(null)}
-            className={`rounded-full border px-4 py-1.5 text-xs uppercase transition-colors ${
-              activeFilter === null ? 'border-white text-white' : 'border-white/20 text-white/50 hover:border-white/40'
-            }`}
+            aria-pressed={activeFilter === null}
+            className={PILL_CLASSES}
           >
             {labels.all}
           </button>
           {availableCategories.map((category) => (
             <button
               key={category.slug}
+              type='button'
               onClick={() => setActiveFilter(category.slug)}
-              className={`rounded-full border px-4 py-1.5 text-xs uppercase transition-colors ${
-                activeFilter === category.slug
-                  ? 'border-white text-white'
-                  : 'border-white/20 text-white/50 hover:border-white/40'
-              }`}
+              aria-pressed={activeFilter === category.slug}
+              className={PILL_CLASSES}
             >
               {category.label}
             </button>

@@ -56,6 +56,67 @@ body {
   }
 }
 
+/*
+ * Buttons, CTAs and choice chips: white fills up from the bottom on hover, text turns black.
+ * Selected states (aria-pressed, data-active, a checked .peer input before it) stay filled.
+ * Plain text links keep link-underline instead.
+ */
+@utility btn-fill {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition:
+    color 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: #fff;
+    border-radius: inherit;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Only real hover devices, so a tap on a phone doesn't leave the button stuck filled. */
+  @media (hover: hover) {
+    &:hover:not(:disabled) {
+      color: #000;
+      border-color: #fff;
+    }
+
+    &:hover:not(:disabled)::before {
+      transform: scaleY(1);
+    }
+  }
+
+  &:focus-visible,
+  &[aria-pressed='true'],
+  &[data-active='true'],
+  :checked ~ & {
+    color: #000;
+    border-color: #fff;
+  }
+
+  &:focus-visible::before,
+  &[aria-pressed='true']::before,
+  &[data-active='true']::before,
+  :checked ~ &::before {
+    transform: scaleY(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+
+    &::before {
+      transition: none;
+    }
+  }
+}
+
 @theme {
   --breakpoint-xs: 30rem;
 }
