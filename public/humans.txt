@@ -1,0 +1,12 @@
+/* TEAM */
+Design and development: Daniel Cikora
+GitHub: https://github.com/DanielCikora
+
+/* THANKS */
+Tais, for the art this site exists to show.
+
+/* SITE */
+Language: English, Serbian, Russian
+Standards: HTML5, CSS3, TypeScript
+Components: Next.js, React, Tailwind CSS, Framer Motion, Lenis, Decap CMS
+Hosting: Vercel

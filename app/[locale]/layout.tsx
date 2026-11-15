@@ -21,6 +21,8 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   applicationName: SITE_NAME,
+  // Developer credit (also in /humans.txt).
+  creator: 'Daniel Cikora',
   robots: ALLOW_INDEXING
     ? { index: true, follow: true, googleBot: { 'max-image-preview': 'large' } }
     : { index: false, follow: false },
