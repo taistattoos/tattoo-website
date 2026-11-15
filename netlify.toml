@@ -5,3 +5,7 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  # These values are public on purpose, so Netlify's secrets scanner shouldn't fail the build over them:
+  # - the Turnstile *site* key is built into the page by design (the secret key stays secret)
+  # - the contact email is shown on the privacy page
+  SECRETS_SCAN_OMIT_KEYS = "NEXT_PUBLIC_TURNSTILE_SITE_KEY,CONTACT_TO_EMAIL,CONTACT_SMTP_USER"
