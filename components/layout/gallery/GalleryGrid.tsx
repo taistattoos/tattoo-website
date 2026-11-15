@@ -65,7 +65,7 @@ export default function GalleryGrid({ items, locale, categories = [], showFilter
             >
               <Image
                 src={item.image}
-                alt={item.title}
+                alt={item.imageAlt}
                 fill
                 sizes='(max-width: 479px) 100vw, (max-width: 767px) 50vw, 33vw'
                 className='object-cover grayscale transition-all duration-700 ease-out group-hover:scale-110 group-hover:grayscale-0'

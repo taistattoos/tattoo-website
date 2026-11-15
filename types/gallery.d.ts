@@ -5,6 +5,9 @@ export interface GalleryContentInterface {
   title_en?: string;
   title_sr?: string;
   title_ru?: string;
+  image_alt_en?: string;
+  image_alt_sr?: string;
+  image_alt_ru?: string;
   image?: string;
   category?: string[];
   featured?: boolean;
@@ -22,6 +25,8 @@ export interface GalleryGridItemInterface {
   slug: string;
   title: string;
   image: string;
+  /** Image description for Google and screen readers; falls back to the title. */
+  imageAlt: string;
   category: string[];
 }
 

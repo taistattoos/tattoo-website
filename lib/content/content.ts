@@ -163,8 +163,9 @@ export function getGalleryGridItems(locale: LocaleEnum, featuredOnly = false): G
     .sort((a, b) => (a.order ?? 9999) - (b.order ?? 9999))
     .map((item) => ({
       slug: item.slug,
-      title: item[`title_${locale}`] || item.title_en || '',
+      title: pick(item, 'title', locale),
       image: item.image || '',
+      imageAlt: pick(item, 'image_alt', locale) || pick(item, 'title', locale),
       category: item.category || [],
     }));
 }
@@ -240,7 +241,7 @@ export function getProducts(locale: LocaleEnum): ProductItem[] {
       name: pick(item, 'name', locale),
       description: pick(item, 'description', locale),
       image: item.image ?? '',
-      imageAlt: item.image_alt_en || pick(item, 'name', locale),
+      imageAlt: pick(item, 'image_alt', locale) || pick(item, 'name', locale),
       priceRsd: item.price_rsd ?? 0,
       priceEur: item.price_eur ?? 0,
       available: item.available !== false,

@@ -10,6 +10,8 @@ export interface ProductRaw {
   description_ru?: string;
   image?: string;
   image_alt_en?: string;
+  image_alt_sr?: string;
+  image_alt_ru?: string;
   price_rsd?: number;
   price_eur?: number;
   available?: boolean;

@@ -6,7 +6,7 @@ export default function FavoriteProject({ item }: { item: GalleryGridItemInterfa
     <figure className='relative mb-12 aspect-4/3 overflow-hidden bg-neutral-900 md:aspect-video'>
       <Image
         src={item.image}
-        alt={item.title}
+        alt={item.imageAlt}
         fill
         priority
         sizes='(max-width: 1920px) 100vw, 1920px'
